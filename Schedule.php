@@ -36,8 +36,8 @@
     <div class="address-bar">3481 Melrose Place | Beverly Hills, CA 90210 | 123.456.7890</div>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -53,16 +53,22 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="index.php">Home</a>
+                        <a href="homepage.php">Home</a>
                     </li>
                     <li>
-                        <a href="about.php">About</a>
+                        <a href="cmpr.php">PhD Comprehensive</a>
                     </li>
                     <li>
-                        <a href="blog.php">Blog</a>
+                        <a href="rps.php">RPS</a>
                     </li>
                     <li>
-                        <a href="contact.php">Contact</a>
+                        <a href="synopsis.php">PhD Synopsis</a>
+                    </li>
+                    <li>
+                        <a href="Guidelines.php">Guidelines</a>
+                    </li>
+                    <li>
+                        <a href="Schedule.php">Schedule</a>
                     </li>
                 </ul>
             </div>
@@ -147,7 +153,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>Copyright &copy; DA-IICT</p>
                 </div>
             </div>
         </div>

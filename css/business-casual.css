@@ -6,7 +6,7 @@
 
 body {
     font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-    background: url('../img/bg.jpg') no-repeat center center fixed;
+    background: url('../img/daiict.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -48,9 +48,11 @@ hr {
 }
 
 .navbar-nav {
+    
     text-transform: uppercase;
     font-weight: 400;
     letter-spacing: 3px;
+    vertical-align: middle;
 }
 
 .img-full {
