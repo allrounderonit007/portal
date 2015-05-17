@@ -1,3 +1,13 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 17, 2015, 4:28:59 PM
+    Author     : Vedant
+*/
+
 /*!
  * Start Bootstrap - Business Casual Bootstrap Theme (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
@@ -36,11 +46,16 @@ hr {
     border-color: #999999;
 }
 
-.brand,
+.brand{
+    font-family: "Josefin Slab";
+    color: black;
+    text-transform: uppercase;
+}
 .address-bar {
     display: none;
-    font-family: "Garamond";
+    font-family: "Georgia";
     color: black;
+    
 }
 
 .navbar-brand {
@@ -166,8 +181,8 @@ footer p {
 
     .navbar-default {
         border: none;
-        background: #ffffff;
-        background: rgba(255,255,255,0.4);
+        background: #fff;
+        background: rgba(255,255,255,0.9);
     }
 
     .nav>li>a {
@@ -194,3 +209,4 @@ footer p {
         clear: both;
     }
 }
+
