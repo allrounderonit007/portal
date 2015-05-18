@@ -259,12 +259,47 @@ Uncredited Verbatim Copying within More than a Single Paper by the Same Author(s
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">Beautiful boxes
-                        <strong>to showcase your content</strong>
+                    <h2 class="intro-text text-center" style="font-family:Cambria">Guidelines for Adjudicating Different Levels of
+                        <strong>Plagiarism</strong>
                     </h2>
                     <hr>
-                    <p>Use as many boxes as you like, and put anything you want in them! They are great for just about anything, the sky's the limit!</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                    <p>Unless we adopt the theory that "Plagiarism is plagiarism", it remains a debatable matter. Sometimes for consistency in judgment and fairness in adjudication, "scaling" of "degree of plagiarism" becomes helpful that might mature with time and practice of the academic community of the Institution.</p>
+                    <p>DA-IICT may adopt the IEEE guidelines for such a scaling in the following manner:</p>
+                    <ul>
+                        <li><b>Level One</b> pertains to the uncredited verbatim copying of a full paper, or the verbatim copying of a major portion (> 50%), or verbatim copying within more than one paper by the same author(s).
+                            
+                        <li><b>Level Two</b> pertains to the uncredited verbatim copying of large portion (between 20 and 50%) or verbatim copying within more than one paper by the same author(s).</li>
+                        
+                        <li><b>Level Three</b> pertains to the uncredited verbatim copying of individual elements (Paragraph(s), Sentence(s),Illustration(s), etc.) resulting in a significant portion (up to 20%) within a paper. </li>
+                        
+                        <li><b>Level Four</b> pertains to uncredited improper paraphrasing of pages or paragraphs. </li>
+                        
+                        <li><b>Level Five</b> pertains to the credited verbatim copying of a major portion of a paper without clear delineation. (e.g., quotes or indents) </li>
+                    </ul>
+                    
+                    <p>Recommended Actions</p>
+                    <ul>
+                        <li><b>Level One</b> grade</li>
+                            
+                        <li><b>Level Two</b> will not be included in archive, resubmission of report, liable to "D" grade</li>
+                        
+                        <li><b>Level Three</b> will not be included in archive, resubmission of report, liable to one grade below than what is recommended by the committee/supervisor.</li>
+                        
+                        <li><b>Level Four</b> will be included in archive only after submission of the revised report, supervisor may recommend for grade punishment.</li>
+                        
+                        <li><b>Level Five</b> will be included in archive only after submission of the revised report, no effect on grade.</li>
+                    </ul>
+                    
+                    <p> References </p>
+                    <ul>
+                        <li>http://www.ieee.org/publications_standards/publications/rights/ID_Plagiarism.html</li>
+                        
+                        <li>http://www.ieee.org/publications_standards/publications/rights/plagiarism_FAQ.html</li>
+                        
+                        <li>Barnbaum, C. "Plagiarism: A Student's Guide to Recognizing It and Avoiding It." Valdosta State University. http://www.valdosta.edu/~cbarnbau/personal/teaching_MISC/plagiarism.htm (Accessed 23 January 2006).</li>
+                        
+                        <li>Liles, Jeffrey A. and Michael E. Rozalski. "It's a Matter of Style: A Style Manual Workshops for Preventing Plagiarism." College & Undergraduate Libraries, 11 (2), 2004, p. 91-101.</li>
+                    </ul>
                 </div>
             </div>
         </div>
