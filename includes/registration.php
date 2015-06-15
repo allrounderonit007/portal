@@ -31,6 +31,17 @@ if($result){
     
     //$loc = "C:\wamp\www\portal\thanks.php";
     //echo "<script> $().alert('Successful Signup');</script>";
+    if($cat=="student"){
+        $sql2 = "INSERT INTO student values('$id','0','$name')";
+        
+        $result2 = mysqli_query($connection, $sql2);
+    }
+    else
+        if($cat=="faculty"){
+            $sql3 = "INSERT INTO faculty values('$id','$name')";
+        
+            $result3 = mysqli_query($connection, $sql3);
+        }
     header("Location: ../login.php");
     //exit();
     
