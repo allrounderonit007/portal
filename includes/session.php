@@ -1,21 +1,62 @@
 <?php
+	class Session
+	{
+		private $logged_in = false;
+		public $user_id;
+		
+		function __construct()
+		{
+			session_start();
+			$this->check_login();
+			
+			if( $this->logged_in )
+			{
+				//echo '<br />Already logged in... <be />';
+			}
+			else
+			{
+				//echo '<br />NOT already logged in... <be />';
+			}
+		}
+		
+		public function is_logged_in()
+		{
+			return $this->logged_in;
+		}
+		
+		public function login( $user )
+		{
+			if( $user )
+			{
+				$_SESSION['user_id'] = (string)$user->user_id;
+				$this->user_id =  $_SESSION['user_id'];
+				$this->logged_in = true;
+			}
+		}
+		
+		public function logout()
+		{
+			unset ( $_SESSION['user_id'] );
+			unset ( $this->user_id );
+			$this->logged_in = false;
+		}
+		
+		private function check_login()
+		{
+			if( isset( $_SESSION['user_id'] ) )
+			{
+				$this->user_id = $_SESSION['user_id'];
+				$this->logged_in = true;
+			}
+			else
+			{
+				unset( $this->user_id );
+				$this->logged_in = false;
+			}
+		}
+		
+	}
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-$connection = mysqli_connect("localhost", "root", "","portal");
-// Selecting Database
-//$db = mysql_select_db("company", $connection);
-session_start();// Starting Session
-// Storing Session
-$user_check=$_SESSION['uid'];
-// SQL Query To Fetch Complete Information Of User
-$ses_sql=mysql_query("select username from login where username='$user_check'", $connection);
-$row = mysql_fetch_assoc($ses_sql);
-$login_session =$row['username'];
-if(!isset($login_session)){
-mysql_close($connection); // Closing Connection
-header('Location: index.php'); // Redirecting To Home Page
-}
+	$session = new Session();
+	
+?>

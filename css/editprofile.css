@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 15, 2015, 1:52:04 AM
+    Author     : Vedant
+*/
+
+.separator {
+    border-right: 1px solid #dfdfe0; 
+}
+.icon-btn-save {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.input-group {
+    margin-bottom:10px; 
+}
+.btn-save-label {
+    position: relative;
+    left: -12px;
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 3px 0 0 3px;
+}
+

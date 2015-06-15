@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once("../includes/initialize.php");
+require_once("initialize.php");
 if(isset($_POST['login-submit']))
 {
 $uid= $_POST['id'];
@@ -53,4 +53,31 @@ $con = mysqli_connect('localhost','root','','portal');
 	}
 		
 }
+
+//if( (!empty( $_GET['action'] )) && $_GET['action']=='logout' )
+//	{		
+    
+    if(isset($_GET['action'])){
+        
+        if($_GET['action']=='logout'){
+            
+            session_start();
+            session_destroy();
+            header('location :../login.php');
+            //session_destroy();
+            exit();
+        }
+    }
+		
+                //$session->logout();
+		
+                
+		
+        //}
+
+ if(isset($_POST['forget']))
+    {
+		$fid = $_POST['uid'];    	
+        header("location:forget-password.php");
+    }
 

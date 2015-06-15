@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<?php
+       require_once('includes/initialize.php');
+    if (! $session->is_logged_in() ){
+        session_start();
+    }
+    if( ! isset($_SESSION['user_id']) ){
+        header("location:login.php");
+    }
+    
+    //echo($_SESSION['password']);
+    //$user=Users::find_by_id($_SESSION['u_id']);
+?>
 <head>
 
     <meta charset="utf-8">
@@ -52,7 +63,7 @@
                 <a class="navbar-brand" href="homepage.php">USPMES - PhD</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="row collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 
                 <ul class="nav navbar-nav">
                     <li>
@@ -73,8 +84,42 @@
                     <li>
                         <a href="Schedule.php">Schedule</a>
                     </li>
-                </ul>
                     
+                    <!--<li>
+                        <a href="includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
+                    </li>-->
+                    
+                    
+                    
+                
+                
+                
+                    
+                <!--<ul class="nav navbar-nav navbar-right">-->
+                    <li class="profile-info dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <?php
+                            echo $_SESSION['user_id'];
+                            ?>
+                        </a>
+                        
+                        <ul class="dropdown-menu">
+                            
+                            <li>
+                                
+                                <a href="profile/editprofile.php">
+                                    <i class="entypo-lock"></i>
+                                    Edit Password
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
+                            </li>
+                        </ul>
+                    </li>
+                <!--</ul>-->
+                </ul>
             </div>
             <!-- /.navbar-collapse -->
             
@@ -307,12 +352,14 @@ Uncredited Verbatim Copying within More than a Single Paper by the Same Author(s
     </div>
     <!-- /.container -->
 
-    <footer>
+    <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <p>Copyright &copy; DA-IICT</p>
                 </div>
+                
+                
             </div>
         </div>
     </footer>

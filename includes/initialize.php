@@ -22,5 +22,10 @@ defined('SITE_ROOT') ? null :
         
 require_once(LIB_PATH . DS .'config.php');
 require_once(LIB_PATH . DS .'MySqlDatabase.php');
+require_once(LIB_PATH . DS . 'session.php');
+//require_once(LIB_PATH . DS . 'checklogin.php');
+//require_once(LIB_PATH . DS . 'registration.php');
+//require_once(LIB_PATH . DS . 'updatepass.php');
+//require_once(LIB_PATH . DS . 'logout.php');
         
 

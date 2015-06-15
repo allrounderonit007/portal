@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<?php
+       require_once('includes/initialize.php');
+    if (! $session->is_logged_in() ){
+        session_start();
+    }
+    if( ! isset($_SESSION['user_id']) ){
+        header("location:login.php");
+    }
+    
+    //echo($_SESSION['password']);
+    //$user=Users::find_by_id($_SESSION['u_id']);
+?>
 <head>
 
     <meta charset="utf-8">
@@ -15,7 +26,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/business-casual.css" rel="stylesheet">
+    <link href="css/homepage.css" rel="stylesheet">
 
     <!-- Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
@@ -72,6 +83,28 @@
                     </li>
                     <li>
                         <a href="Schedule.php">Schedule</a>
+                    </li>
+                    <li class="profile-info dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <?php
+                            echo $_SESSION['user_id'];
+                            ?>
+                        </a>
+                        
+                        <ul class="dropdown-menu">
+                            
+                            <li>
+                                
+                                <a href="profile/editprofile.php">
+                                    <i class="entypo-lock"></i>
+                                    Edit Password
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                     

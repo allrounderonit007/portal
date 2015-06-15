@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--<?php
+    session_start();
+    //require_once('includes/initialize.php');
+    //if (! $session->is_logged_in() ){
+    //    session_start();
+    //}
 
+?>-->
 <head>
 
     <meta charset="utf-8">

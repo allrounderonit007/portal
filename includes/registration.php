@@ -40,7 +40,7 @@ if($result){
 else
 {
     echo "<script> alert('Unsuccesful Signup');</script>";
-    header("Location: C:\wamp\www\portal\login.php");
+    header("Location: ..\login.php");
     mysqli_close($connection);
 }
 
