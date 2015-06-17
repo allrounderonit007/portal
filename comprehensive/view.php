@@ -8,10 +8,10 @@
     if( ! isset($_SESSION['user_id']) ){
         header("location:../login.php");
     }
-    //$user=Users::find_by_id($_SESSION['u_id']);
-    //echo($_SESSION['password']);
-    //$user=new Users();
     
+    $u_id = $_SESSION['user_id'];
+    //echo($_SESSION['password']);
+    //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
 <head>
 
@@ -44,12 +44,12 @@
 
 <body>
 
-    <div class="brand" style="color: black; font-family: Josefin Slab ">Phd Portal</div>
+    <div class="brand" style="color: black; font-family: Josefin Slab; text-transform: uppercase">Phd Portal</div>
     <div class="address-bar" style="color: black; font-family: Josephin Slab">Dhirubhai Ambani Institute of Information and Communication Technology</div>
     
     
     <!-- Navigation -->
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default" style="background: #fff; background: rgba(255,255,255,0.9)" role="navigation">
         <div class="container-fluid">
             
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -64,14 +64,14 @@
                 <a class="navbar-brand" href="../homepage/homepage.php">USPMES - PhD</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="row collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="../homepage/homepage.php">Home</a>
                     </li>
                     <li>
-                        <a href="../comprehensive/cmpr.php">PhD Comprehensive</a>
+                        <a href="Cmpr.php">PhD Comprehensive</a>
                     </li>
                     <li>
                         <a href="../rps/rps.php">RPS</a>
@@ -85,19 +85,7 @@
                     <li>
                         <a href="../Schedule/Schedule.php">Schedule</a>
                     </li>
-                    
-                    <!--<li>
-                        <a href="includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
-                    </li>-->
-                    
-                    
-                    
-                
-                
-                
-                    
-                <!--<ul class="nav navbar-nav navbar-right">-->
-                    <!--<li class="profile-info dropdown">
+                    <li class="profile-info dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <?php
                             echo $_SESSION['user_id'];
@@ -107,21 +95,20 @@
                         <ul class="dropdown-menu">
                             
                             <li>
-                               
-                                <a href="editprofile.php">
+                                
+                                <a href="../profile/editprofile.php">
                                     <i class="entypo-lock"></i>
                                     Edit Password
                                 </a>
-                            </li>-->
+                            </li>
                             
                             <li>
                                 <a href="../includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
                             </li>
-                        
-                        <!--</ul>
-                    </li>-->
-                <!--</ul>-->
+                        </ul>
+                    </li>
                 </ul>
+                    
             </div>
             <!-- /.navbar-collapse -->
             
@@ -129,77 +116,23 @@
         
         <!-- /.container -->
     </nav>
-    
-    
-    <!--<div class="container">
-        <div class="row">
-            <div class="box">
-                <div style="height: 40px; width: 100%">
-                    
-                </div>
-                
-            </div>
-        </div>
-    </div>-->
-    
-    
+
     <div class="container">
-        <div class="box">
-        <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-2">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-th"></span>
-                        Change password   
-                    </h3>
-                </div>
-                <form role="form" id="form-1" method="post" action="../includes/updatepass.php">
-                
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6 separator social-login-box"> <br>
-                            <img alt="" class="img-thumbnail" src="../img/daiict_full.png">                        
-                        </div>
-                        <div style="margin-top:80px;" class="col-xs-6 col-sm-6 col-md-6 login-box">
-                            
-                         <div class="form-group">
-                            <div class="input-group">
-                              <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
-                              <input class="form-control" name="current" id="current" type="password" placeholder="Current Password">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <div class="input-group">
-                              <div class="input-group-addon"><span class="glyphicon glyphicon-log-in"></span></div>
-                              <input class="form-control" name="newpass" id="newpass" type="password" placeholder="New Password">
-                            </div>
-                          </div>
-                           
-                            <div class="form-group">
-                            <div class="input-group">
-                              <div class="input-group-addon"><span class="glyphicon glyphicon-repeat"></span></div>
-                              <input class="form-control" name="retype" id="retype" type="password" placeholder="Retype New Password">
-                            </div>
-                          </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6"></div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <button class="btn icon-btn-save btn-success" type="submit" name="submit" id="submit">
-                            <span class="btn-save-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>Save</button>
-                        </div>
-                    </div>
-                </div>
-                </form>
+
+            <div class="box">
+                <p>Your Uploads</p><label><a href="Cmpr.php">upload new files...</a></label>
+                <?php
+                $tuf = mysqli_connect('localhost', 'root', '', 'portal');
+                $am = "SELECT stud_report FROM phd_comp WHERE stud_id=$u_id";
+                $take = mysqli_query($tuf, $am);
+                $take2 = mysqli_fetch_array($take);
+                echo("<a href=\"../student uploads/\""); 
+                echo ($take2[0]);
+                echo("\"target=\"_blank\">view file</a>");
+                ?>
             </div>
-        </div>
-    </div>
-        </div>
+        
+
     </div>
     <!-- /.container -->
 
@@ -221,17 +154,6 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="../js/bootstrap.min.js"></script>
 
-    <!-- Script to Activate the Carousel -->
-    
-    
-    <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    });
-    </script>
-
 </body>
 
 </html>
-
-

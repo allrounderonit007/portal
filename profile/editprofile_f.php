@@ -61,29 +61,29 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="../homepage/homepage.php">USPMES - PhD</a>
+                <a class="navbar-brand" href="../homepage/homepage_f.php">USPMES - PhD</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="row collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="../homepage/homepage.php">Home</a>
+                        <a href="../homepage/homepage_f.php">Home</a>
                     </li>
                     <li>
-                        <a href="../comprehensive/cmpr.php">PhD Comprehensive</a>
+                        <a href="../comprehensive/Cmpr_f.php">PhD Comprehensive</a>
                     </li>
                     <li>
-                        <a href="../rps/rps.php">RPS</a>
+                        <a href="../rps/rps_f.php">RPS</a>
                     </li>
                     <li>
-                        <a href="../phd_synopsis/synopsis.php">PhD Synopsis</a>
+                        <a href="../phd_synopsis/synopsis_f.php">PhD Synopsis</a>
                     </li>
                     <li>
-                        <a href="../guidelines/Guidelines.php">Guidelines</a>
+                        <a href="../guidelines/Guidelines_f.php">Guidelines</a>
                     </li>
                     <li>
-                        <a href="../Schedule/Schedule.php">Schedule</a>
+                        <a href="../Schedule/Schedule_f.php">Schedule</a>
                     </li>
                     
                     <!--<li>

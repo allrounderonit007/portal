@@ -45,7 +45,16 @@ $row = mysqli_fetch_array($ans);
         {
             die('Could not update data: ' . mysqli_error($kis));
         }
-        header("location:../homepage.php");
+        if($_SESSION['role']=="admin"){
+            header("location:../homepage/homepage_a.php");
+        }
+ else if($_SESSION['role']=="student"){
+     header("location:../homepage/homepage.php");
+ }
+ else {
+     header("location:../homepage/homepage_f.php");
+ }
+        
         mysqli_close($kis);
       }
  else {

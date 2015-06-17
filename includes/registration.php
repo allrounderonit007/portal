@@ -35,6 +35,8 @@ if($result){
         $sql2 = "INSERT INTO student values('$id','0','$name')";
         
         $result2 = mysqli_query($connection, $sql2);
+        $sql2 = "INSERT INTO phd_comp values('0','$id','NA','-1','NA','0','0','0','0','NA')";
+        $result2 = mysqli_query($connection, $sql2);
     }
     else
         if($cat=="faculty"){

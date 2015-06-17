@@ -40,15 +40,15 @@ $con = mysqli_connect('localhost','root','','portal');
 		
                 //header("Location: ../homepage.php");
 		if($_SESSION['role']=="admin"){
-		header("location:../homepage.php");
+		header("location:../homepage/homepage_a.php");
 		}
-		elseif($_SESSION['student']=="student")
+		elseif($_SESSION['role']=="student")
 		{
-			header("location:../homepage.php");
+			header("location:../homepage/homepage.php");
 		}
 		else
 		{
-			header("location:../homepage.php");
+			header("location:../homepage/homepage_f.php");
 		}
 	}
 		

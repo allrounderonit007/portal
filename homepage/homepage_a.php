@@ -8,10 +8,9 @@
     if( ! isset($_SESSION['user_id']) ){
         header("location:../login.php");
     }
-    //$user=Users::find_by_id($_SESSION['u_id']);
-    //echo($_SESSION['password']);
-    //$user=new Users();
     
+    //echo($_SESSION['password']);
+    //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
 <head>
 
@@ -61,29 +60,29 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="../homepage/homepage.php">USPMES - PhD</a>
+                <a class="navbar-brand" href="homepage_a.php">USPMES - PhD</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="row collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="../homepage/homepage.php">Home</a>
+                        <a href="homepage_a.php">Home</a>
                     </li>
                     <li>
-                        <a href="../comprehensive/cmpr.php">PhD Comprehensive</a>
+                        <a href="../comprehensive/Cmpr_a.php">PhD Comprehensive</a>
                     </li>
                     <li>
-                        <a href="../rps/rps.php">RPS</a>
+                        <a href="../rps/rps_a.php">RPS</a>
                     </li>
                     <li>
-                        <a href="../phd_synopsis/synopsis.php">PhD Synopsis</a>
+                        <a href="../phd_synopsis/synopsis_a.php">PhD Synopsis</a>
                     </li>
                     <li>
-                        <a href="../guidelines/Guidelines.php">Guidelines</a>
+                        <a href="../guidelines/Guidelines_a.php">Guidelines</a>
                     </li>
                     <li>
-                        <a href="../Schedule/Schedule.php">Schedule</a>
+                        <a href="../Schedule/Schedule_a.php">Schedule</a>
                     </li>
                     
                     <!--<li>
@@ -97,7 +96,7 @@
                 
                     
                 <!--<ul class="nav navbar-nav navbar-right">-->
-                    <!--<li class="profile-info dropdown">
+                    <li class="profile-info dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <?php
                             echo $_SESSION['user_id'];
@@ -107,19 +106,18 @@
                         <ul class="dropdown-menu">
                             
                             <li>
-                               
-                                <a href="editprofile.php">
+                                
+                                <a href="profile/editprofile.php">
                                     <i class="entypo-lock"></i>
                                     Edit Password
                                 </a>
-                            </li>-->
+                            </li>
                             
                             <li>
                                 <a href="../includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
                             </li>
-                        
-                        <!--</ul>
-                    </li>-->
+                        </ul>
+                    </li>
                 <!--</ul>-->
                 </ul>
             </div>
@@ -144,62 +142,13 @@
     
     
     <div class="container">
-        <div class="box">
         <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-2">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-th"></span>
-                        Change password   
-                    </h3>
-                </div>
-                <form role="form" id="form-1" method="post" action="../includes/updatepass.php">
-                
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6 separator social-login-box"> <br>
-                            <img alt="" class="img-thumbnail" src="../img/daiict_full.png">                        
-                        </div>
-                        <div style="margin-top:80px;" class="col-xs-6 col-sm-6 col-md-6 login-box">
-                            
-                         <div class="form-group">
-                            <div class="input-group">
-                              <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
-                              <input class="form-control" name="current" id="current" type="password" placeholder="Current Password">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <div class="input-group">
-                              <div class="input-group-addon"><span class="glyphicon glyphicon-log-in"></span></div>
-                              <input class="form-control" name="newpass" id="newpass" type="password" placeholder="New Password">
-                            </div>
-                          </div>
-                           
-                            <div class="form-group">
-                            <div class="input-group">
-                              <div class="input-group-addon"><span class="glyphicon glyphicon-repeat"></span></div>
-                              <input class="form-control" name="retype" id="retype" type="password" placeholder="Retype New Password">
-                            </div>
-                          </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6"></div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <button class="btn icon-btn-save btn-success" type="submit" name="submit" id="submit">
-                            <span class="btn-save-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>Save</button>
-                        </div>
-                    </div>
-                </div>
-                </form>
+            <div class="box">
+                <p class="left">Dear <b><?php echo($_SESSION['name']); ?></b>,</p><br>
+                <p>Welcome to <u>USPMES-PhD portal</u>. Please go ahead and use it to your benefit.</p>
             </div>
         </div>
-    </div>
-        </div>
+
     </div>
     <!-- /.container -->
 
@@ -222,8 +171,6 @@
     <script src="../js/bootstrap.min.js"></script>
 
     <!-- Script to Activate the Carousel -->
-    
-    
     <script>
     $('.carousel').carousel({
         interval: 5000 //changes the speed
@@ -233,5 +180,3 @@
 </body>
 
 </html>
-
-
