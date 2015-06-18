@@ -8,8 +8,8 @@
     if( ! isset($_SESSION['user_id']) ){
         header("location:../login.php");
     }
+    
     $u_id = $_SESSION['user_id'];
-    //echo($u_id);
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
@@ -96,7 +96,7 @@
                             
                             <li>
                                 
-                                <a href="../profile/editprofile.php">
+                                <a href="../profile/editprofile_f.php">
                                     <i class="entypo-lock"></i>
                                     Edit Password
                                 </a>
@@ -120,61 +120,18 @@
     <div class="container">
 
             <div class="box">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        <label>List of students</label>
-                        <br>
-                        <?php
-                        $tamp = mysqli_connect('localhost', 'root', '', 'portal');
-                        
-                        $query = "SELECT stud_id FROM phd_comp WHERE supervisor_id = $u_id";
-                        $solution = mysqli_query($tamp, $query);
-                        //$array = mysqli_fetch_array($solution);
-                        //echo($array[1]);
-                        $storeArray = Array();
-                        while($array = mysqli_fetch_assoc($solution)){
-                            $storeArray[]= $array['stud_id'];
-                        }
-                        
-                        
-                        $size = count($storeArray);
-                        //echo($size);
-                        
-                        if($size==0){
-                            ?>
-                        <label>No student currently</label>
-                        <?php
-                        }
-                        else{
-                            
-                            ?>
-                        <form method="post" action="select.php" role="form">
-                            <?php
-                            
-                            
-                            
-                            //$x = 0;
-                            //$size = count($storeArray);
-                            //echo($size);
-                            //echo($array[0]);
-                            //echo($array[1]);
-                            for($x=0;$x<$size;$x++){
-                                ?>
-                            
-                            <input type="radio" name="sid" value="<?php echo($storeArray[$x]);?>"><?php echo($storeArray[$x]); ?>
-                            <br>
-                            <?php
-                                
-                                
-                            
-                            }
-                        }
-                        ?>
-                            <input type="submit" name="rad-sub" value="Submit">
-                        </form>
-                        
-                    </div>
-                </div>
+                <p>Your Uploads</p><label><a href="select.php">Upload new files</a></label>
+                <br>
+                <?php
+                $tuf = mysqli_connect('localhost', 'root', '', 'portal');
+                $sisi = $_SESSION['macho'];
+                $am = "SELECT fac_report FROM phd_comp WHERE stud_id=$sisi";
+                $take = mysqli_query($tuf, $am);
+                $take2 = mysqli_fetch_array($take);
+                echo("<a href=\"../faculty uploads/$sisi/\""); 
+                echo ($take2[0]);
+                echo("\"target=\"_blank\">View file</a>");
+                ?>
             </div>
         
 

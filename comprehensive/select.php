@@ -61,29 +61,29 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="../homepage/homepage.php">USPMES - PhD</a>
+                <a class="navbar-brand" href="../homepage/homepage_f.php">USPMES - PhD</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="../homepage/homepage.php">Home</a>
+                        <a href="../homepage/homepage_f.php">Home</a>
                     </li>
                     <li>
-                        <a href="Cmpr.php">PhD Comprehensive</a>
+                        <a href="Cmpr_f.php">PhD Comprehensive</a>
                     </li>
                     <li>
-                        <a href="../rps/rps.php">RPS</a>
+                        <a href="../rps/rps_f.php">RPS</a>
                     </li>
                     <li>
-                        <a href="../phd_synopsis/synopsis.php">PhD Synopsis</a>
+                        <a href="../phd_synopsis/synopsis_f.php">PhD Synopsis</a>
                     </li>
                     <li>
-                        <a href="../guidelines/Guidelines.php">Guidelines</a>
+                        <a href="../guidelines/Guidelines_f.php">Guidelines</a>
                     </li>
                     <li>
-                        <a href="../Schedule/Schedule.php">Schedule</a>
+                        <a href="../Schedule/Schedule_f.php">Schedule</a>
                     </li>
                     <li class="profile-info dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -96,7 +96,7 @@
                             
                             <li>
                                 
-                                <a href="../profile/editprofile.php">
+                                <a href="../profile/editprofile_f.php">
                                     <i class="entypo-lock"></i>
                                     Edit Password
                                 </a>
@@ -122,61 +122,68 @@
             <div class="box">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label>USER ID</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = $_SESSION['user_id']; echo($namely);?>" readonly>
+                        
+                        <?php
+                        
+                        if(isset($_POST['rad-sub'])){
+                            
+                            if(isset($_POST['sid'])){
+                                
+                                $sid = $_POST['sid'];
+                                
+                                //echo($sid);
+                                
+                                $_SESSION['macho'] = $sid;
+                                
+                                $damn = "SELECT stud_report, comp_grade,fac_report,f_type,f_size,pass FROM phd_comp WHERE stud_id = $sid";
+                            
+                                $chalo = mysqli_connect('localhost', 'root', '', 'portal');
+                                $que = mysqli_query($chalo, $damn);
+                                $ar = mysqli_fetch_array($que);
+                                
+                                $damn2 = "SELECT name FROM student WHERE s_id =$sid";
+                                $que = mysqli_query($chalo,$damn2);
+                                $ar2 = mysqli_fetch_array($que);
+                            
+                        
+                        ?>
+                        
+                        <label>STUDENT ID</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($sid)?>" readonly>
                         <br>
                         <label>NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = $_SESSION['name']; echo($namely);?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php echo($ar2[0]);?>" readonly>
                         <br>
-                        <?php
-                        $hsh = mysqli_connect('localhost', 'root', '', 'portal');
-                            $comp = "SELECT supervisor_id,stud_report, comp_grade,fac_report,s_type,s_size,f_type,f_size,pass FROM phd_comp WHERE stud_id = $u_id";
-                            
-                            $store = mysqli_query($hsh, $comp);
-                            $s_row = mysqli_fetch_array($store);
-                            
-                            
-                            
-                            
-                            $crow;
-                        ?>
-                        <label>FACULTY SUPERVISOR ID</label>
-                        <input class="form-control" type="text" placeholder="<?php if($s_row[0]=="0")echo("NO FACULTY ALLOTED"); else{echo($s_row[0]);}?>" readonly>
-                        <br>
-                        
-                        <?php
-                        
-                        if($s_row[0]==0){
-                            $crow = "NO FACULTY ALLOTED";
-                        }
-                        else{
-                            $comp = "SELECT name FROM faculty WHERE faculty_id = $s_row[0]";
-                            $store = mysqli_query($hsh, $comp);
-                            $f_row = mysqli_fetch_array($store);
-                            if(!$f_row){
-                            $crow = "FACULTY NOT REGISTERED";
-                        }
-                        else{
-                            
-                            $crow = $f_row[0];
-                            
-                        }
-                        }
-                        
-                        
-                        ?>
-                        <label>FACULTY SUPERVISOR'S NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($crow);?>" readonly>
-                        <br>
+     
                         
                         <label>GRADE</label>
-                        <input class="form-control" type="text" placeholder="<?php if($s_row[2]=="-1") {echo("NA");} else {echo($s_row[2]);}?>" readonly>
+                        <form action="grade.php" method="post" role="form">
+                            <input type="number" name="grade" value="Enter Grade" placeholder="<?php echo($ar[1]); ?>">
+                            <input type="submit" name="g-s" value="Submit Grade">
+                        </form>
+                        
                         <br>
                         <label>STUDENT REPORT</label>
+                        
                         <?php
-                            if($s_row[1]=="NA"){
+                        if($ar[0]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../student uploads/");
+                            echo($sid);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+                        
+                        <br>
+                        <label>COMMITTEE REPORT</label>
+                        <?php
+                            if($ar[2]=="NA"){
                                 ?>
-                            <form action="upload.php" method="post" enctype="multipart/form-data">
+                            <form action="upload_f.php" method="post" enctype="multipart/form-data">
                             <input type="file" name="file" />
                             <button type="submit" name="btn-upload">upload</button>
                             </form>
@@ -184,7 +191,7 @@
                             if(isset($_GET['success']))
                         {
                          ?>
-                        <label>File Uploaded Successfully.<a href="view.php">click here to view file.</a></label>
+                        <label>File Uploaded Successfully.<a href="view_f.php">click here to view file.</a></label>
                                <?php
                         }
                         else if(isset($_GET['fail']))
@@ -210,7 +217,7 @@
                             else{
                                 ?>
                                
-                               <form action="upload.php" method="post" enctype="multipart/form-data">
+                               <form action="upload_f.php" method="post" enctype="multipart/form-data">
                             <input type="file" name="file" />
                             <button type="submit" name="btn-upload">upload</button>
                             </form>
@@ -218,24 +225,24 @@
                             if(isset($_GET['success']))
                         {
                          ?>
-                        <label>File Uploaded Successfully.<a href="view.php">click here to view file.</a></label>
+                        <label>File Uploaded Successfully.<a href="view_f.php">click here to view file.</a></label>
                                <?php
                         }
                         else if(isset($_GET['fail']))
                         {
                          ?>
-                        <label>Problem While File Uploading !<a href="view.php">View Previous file.</a></label>
+                        <label>Problem While File Uploading !<a href="view_f.php">View Previous file.</a></label>
                                <?php
                         }
                         else if(isset($_GET['exists'])){
                             ?>
-                        <label>Filename exists. Upload new file.<a href="view.php">View Previous File.</a></label>
+                        <label>Filename exists. Upload new file.<a href="view_f.php">View Previous File.</a></label>
                                <?php
                         }
                         else
                         {
                          ?>
-                            <label><a href="view.php">Click here to view uploaded File. You can upload a new file.</a></label>
+                            <label><a href="view_f.php">Click here to view uploaded File. You can upload a new file.</a></label>
                                <?php
                         }
                         ?>
@@ -243,26 +250,13 @@
                             }
                         ?>
                         
-                        
-                        <br>
-                        <label>COMMITTEE REPORT</label>
-                        <?php
-                        if($s_row[3]=="NA"){
-                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
-                            echo("NO FILE UPLOADED");
-                            echo("\" readonly>");
-                        }
-                        else{
-                            echo("<br><a href=\"../faculty uploads/$u_id/");
-                            echo($s_row[3]);
-                            echo("\"target=\"_blank\">View File</a><br>");
-                        }
-                        ?>
-                        
                         <br>
                         <label>PASS/FAIL</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($s_row[8]);;?>" readonly>
-                        
+                        <input class="form-control" type="text" placeholder="<?php echo($ar[5]);;?>" readonly>
+                        <?php
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -292,3 +286,5 @@
 </body>
 
 </html>
+
+
