@@ -9,6 +9,7 @@
         header("location:../login.php");
     }
     
+    $u_id = $_SESSION['user_id'];
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
@@ -60,31 +61,30 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="../homepage/homepage_f.php">USPMES - PhD</a>
+                <a class="navbar-brand" href="../homepage/homepage.php">USPMES - PhD</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="../homepage/homepage_f.php">Home</a>
+                        <a href="../homepage/homepage.php">Home</a>
                     </li>
                     <li>
-                        <a href="../comprehensive/Cmpr_f.php">PhD Comprehensive</a>
+                        <a href="Cmpr.php">PhD Comprehensive</a>
                     </li>
                     <li>
-                        <a href="../rps/rps_f.php">RPS</a>
+                        <a href="../rps/rps.php">RPS</a>
                     </li>
                     <li>
-                        <a href="../phd_synopsis/synopsis_f.php">PhD Synopsis</a>
+                        <a href="../phd_synopsis/synopsis.php">PhD Synopsis</a>
                     </li>
                     <li>
-                        <a href="../guidelines/Guidelines_f.php">Guidelines</a>
+                        <a href="../guidelines/Guidelines.php">Guidelines</a>
                     </li>
                     <li>
-                        <a href="Schedule_f.php">Schedule</a>
+                        <a href="../Schedule/Schedule.php">Schedule</a>
                     </li>
-                    
                     <li class="profile-info dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <?php
@@ -119,18 +119,17 @@
 
     <div class="container">
 
-        <div class="row">
             <div class="box">
-              
-                <h2>Download from the Directory</h2>
+                <p>Your Uploads</p><label><a href="Schedule_a.php">Upload new files</a></label>
+                <br>
                 <?php
                 
                 echo("<a href=\"../admin upload/\""); 
                 //echo ($take2[0]);
-                echo("\"target=\"_blank\"><h4>View files</h4></a>");
+                echo("\"target=\"_blank\">View file</a>");
                 ?>
             </div>
-        </div>
+        
 
     </div>
     <!-- /.container -->
@@ -156,3 +155,4 @@
 </body>
 
 </html>
+

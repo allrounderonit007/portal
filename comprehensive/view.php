@@ -120,15 +120,16 @@
     <div class="container">
 
             <div class="box">
-                <p>Your Uploads</p><label><a href="Cmpr.php">upload new files...</a></label>
+                <p>Your Uploads</p><label><a href="Cmpr.php">Upload new files</a></label>
+                <br>
                 <?php
                 $tuf = mysqli_connect('localhost', 'root', '', 'portal');
                 $am = "SELECT stud_report FROM phd_comp WHERE stud_id=$u_id";
                 $take = mysqli_query($tuf, $am);
                 $take2 = mysqli_fetch_array($take);
-                echo("<a href=\"../student uploads/\""); 
+                echo("<a href=\"../student uploads/$u_id/\""); 
                 echo ($take2[0]);
-                echo("\"target=\"_blank\">view file</a>");
+                echo("\"target=\"_blank\">View file</a>");
                 ?>
             </div>
         

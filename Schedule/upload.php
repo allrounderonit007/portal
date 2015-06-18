@@ -10,14 +10,8 @@ if(isset($_POST['btn-upload']))
     $file_loc = $_FILES['file']['tmp_name'];
  $file_size = $_FILES['file']['size'];
  $file_type = $_FILES['file']['type'];
- $folder="../student uploads/";
- if(!is_dir($folder.$u_id)){
-     $folder = "../student uploads/$u_id/";
-     mkdir($folder);
- }
- else {
-     $folder = "../student uploads/$u_id/";
- }
+ $folder="../admin upload/";
+
  
  $uploadok = 1;
  
@@ -39,31 +33,18 @@ if(isset($_POST['btn-upload']))
      ?>
 <script>
     alert('Filename exists');
-    window.location.href='Cmpr.php?exists';
+    window.location.href='Schedule_a.php?exists';
 </script>
 <?php
  }
  else{
      if(move_uploaded_file($file_loc,$folder.$final_file))
  {
-  $late = "SELECT stud_report FROM phd_comp WHERE stud_id=$u_id";
-  $e = mysqli_query($fuf, $late);
-  $er = mysqli_fetch_array($e);
-  //echo($er);
-  if($er[0]=="NA"){
-      
-  }
-  else{
-      $final_e = $folder.$er[0];
-      unlink($final_e);
-  }
   
-  $late="UPDATE phd_comp SET stud_report = '$final_file',s_type='$file_type',s_size='$new_size' WHERE stud_id=$u_id";
-  $e =mysqli_query($fuf,$late);
   ?>
   <script>
   alert('successfully uploaded');
-        window.location.href='Cmpr.php?success';
+        window.location.href='Schedule_a.php?success';
         </script>
   <?php
  }
@@ -72,11 +53,10 @@ if(isset($_POST['btn-upload']))
   ?>
   <script>
   alert('error while uploading file');
-        window.location.href='Cmpr.php?fail';
+        window.location.href='Schedule_a.php?fail';
         </script>
   <?php
  }
  }
  
 }
-?>

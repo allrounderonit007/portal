@@ -123,10 +123,10 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label>USER ID</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = $_SESSION['user_id']; echo("$namely");?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php $namely = $_SESSION['user_id']; echo($namely);?>" readonly>
                         <br>
                         <label>NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = $_SESSION['name']; echo("$namely");?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php $namely = $_SESSION['name']; echo($namely);?>" readonly>
                         <br>
                         <?php
                         $hsh = mysqli_connect('localhost', 'root', '', 'portal');
@@ -135,8 +135,8 @@
                             $store = mysqli_query($hsh, $comp);
                             $s_row = mysqli_fetch_array($store);
                             
-                            $comp = "SELECT name FROM faculty WHERE faculty_id = $s_row[1]";
-                            $store = mysqli_query($hsh, $comp);
+                            
+                            
                             
                             $crow;
                         ?>
@@ -145,13 +145,25 @@
                         <br>
                         
                         <?php
-                        if(!$store){
+                        
+                        if($s_row[0]==0){
                             $crow = "NO FACULTY ALLOTED";
                         }
                         else{
+                            $comp = "SELECT name FROM faculty WHERE faculty_id = $s_row[0]";
+                            $store = mysqli_query($hsh, $comp);
                             $f_row = mysqli_fetch_array($store);
-                            $crow = $f_row[0];
+                            if(!$f_row){
+                            $crow = "FACULTY NOT REGISTERED";
                         }
+                        else{
+                            
+                            $crow = $f_row[0];
+                            
+                        }
+                        }
+                        
+                        
                         ?>
                         <label>FACULTY SUPERVISOR'S NAME</label>
                         <input class="form-control" type="text" placeholder="<?php echo($crow);?>" readonly>
@@ -161,21 +173,29 @@
                         <input class="form-control" type="text" placeholder="<?php if($s_row[2]=="-1") {echo("NA");} else {echo($s_row[2]);}?>" readonly>
                         <br>
                         <label>STUDENT REPORT</label>
-                        <form action="upload.php" method="post" enctype="multipart/form-data">
-                        <input type="file" name="file" />
-                        <button type="submit" name="btn-upload">upload</button>
-                        </form>
+                        <?php
+                            if($s_row[1]=="NA"){
+                                ?>
+                            <form action="upload.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" />
+                            <button type="submit" name="btn-upload">upload</button>
+                            </form>
                         <?php
                             if(isset($_GET['success']))
                         {
                          ?>
-                               <label>File Uploaded Successfully...  <a href="view.php">click here to view file.</a></label>
+                        <label>File Uploaded Successfully.<a href="view.php">click here to view file.</a></label>
                                <?php
                         }
                         else if(isset($_GET['fail']))
                         {
                          ?>
                                <label>Problem While File Uploading !</label>
+                               <?php
+                        }
+                        else if(isset($_GET['exists'])){
+                            ?>
+                               <label>Filename exists. Upload new file.</label>
                                <?php
                         }
                         else
@@ -185,6 +205,45 @@
                                <?php
                         }
                         ?>
+                        <?php
+                            }
+                            else{
+                                ?>
+                               
+                               <form action="upload.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" />
+                            <button type="submit" name="btn-upload">upload</button>
+                            </form>
+                        <?php
+                            if(isset($_GET['success']))
+                        {
+                         ?>
+                        <label>File Uploaded Successfully.<a href="view.php">click here to view file.</a></label>
+                               <?php
+                        }
+                        else if(isset($_GET['fail']))
+                        {
+                         ?>
+                        <label>Problem While File Uploading !<a href="view.php">View Previous file.</a></label>
+                               <?php
+                        }
+                        else if(isset($_GET['exists'])){
+                            ?>
+                        <label>Filename exists. Upload new file.<a href="view.php">View Previous File.</a></label>
+                               <?php
+                        }
+                        else
+                        {
+                         ?>
+                            <label><a href="view.php">Click here to view uploaded File. You can upload a new file.</a></label>
+                               <?php
+                        }
+                        ?>
+                                <?php
+                            }
+                        ?>
+                        
+                        
                         <br>
                         <label>COMMITTEE REPORT</label>
                         <?php
@@ -194,9 +253,9 @@
                             echo("\" readonly>");
                         }
                         else{
-                            echo("<a href=\"faculty uploads/");
+                            echo("<br><a href=\"../faculty uploads/");
                             echo($s_row[3]);
-                            echo("\"target=\"_blank\">View File</a>");
+                            echo("\"target=\"_blank\">View File</a><br>");
                         }
                         ?>
                         
