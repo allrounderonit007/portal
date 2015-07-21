@@ -116,161 +116,100 @@
         
         <!-- /.container -->
     </nav>
+    
+    <?php
+                        
+                        if(isset($_POST['rad-sub'])){
+                            
+                            if(isset($_POST['sid'])){
+                                
+                                $sid = $_POST['sid'];
+                                ?>
 
     <div class="container">
 
             <div class="box">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label>List of students</label>
+                        <label>STUDENT ID</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($sid);?>" readonly>
                         <br>
                         
                         <?php
-                        $tamp = mysqli_connect('localhost', 'root', '', 'portal');
+                            $hsh1 = mysqli_connect('localhost', 'root', '', 'portal');
+                            $comp1 = "SELECT convenor_id,fac_report,f_type,f_size,pass,comm1, comm2, comm3, comm4, attempt, stud_name FROM phd_comp WHERE stud_id = $sid";
+                            
+                            $store = mysqli_query($hsh1, $comp1);
+                            $s_row = mysqli_fetch_array($store);
+                            
+                            
+                            
+                            
+                            $crow;
+                        ?>
+                        <label>STUDENT NAME</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[10]);?>" readonly>
+                        <br>
                         
-                        $query = "SELECT stud_id,stud_name, attempt FROM phd_comp WHERE convenor_id = $u_id";
-                        $solution = mysqli_query($tamp, $query);
-                        //$array = mysqli_fetch_array($solution);
-                        //echo($array[1]);
-                        $storeArray = Array();
-                        $storeArray1 = Array();
-                        $namearray = Array();
-                        while($array = mysqli_fetch_assoc($solution)){
-                            $storeArray[]= $array['stud_id'];
-                            $namearray[] = $array['stud_name'];
-                            $storeArray1[] = $array['attempt'];
-                        }
+                        <label>FACULTY CONVENER ID</label>
+                        <input class="form-control" type="text" placeholder="<?php if($s_row[0]=="0")echo("NO FACULTY ALLOTED"); else{echo($s_row[0]);}?>" readonly>
+                        <br>
                         
                         
-                        $size = count($storeArray);
-                        //echo($size);
-                        
-                        if($size==0){
-                            ?>
-                        <label>Convener to no student</label>
                         <?php
+                        
+                        if($s_row[0]==0){
+                            $crow = "NO FACULTY ALLOTED";
+                        }
+                        else{
+                            $comp = "SELECT name FROM faculty WHERE faculty_id = $s_row[0]";
+                            $store = mysqli_query($hsh, $comp);
+                            $f_row = mysqli_fetch_array($store);
+                            if(!$f_row){
+                            $crow = "FACULTY NOT REGISTERED";
                         }
                         else{
                             
-                            ?>
-                        <form method="post" action="select.php" role="form">
-                            <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
-                                   <caption>As a Convener</caption>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>ID</strong></td>
-                                        <td><strong>Name</strong></td>
-                                        <td><strong>Attempts</strong></td>
-                                    </tr>
-                            <?php
+                            $crow = $f_row[0];
                             
-                            
-                            
-                            //$x = 0;
-                            //$size = count($storeArray);
-                            //echo($size);
-                            //echo($array[0]);
-                            //echo($array[1]);
-                            for($x=0;$x<$size;$x++){
-                                ?>
-                            <tr>
-                                <td><input type="radio" name="sid" value="<?php echo($storeArray[$x]);?>"><?php echo($storeArray[$x]); ?></td>
-                                <td><?php echo($namearray[$x]); ?></td>
-                                <td><?php echo($storeArray1[$x]+1);?></td>
-                            </tr>
-                            <?php
-                                
-                                
-                            
-                            }
-                            ?>
-                            <tr>
-                                <td><input type="submit" name="rad-sub" value="Submit"></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                        </table>
-                            
-                        </form>
-                        
-                        <?php
                         }
-                        
-                        $query = "SELECT stud_id, stud_name, attempt FROM phd_comp WHERE comm1 = $u_id OR comm2=$u_id OR comm3=$u_id OR comm4=$u_id";
-                        $solution = mysqli_query($tamp, $query);
-                        //$array = mysqli_fetch_array($solution);
-                        //echo($array[1]);
-                        $storeArr = Array();
-                        $storeArr1 = Array();
-                        $namearr = Array();
-                        while($array1 = mysqli_fetch_assoc($solution)){
-                            $storeArr[]= $array1['stud_id'];
-                            $namearr[] = $array1['stud_name'];
-                            $storeArr1[] = $array1['attempt'];
                         }
                         
                         
-                        $size1 = count($storeArr);
-                        //echo($size);
+                        ?>
+                        <label>FACULTY CONVENER'S NAME</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($crow);?>" readonly>
+                        <br>
+                        <label>COMMITTEE MEMBER 1</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[5]);?>" readonly>
+                        <br>
+                        <label>COMMITTEE MEMBER 2</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[6]);?>" readonly>
+                        <br>
+                        <label>COMMITTEE MEMBER 3</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[7]);?>" readonly>
+                        <br>
+                        <label>COMMITTEE MEMBER 4</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[8]);?>" readonly>
+                        <br>
+                        <label>GRADE</label>
+                        <input class="form-control" type="text" placeholder="<?php echo("$s_row[4]");?>" readonly>
+                        <br>
                         
-                        if($size1==0){
-                            ?>
-                        <label>Not in any Committee</label><br>
                         <?php
+                        if($s_row[1]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
                         }
                         else{
-                            
-                            ?>
-                        <form method="post" action="selectcomm.php" role="form">
-                            <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
-                                   <caption>As a Committee Member</caption>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>ID</strong></td>
-                                        <td><strong>Name</strong></td>
-                                        <td><strong>Attempts</strong></td>
-                                    </tr>
-                            <?php
-                            
-                            
-                            
-                            //$x = 0;
-                            //$size = count($storeArray);
-                            //echo($size);
-                            //echo($array[0]);
-                            //echo($array[1]);
-                            for($x=0;$x<$size1;$x++){
-                                ?>
-                            <tr>
-                                <td><input type="radio" name="sid2" value="<?php echo($storeArr[$x]);?>"><?php echo($storeArr[$x]); ?></td>
-                                <td><?php echo($namearr[$x]); ?></td>
-                                <td><?php echo($storeArr1[$x]+1);?></td>
-                            </tr>
-                            <?php
-                                
-                                
-                            
+                            echo("<br><a href=\"../faculty uploads/$u_id/");
+                            echo($s_row[1]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
                             }
-                        ?>
-                            <tr>
-                                <td><input type="submit" name="rad-sub2" value="Submit"></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                        </table>
-                            
-                        </form>
-                        <?php
                         }
                         ?>
-                        
-                    </div>
-                </div>
-            </div>
-        
-
-    </div>
     <!-- /.container -->
 
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">
@@ -294,3 +233,4 @@
 </body>
 
 </html>
+

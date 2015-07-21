@@ -144,8 +144,9 @@
     <div class="container">
         <div class="row">
             <div class="box">
-                <p class="left">Dear <b><?php echo($_SESSION['name']); ?></b>,</p><br>
-                <p>Welcome to <u>USPMES-PhD portal</u>. Please go ahead and use it to your benefit.</p>
+                
+                <p><strong>WELCOME</strong></p>
+                
             </div>
         </div>
 

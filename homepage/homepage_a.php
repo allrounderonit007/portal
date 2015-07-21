@@ -144,8 +144,170 @@
     <div class="container">
         <div class="row">
             <div class="box">
-                <p class="left">Dear <b><?php echo($_SESSION['name']); ?></b>,</p><br>
-                <p>Welcome to <u>USPMES-PhD portal</u>. Please go ahead and use it to your benefit.</p>
+                <p><strong>List of Current Students</strong></p>
+                <?php 
+                    $connect = mysqli_connect('localhost', 'root', '', 'portal');
+                    $write = "SELECT s_id, name, supervisor FROM student WHERE status =0";
+                    $list1 = mysqli_query($connect, $write);
+                    
+                    $first = Array();
+                    $second = Array();
+                    $third = Array();
+                    
+                    while($val = mysqli_fetch_array($list1)){
+                        $first[] = $val['s_id'];
+                        $second[] = $val['name'];
+                        $third[] = $val['supervisor'];
+                    }
+                    
+                    $s1 = count($first);
+                ?>
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                    <caption><strong>Students not registered</strong></caption>
+                    <tbody>
+                        <tr>
+                            <td><strong>Student Id</strong></td>
+                            <td><strong>Student name</strong></td>
+                            <td><strong>Supervisor</strong></td>
+                        </tr>
+                <?php
+                for($j=0;$j<$s1;$j++){
+                    ?>
+                        <tr>
+                            <td><?php echo($first[$j]); ?></td>
+                            <td><?php echo($second[$j]); ?></td>
+                            <td><?php echo($third[$j]); ?></td>
+                        </tr>
+                    <?php
+                }
+                ?>
+                        </tbody>
+                        </table>
+                
+                <!-- Student in PhD Comprehensive-->
+                        <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                                
+                        <?php
+                            $write2 = "SELECT s_id, name, supervisor FROM student WHERE status =1";
+                            $list2 = mysqli_query($connect, $write2);
+                            
+                            $first1 = Array();
+                            $second1 = Array();
+                            $third1 = Array();
+
+                            while($val1 = mysqli_fetch_array($list2)){
+                                $first1[] = $val1['s_id'];
+                                $second1[] = $val1['name'];
+                                $third1[] = $val1['supervisor'];
+                            }
+
+                            $s2 = count($first1);
+                        ?>
+                            <caption><strong>Students in Phd Comprehensive</strong></caption>
+                        <tbody>
+                            <tbody>
+                        <tr>
+                            <td><strong>Student Id</strong></td>
+                            <td><strong>Student name</strong></td>
+                            <td><strong>Supervisor</strong></td>
+                        </tr>
+                <?php
+                for($j=0;$j<$s2;$j++){
+                    ?>
+                        <tr>
+                            <td><?php echo($first1[$j]); ?></td>
+                            <td><?php echo($second1[$j]); ?></td>
+                            <td><?php echo($third1[$j]); ?></td>
+                        </tr>
+                    <?php
+                }
+                ?>
+                        </tbody>
+                </table>
+                <!-- Students in RPS SEMESTER-->
+                
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                                
+                        <?php
+                            $write3 = "SELECT s_id, name, supervisor FROM student WHERE status =2";
+                            $list3 = mysqli_query($connect, $write3);
+                            
+                            $first2 = Array();
+                            $second2 = Array();
+                            $third2 = Array();
+
+                            while($val2 = mysqli_fetch_array($list1)){
+                                $first2[] = $val2['s_id'];
+                                $second2[] = $val2['name'];
+                                $third2[] = $val2['supervisor'];
+                            }
+
+                            $s3 = count($first2);
+                        ?>
+                        <caption><strong>Students in RPS</strong></caption>
+                        <tbody>
+                            <tbody>
+                        <tr>
+                            <td><strong>Student Id</strong></td>
+                            <td><strong>Student name</strong></td>
+                            <td><strong>Supervisor</strong></td>
+                        </tr>
+                <?php
+                for($j=0;$j<$s3;$j++){
+                    ?>
+                        <tr>
+                            <td><?php echo($first2[$j]); ?></td>
+                            <td><?php echo($second2[$j]); ?></td>
+                            <td><?php echo($third2[$j]); ?></td>
+                        </tr>
+                    <?php
+                }
+                ?>
+                        </tbody>
+                </table>
+                
+                <!--Students in PhD Synopsis-->
+                
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                                
+                        <?php
+                            $write4 = "SELECT s_id, name, supervisor FROM student WHERE status =3";
+                            $list4 = mysqli_query($connect, $write4);
+                            
+                            $first3 = Array();
+                            $second3 = Array();
+                            $third3 = Array();
+
+                            while($val3 = mysqli_fetch_array($list1)){
+                                $first3[] = $val3['s_id'];
+                                $second3[] = $val3['name'];
+                                $third3[] = $val3['supervisor'];
+                            }
+
+                            $s4 = count($first3);
+                        ?>
+                    <caption><strong>Students in PhD Synopsis</strong></caption>
+                        <tbody>
+                            <tbody>
+                        <tr>
+                            <td><strong>Student Id</strong></td>
+                            <td><strong>Student name</strong></td>
+                            <td><strong>Supervisor</strong></td>
+                        </tr>
+                <?php
+                for($j=0;$j<$s4;$j++){
+                    ?>
+                        <tr>
+                            <td><?php echo($first3[$j]); ?></td>
+                            <td><?php echo($second3[$j]); ?></td>
+                            <td><?php echo($third3[$j]); ?></td>
+                        </tr>
+                    <?php
+                }
+                ?>
+                        </tbody>
+                </table>
+                
             </div>
         </div>
 

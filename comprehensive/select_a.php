@@ -8,7 +8,7 @@
     if( ! isset($_SESSION['user_id']) ){
         header("location:../login.php");
     }
-    
+    $u_id = $_SESSION['user_id']
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
@@ -70,13 +70,13 @@
                         <a href="../homepage/homepage_a.php">Home</a>
                     </li>
                     <li>
-                        <a href="../comprehensive/Cmpr_a.php">PhD Comprehensive</a>
+                        <a href="Cmpr_a.php">PhD Comprehensive</a>
                     </li>
                     <li>
                         <a href="../rps/rps_a.php">RPS</a>
                     </li>
                     <li>
-                        <a href="synopsis_a.php">PhD Synopsis</a>
+                        <a href="../phd_synopsis/synopsis_a.php">PhD Synopsis</a>
                     </li>
                     <li>
                         <a href="../guidelines/Guidelines_a.php">Guidelines</a>
@@ -84,7 +84,6 @@
                     <li>
                         <a href="../Schedule/Schedule_a.php">Schedule</a>
                     </li>
-                    
                     <li class="profile-info dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <?php
@@ -117,24 +116,100 @@
         <!-- /.container -->
     </nav>
 
-        <div class="container">
-        <div class="box">
-            <label>Student name</label>
-            <label>Student Id</label>
-            <label>Committee Convener</label>
-            <label>Committee Member 1</label>
-            <label>Committee Member 2</label>
-            <label>Committee Member 3</label>
-            <label>Committee Member 4</label>
-            
-            <label>Faculty Report</label>
-            <label>Student Report</label>
-            <label>Grade</label>
-            
-        </div>
-    </div>
-    <!-- /.container -->
 
+        <div class="container">
+
+            <div class="box">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        
+                        <?php
+                        
+                        if(isset($_POST['rad-sub'])){
+                            
+                            if(isset($_POST['sid'])){
+                                
+                                $sid = $_POST['sid'];
+                                
+                                //echo($sid);
+                                
+                                $_SESSION['macho'] = $sid;
+                                
+                                $damn = "SELECT stud_report, comp_grade,fac_report,f_type,f_size,pass FROM phd_comp WHERE stud_id = $sid";
+                            
+                                $chalo = mysqli_connect('localhost', 'root', '', 'portal');
+                                $que = mysqli_query($chalo, $damn);
+                                $ar = mysqli_fetch_array($que);
+                                
+                                $damn2 = "SELECT name FROM student WHERE s_id =$sid";
+                                $que = mysqli_query($chalo,$damn2);
+                                $ar2 = mysqli_fetch_array($que);
+                            
+                        
+                        
+                        ?>
+                        
+                        <label>STUDENT ID</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($sid)?>" readonly>
+                        <br>
+                        <label>NAME</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($ar2[0]);?>" readonly>
+                        <br>
+                        <form role="form" method="post" action="set_fclty.php">
+                        <label>ALLOT FACULTY SUPERVISOR ID</label>
+                        <?php 
+                            $damn3 = "SELECT faculty_id,name FROM faculty";
+                            $que2 = mysqli_query($chalo, $damn3);
+                            $storeArray2 = Array();
+                            $storeArray3 = Array();
+                            while($array2 = mysqli_fetch_assoc($que2)){
+                            $storeArray2[]= $array2['faculty_id'];
+                            $storeArray3[] = $array2['name'];
+                        }
+                        
+                        
+                        $size2 = count($storeArray2);
+                        //echo($size);
+                        
+                       
+                        if($size2==0){
+                            ?> 
+                        -->
+                        <label>No FACULTY REGISTERED</label>
+                        <?php
+                        }
+                        else{
+                            
+                            
+                        ?>
+                        <select class="form-control" name="fid">
+                            <?php
+                            
+                            for($x2=0;$x2<$size2;$x2++){
+                                ?>
+                            <option value="<?php echo($storeArray2[$x2]);?>"> <?php echo($storeArray2[$x2]);?>  <?php echo($storeArray3[$x2]);?> </option>
+                            <?php
+                            }
+                        }
+                            ?>
+                            <br>
+                        </select>
+                        <br>
+                        <label>OTHER COMMITTEE MEMBERS</label>
+                        <input type="text" name="comm" placeholder="NAMES" value="">
+                        <br>
+                        <input type="submit" name="f_sub" value="SUBMIT">
+                        <?php
+                        }
+                        }
+                        ?>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">
         <div class="container">
             <div class="row">
@@ -146,6 +221,7 @@
             </div>
         </div>
     </footer>
+
     <!-- jQuery -->
     <script src="../js/jquery.js"></script>
 

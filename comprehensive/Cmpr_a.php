@@ -8,7 +8,7 @@
     if( ! isset($_SESSION['user_id']) ){
         header("location:../login.php");
     }
-    
+    $u_id = $_SESSION['user_id']
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
@@ -116,36 +116,72 @@
         <!-- /.container -->
     </nav>
 
-    <div class="container">
+
+        <div class="container">
 
             <div class="box">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label>USER ID</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = $_SESSION['user_id']; echo("$namely");?>" readonly>
+                        <label>List of students</label>
                         <br>
-                        <label>NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = $_SESSION['name']; echo("$namely");?>" readonly>
-                        <br>
-                        <label>FACULTY SUPERVISOR ID</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = "hi"; echo("$namely");?>" readonly>
-                        <br>
-                        <label>FACULTY SUPERVISOR's NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = "hi"; echo("$namely");?>" readonly>
-                        <br>
-                        <label>GRADE</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = "hi"; echo("$namely");?>" readonly>
-                        <br>
-                        <label>COMMITTEE REPORT</label>
-                        <input class="form-control" type="text" placeholder="<?php $namely = "hi"; echo("$namely");?>" readonly>
+                        <?php
+                        
+                        $tamp = mysqli_connect('localhost', 'root', '', 'portal');
+                        
+                        $query = "SELECT stud_id FROM phd_comp";
+                        $solution = mysqli_query($tamp, $query);
+                        //$array = mysqli_fetch_array($solution);
+                        //echo($array[1]);
+                        $storeArray = Array();
+                        while($array = mysqli_fetch_assoc($solution)){
+                            $storeArray[]= $array['stud_id'];
+                        }
+                        
+                        
+                        $size = count($storeArray);
+                        //echo($size);
+                        
+                        if($size==0){
+                            ?> 
+                        -->
+                        <label>No student currently</label>
+                        <?php
+                        }
+                        else{
+                            
+                            ?>
+                        <form method="post" action="select_a.php" role="form">
+                            <?php
+                            
+                            
+                            
+                            //$x = 0;
+                            //$size = count($storeArray);
+                            //echo($size);
+                            //echo($array[0]);
+                            //echo($array[1]);
+                            for($x=0;$x<$size;$x++){
+                                ?>
+                            
+                            <input type="radio" name="sid" value="<?php echo($storeArray[$x]);?>"><?php echo($storeArray[$x]); ?>
+                            <br>
+                            <?php
+                                
+                                
+                            
+                            }
+                        }
+                        ?>
+                            <input type="submit" name="rad-sub" value="Submit">
+                        </form>
+                        
                     </div>
                 </div>
             </div>
         
 
     </div>
-    <!-- /.container -->
-
+    
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">
         <div class="container">
             <div class="row">

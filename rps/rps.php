@@ -12,6 +12,8 @@
     
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
+    
+    $u = $_SESSION['user_id'];
 ?>
 
 <head>
@@ -119,57 +121,62 @@
     </nav>
 
     <div class="container">
-
-        <div class="row">
-            <div class="box">
-                <div class="col-lg-12">
-                    <hr>
-                    <h2 class="intro-text text-center">Company
-                        <strong>blog</strong>
-                    </h2>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="img/slide-1.jpg" alt="">
-                    <h2>Post Title
-                        <br>
-                        <small>October 13, 2013</small>
-                    </h2>
-                    <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    <a href="#" class="btn btn-default btn-lg">Read More</a>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="../img/slide-2.jpg" alt="">
-                    <h2>Post Title
-                        <br>
-                        <small>October 13, 2013</small>
-                    </h2>
-                    <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    <a href="#" class="btn btn-default btn-lg">Read More</a>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="../img/slide-3.jpg" alt="">
-                    <h2>Post Title
-                        <br>
-                        <small>October 13, 2013</small>
-                    </h2>
-                    <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    <a href="#" class="btn btn-default btn-lg">Read More</a>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <ul class="pager">
-                        <li class="previous"><a href="#">&larr; Older</a>
-                        </li>
-                        <li class="next"><a href="#">Newer &rarr;</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="box">
+            
+            <form name="semlist" action="editsem.php" method="post">
+                
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                    <caption><strong>Choose a Semester</strong></caption>
+                    <tbody>
+                        <tr>
+                    
+                            <td><strong>RPS Semester</strong></td>
+                            <td><strong>Action</strong></td>
+                    
+                        </tr
+                        <?php
+                        $non = mysqli_connect('localhost', 'root', '', 'portal');
+                        $swap = "SELECT rps_semester FROM rps WHERE s_rps_id=$u ORDER BY rps_semester";
+                        $list = mysqli_query($non, $swap);
+                        //$arr = mysqli_fetch_array($list);
+                        
+                        $storeArray4 = Array();
+                        
+                        while($arr = mysqli_fetch_array($list)){
+                            $storeArray4[]= $arr['rps_semester'];
+                        }
+                        $len = count($storeArray4);
+                        for($k =0;$k<$len;$k++){
+                            ?>
+                        <tr>
+                            <td><?php echo($storeArray4[$k]); ?></td>
+                            <td>
+                                <button type="submit" name= "editsem" id ="editsem" value="<?php echo($storeArray4[$k]) ?>" placeholder="Edit" >Edit</button>
+                            </td>
+                        </tr>
+                        <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </form>
+            
+            
+            <!--<label>Student Name</label><br>
+            <label>Student ID</label><br>
+            <label>Supervisor ID</label><br>
+            <label>Supervisor Name</label><br>
+            <label>Committee Member 1</label><br>
+            <label>Committee Member 2</label><br>
+            <label>Committee Member 3</label><br>
+            <label>Committee Member 4</label><br>
+            <label>Select Course 1</label><br>
+            <label>Select Course 2</label><br>
+            <label>Select Course 3</label><br>
+            <label>Select Course 4</label><br>
+            <label>Grade</label><br>-->
+            
         </div>
-
     </div>
     <!-- /.container -->
 

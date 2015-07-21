@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
+    
+    <?php
        require_once('../includes/initialize.php');
     if (! $session->is_logged_in() ){
         session_start();
@@ -11,7 +12,10 @@
     
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
+    
+    $u = $_SESSION['user_id'];
 ?>
+
 <head>
 
     <meta charset="utf-8">
@@ -73,10 +77,10 @@
                         <a href="../comprehensive/cmpr.php">PhD Comprehensive</a>
                     </li>
                     <li>
-                        <a href="../rps/rps.php">RPS</a>
+                        <a href="rps.php">RPS</a>
                     </li>
                     <li>
-                        <a href="synopsis.php">PhD Synopsis</a>
+                        <a href="../phd_synopsis/synopsis.php">PhD Synopsis</a>
                     </li>
                     <li>
                         <a href="../guidelines/Guidelines.php">Guidelines</a>
@@ -84,7 +88,6 @@
                     <li>
                         <a href="../Schedule/Schedule.php">Schedule</a>
                     </li>
-                    
                     <li class="profile-info dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <?php
@@ -116,38 +119,112 @@
         
         <!-- /.container -->
     </nav>
-<?php
-$main = $_SESSION['user_id'];
-?>
+
+    <?php
+    $sem = $_POST['editsem'];
+    
+    $din = mysqli_connect('localhost', 'root', '', 'portal');
+    $q = "SELECT supervisor, super_name f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade FROM rps WHERE s_rps_id=$u AND rps_semester=$sem";
+    $ex = mysqli_query($din, $q);
+    
+    $l = mysqli_fetch_array($ex);
+    
+    $q = "SELECT name FROM student WHERE s_id = $u";
+    $ex = mysqli_query($din, $q);
+    $nam = mysqli_fetch_array($ex);
+    ?>
     <div class="container">
         <div class="box">
-        <div class="col-lg-12">
-            <div class="form-group">
-            <label>Student name</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
-            <label>Student Id</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
-            <label>Committee Convener</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+                       
+            <label>Student Name</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($nam[0]);?>" readonly>
+            <label>Student ID</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($u);?>" readonly>
+            <label>Supervisor ID</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[0]);?>" readonly>
+            <label>Supervisor Name</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[1]);?>" readonly>
             <label>Committee Member 1</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($l[2]);?>" readonly>
             <label>Committee Member 2</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($l[3]);?>" readonly>
             <label>Committee Member 3</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($l[4]);?>" readonly>
             <label>Committee Member 4</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($l[5]);?>" readonly>
             
-            <label>Faculty Report</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
-            <label>Student Report</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <form post="coursechange.php" method="post">
+            <label>Select Course 1</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[6]);?>" readonly>
+            <?php 
+            $q = "SELECT course_id, course_name FROM course";
+            $ex = mysqli_query($din, $q);
+            //$nam = mysqli_fetch_array($result);
+            $arid = Array();
+            $arname = Array();
+            while ($nam = mysqli_fetch_array($ex)){
+                $arid[] = $nam['course_id'];
+                $arname[] = $nam['course_name'];
+            }
+            
+            $s = count($arid);
             
             
+            ?>
+            <select class="form-control" name="c1">
+                <?php
+                            
+                for($x2=0;$x2<$s;$x2++){
+                ?>
+                <option value="<?php echo($arid[$x2]);?>"> <?php echo($arname[$x2]);?>  <?php echo($arid[$x2]);?> </option>
+                <?php
+                }
+                        
+                ?>
+            </select>
+            <label>Select Course 2</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[7]);?>" readonly>
+            <select class="form-control" name="c2">
+                <?php
+                            
+                for($x2=0;$x2<$s;$x2++){
+                ?>
+                <option value="<?php echo($arid[$x2]);?>"> <?php echo($arname[$x2]);?>  <?php echo($arid[$x2]);?> </option>
+                <?php
+                }
+                        
+                ?>
+            </select>
+            <label>Select Course 3</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[8]);?>" readonly>
+            <select class="form-control" name="c3">
+                <?php
+                            
+                for($x2=0;$x2<$s;$x2++){
+                ?>
+                <option value="<?php echo($arid[$x2]);?>"> <?php echo($arname[$x2]);?>  <?php echo($arid[$x2]);?> </option>
+                <?php
+                }
+                        
+                ?>
+            </select>
+            <label>Select Course 4</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[9]);?>" readonly>
+            <select class="form-control" name="c4">
+                <?php
+                            
+                for($x2=0;$x2<$s;$x2++){
+                ?>
+                <option value="<?php echo($arid[$x2]);?>"> <?php echo($arname[$x2]);?>  <?php echo($arid[$x2]);?> </option>
+                <?php
+                }
+                        
+                ?>
+            </select>
+            </form>
             <label>Grade</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
-            </div>
-        </div>
+            <input class="form-control" type="text" placeholder="<?php echo($l[10]);?>" readonly>
+            
         </div>
     </div>
     <!-- /.container -->
@@ -163,6 +240,7 @@ $main = $_SESSION['user_id'];
             </div>
         </div>
     </footer>
+
     <!-- jQuery -->
     <script src="../js/jquery.js"></script>
 
@@ -172,3 +250,5 @@ $main = $_SESSION['user_id'];
 </body>
 
 </html>
+
+

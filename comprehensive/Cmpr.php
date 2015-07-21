@@ -116,6 +116,28 @@
         
         <!-- /.container -->
     </nav>
+    
+    <?php
+        $hsh = mysqli_connect('localhost', 'root', '', 'portal');
+        $c = "SELECT status FROM student WHERE s_id=$u_id";
+        $m = mysqli_query($hsh, $c);
+        $e = mysqli_fetch_array($m);
+        
+        if($e[0]==0){
+            ?>
+    <div class="container">
+        <div class="box">
+            <label>Register for PhD Comprehensive</label>
+                
+                <form action="studreg.php" method="post">
+                    <button type="submit" name="studreg" id="studreg">Register</button>
+                </form>
+        </div>
+    </div>
+    <?php
+        }
+        else{
+    ?>
 
     <div class="container">
 
@@ -129,8 +151,8 @@
                         <input class="form-control" type="text" placeholder="<?php $namely = $_SESSION['name']; echo($namely);?>" readonly>
                         <br>
                         <?php
-                        $hsh = mysqli_connect('localhost', 'root', '', 'portal');
-                            $comp = "SELECT supervisor_id,stud_report, comp_grade,fac_report,s_type,s_size,f_type,f_size,pass FROM phd_comp WHERE stud_id = $u_id";
+                        
+                            $comp = "SELECT convenor_id,fac_report,f_type,f_size,pass,comm1, comm2, comm3, comm4, attempt FROM phd_comp WHERE stud_id = $u_id";
                             
                             $store = mysqli_query($hsh, $comp);
                             $s_row = mysqli_fetch_array($store);
@@ -140,9 +162,10 @@
                             
                             $crow;
                         ?>
-                        <label>FACULTY SUPERVISOR ID</label>
+                        <label>FACULTY CONVENER ID</label>
                         <input class="form-control" type="text" placeholder="<?php if($s_row[0]=="0")echo("NO FACULTY ALLOTED"); else{echo($s_row[0]);}?>" readonly>
                         <br>
+                        
                         
                         <?php
                         
@@ -165,14 +188,25 @@
                         
                         
                         ?>
-                        <label>FACULTY SUPERVISOR'S NAME</label>
+                        <label>FACULTY CONVENER'S NAME</label>
                         <input class="form-control" type="text" placeholder="<?php echo($crow);?>" readonly>
                         <br>
-                        
-                        <label>GRADE</label>
-                        <input class="form-control" type="text" placeholder="<?php if($s_row[2]=="-1") {echo("NA");} else {echo($s_row[2]);}?>" readonly>
+                        <label>COMMITTEE MEMBER 1</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[5]);?>" readonly>
                         <br>
-                        <label>STUDENT REPORT</label>
+                        <label>COMMITTEE MEMBER 2</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[6]);?>" readonly>
+                        <br>
+                        <label>COMMITTEE MEMBER 3</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[7]);?>" readonly>
+                        <br>
+                        <label>COMMITTEE MEMBER 4</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[8]);?>" readonly>
+                        <br>
+                        <label>GRADE</label>
+                        <input class="form-control" type="text" placeholder="<?php echo("$s_row[4]");?>" readonly>
+                        <br>
+                        <!--<label>STUDENT REPORT</label>
                         <?php
                             if($s_row[1]=="NA"){
                                 ?>
@@ -245,23 +279,21 @@
                         
                         
                         <br>
-                        <label>COMMITTEE REPORT</label>
+                        <label>COMMITTEE REPORT</label>-->
                         <?php
-                        if($s_row[3]=="NA"){
+                        if($s_row[1]=="NA"){
                             echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
                             echo("NO FILE UPLOADED");
                             echo("\" readonly>");
                         }
                         else{
                             echo("<br><a href=\"../faculty uploads/$u_id/");
-                            echo($s_row[3]);
+                            echo($s_row[1]);
                             echo("\"target=\"_blank\">View File</a><br>");
                         }
                         ?>
                         
-                        <br>
-                        <label>PASS/FAIL</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($s_row[8]);;?>" readonly>
+                        
                         
                     </div>
                 </div>
@@ -269,6 +301,9 @@
         
 
     </div>
+    <?php
+        }
+    ?>
     <!-- /.container -->
 
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">
