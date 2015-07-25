@@ -15,7 +15,7 @@ $DB_NAME = 'portal';
 
 //create connection
 
-$conn = new mysqli($DB_SERVER, $DB_USER, $DB_PASS, $DB_NAME);
+$conn = connection();
 
 if($conn->connect_error){
     die("Connection Failed: ".$conn->connect_error );

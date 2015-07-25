@@ -6,12 +6,13 @@
  * and open the template in the editor.
  */
 require_once("initialize.php");
+include_once('config.php');
 if(isset($_POST['login-submit']))
 {
 $uid= $_POST['id'];
 $pwd= $_POST['password'];
 
-$con = mysqli_connect('localhost','root','','portal');
+$con = connection();
 	if($con)
 	{   echo "successfully connected";
 	}

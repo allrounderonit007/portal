@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -146,7 +147,7 @@
             <div class="box">
                 <p><strong>List of Current Students</strong></p>
                 <?php 
-                    $connect = mysqli_connect('localhost', 'root', '', 'portal');
+                    $connect = connection();
                     $write = "SELECT s_id, name, supervisor FROM student WHERE status =0";
                     $list1 = mysqli_query($connect, $write);
                     
@@ -161,6 +162,7 @@
                     }
                     
                     $s1 = count($first);
+                    //echo($s1);
                 ?>
                 <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
                     <caption><strong>Students not registered</strong></caption>
@@ -202,6 +204,7 @@
                             }
 
                             $s2 = count($first1);
+                            //echo($s2);
                         ?>
                             <caption><strong>Students in Phd Comprehensive</strong></caption>
                         <tbody>
@@ -236,13 +239,14 @@
                             $second2 = Array();
                             $third2 = Array();
 
-                            while($val2 = mysqli_fetch_array($list1)){
+                            while($val2 = mysqli_fetch_array($list3)){
                                 $first2[] = $val2['s_id'];
                                 $second2[] = $val2['name'];
                                 $third2[] = $val2['supervisor'];
                             }
 
                             $s3 = count($first2);
+                            //echo($s3);
                         ?>
                         <caption><strong>Students in RPS</strong></caption>
                         <tbody>
@@ -278,7 +282,7 @@
                             $second3 = Array();
                             $third3 = Array();
 
-                            while($val3 = mysqli_fetch_array($list1)){
+                            while($val3 = mysqli_fetch_array($list4)){
                                 $first3[] = $val3['s_id'];
                                 $second3[] = $val3['name'];
                                 $third3[] = $val3['supervisor'];

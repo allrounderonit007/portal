@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -118,25 +119,40 @@
     </nav>
     
     <?php
-        $hsh = mysqli_connect('localhost', 'root', '', 'portal');
-        $c = "SELECT status FROM student WHERE s_id=$u_id";
+        $hsh = connection();
+        $c = "SELECT status, CPI FROM student WHERE s_id=$u_id";
         $m = mysqli_query($hsh, $c);
         $e = mysqli_fetch_array($m);
         
-        if($e[0]==0){
+        if($e[0]==0&&$e[1]==-1){
             ?>
     <div class="container">
         <div class="box">
             <label>Register for PhD Comprehensive</label>
                 
                 <form action="studreg.php" method="post">
+                    
+                    <label><strong>Enter your CPI</strong></label>
+                    <input type="text" class="form-control" name="cpi" id="cpi">
                     <button type="submit" name="studreg" id="studreg">Register</button>
                 </form>
         </div>
     </div>
     <?php
         }
-        else{
+        else
+            if($e[0]==0&&$e[1]>-1){
+                ?>
+    
+    <div class="container">
+        <div class="box">
+            <label>You cannot register for PhD comprehensive.</label>
+        </div>
+    </div>
+    ?>
+    <?php
+            }
+            else{
     ?>
 
     <div class="container">

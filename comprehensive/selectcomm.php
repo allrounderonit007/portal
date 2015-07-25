@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -119,11 +120,11 @@
     
     <?php
                         
-                        if(isset($_POST['rad-sub'])){
+                        if(isset($_POST['rad-sub2'])){
                             
-                            if(isset($_POST['sid'])){
+                            if(isset($_POST['sid2'])){
                                 
-                                $sid = $_POST['sid'];
+                                $sid = $_POST['sid2'];
                                 ?>
 
     <div class="container">
@@ -136,8 +137,8 @@
                         <br>
                         
                         <?php
-                            $hsh1 = mysqli_connect('localhost', 'root', '', 'portal');
-                            $comp1 = "SELECT convenor_id,fac_report,f_type,f_size,pass,comm1, comm2, comm3, comm4, attempt, stud_name FROM phd_comp WHERE stud_id = $sid";
+                            $hsh1 = connection();
+                            $comp1 = "SELECT convenor_id, convener_name, fac_report,pass, stud_name, attempt, comm1, comm1_name, comm2, comm2_name, comm3, comm3_name, comm4, comm4_name FROM phd_comp WHERE stud_id = $sid";
                             
                             $store = mysqli_query($hsh1, $comp1);
                             $s_row = mysqli_fetch_array($store);
@@ -148,7 +149,7 @@
                             $crow;
                         ?>
                         <label>STUDENT NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($s_row[10]);?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[4]);?>" readonly>
                         <br>
                         
                         <label>FACULTY CONVENER ID</label>
@@ -156,44 +157,24 @@
                         <br>
                         
                         
-                        <?php
                         
-                        if($s_row[0]==0){
-                            $crow = "NO FACULTY ALLOTED";
-                        }
-                        else{
-                            $comp = "SELECT name FROM faculty WHERE faculty_id = $s_row[0]";
-                            $store = mysqli_query($hsh, $comp);
-                            $f_row = mysqli_fetch_array($store);
-                            if(!$f_row){
-                            $crow = "FACULTY NOT REGISTERED";
-                        }
-                        else{
-                            
-                            $crow = $f_row[0];
-                            
-                        }
-                        }
-                        
-                        
-                        ?>
                         <label>FACULTY CONVENER'S NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($crow);?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[1]);?>" readonly>
                         <br>
                         <label>COMMITTEE MEMBER 1</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($s_row[5]);?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[6]); echo(' '); echo($s_row[7]); ?>" readonly>
                         <br>
                         <label>COMMITTEE MEMBER 2</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($s_row[6]);?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[8]); echo(' '); echo($s_row[9]);?>" readonly>
                         <br>
                         <label>COMMITTEE MEMBER 3</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($s_row[7]);?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[10]); echo(' '); echo($s_row[11]);?>" readonly>
                         <br>
                         <label>COMMITTEE MEMBER 4</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($s_row[8]);?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php echo($s_row[12]); echo(' '); echo($s_row[13]);?>" readonly>
                         <br>
                         <label>GRADE</label>
-                        <input class="form-control" type="text" placeholder="<?php echo("$s_row[4]");?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php echo("$s_row[3]");?>" readonly>
                         <br>
                         
                         <?php
@@ -210,6 +191,9 @@
                             }
                         }
                         ?>
+                    </div>
+                </div>
+            </div>
     <!-- /.container -->
 
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">

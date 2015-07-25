@@ -3,6 +3,7 @@
     
     <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -120,12 +121,12 @@
         <!-- /.container -->
     </nav>
     <?php
-        $non = mysqli_connect('localhost', 'root', '', 'portal');
+        $non = connection();
         $swap = "SELECT status FROM student WHERE s_id=$u";
         $list = mysqli_query($non, $swap);
         $amt = mysqli_fetch_array($list);
         
-        if($amt[0]==0||$amt==1){
+        if($amt[0]==0||$amt[0]==1){
             
             ?>
     <div class="container">

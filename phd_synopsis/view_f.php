@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -124,7 +125,7 @@
                 <p>Your Uploads</p>
                 <br>
                 <?php
-                $tuffey = mysqli_connect('localhost', 'root', '', 'portal');
+                $tuffey = connection();
                 //$u_id = $_SESSION['user_id'];
                 $si3 = $_SESSION['stud_id'];
                 $am = "SELECT stud_report FROM synopsis WHERE syn_std_id=$si3 AND syn_convenor_id=$u_id";

@@ -5,6 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */require_once('../includes/initialize.php');
+ include_once('..includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -14,11 +15,23 @@
     $u_id = $_SESSION['user_id'];
 
 if(isset($_POST['studreg'])){
+    if(isset($_POST['cpi'])){
+        
+    $cpi = $_POST['cpi'];
     
     $enter = $_SESSION['user_id'];
-    $cun = mysqli_connect('localhost', 'root', '', 'portal');
-    $tun = "UPDATE student SET status = 1 WHERE s_id = $enter";                             
+    
+    $cun = connection();
+    
+    if($cpi>=7){
+        $tun = "UPDATE student SET status = 1, CPI=$cpi WHERE s_id = $enter";
+    }
+    else{
+        $tun = "UPDATE student SET status = 0, CPI=$cpi WHERE s_id = $enter";
+    }
+                                 
     $more = mysqli_query($cun, $tun);
     header("location: Cmpr.php");
 }
 
+}

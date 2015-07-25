@@ -7,6 +7,7 @@
  */
 
 require_once('../includes/initialize.php');
+include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -20,18 +21,28 @@ require_once('../includes/initialize.php');
             
             $grade = $_POST['grade'];
             $s = $_SESSION['macho'];
-            $dham = mysqli_connect('localhost', 'root', '', 'portal');
-            $kam = "UPDATE phd_comp SET comp_grade=$grade WHERE stud_id = $s";
+            
+            $dham = connection();
+            $attempt = $_SESSION['attempt'];
+            $entering;
+            if($grade=="sat"){
+                $entering="SATISFACTORY";
+            }
+            else
+                if($grade=="un"){
+                    $entering="UNSATISFACTORY";
+                }
+                else{
+                    $entering="in";
+                }
+            $kam = "UPDATE phd_comp SET pass='$entering' WHERE stud_id = $s AND attempt=$attempt";
             $lam = mysqli_query($dham, $kam);
             
-            if($grade<'3'){
-                $kam = "UPDATE phd_comp SET pass='F' WHERE stud_id = $s";
+            if($grade=="sat"){
+                $kam = "UPDATE student SET status=2 WHERE s_id = $s";
             $lam = mysqli_query($dham, $kam);
             }
-            else{
-                $kam = "UPDATE phd_comp SET pass='P' WHERE stud_id = $s";
-            $lam = mysqli_query($dham, $kam);
-            }
+            
             
             //header("location: select.php");
             ?>

@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -135,53 +136,75 @@
                                 
                                 $_SESSION['macho'] = $sid;
                                 
-                                $damn = "SELECT stud_report, comp_grade,fac_report,f_type,f_size,pass FROM phd_comp WHERE stud_id = $sid";
-                            
-                                $chalo = mysqli_connect('localhost', 'root', '', 'portal');
+                                $damn = "SELECT convener_name, fac_report,pass, stud_name, attempt, comm1, comm1_name, comm2, comm2_name, comm3, comm3_name, comm4, comm4_name FROM phd_comp p WHERE stud_id = $sid AND p.attempt>=(SELECT MAX(attempt) FROM phd_comp)";
+                                
+                                $chalo = connection();
                                 $queq = mysqli_query($chalo, $damn);
                                 $aram = mysqli_fetch_array($queq);
                                 
-                                $damn2 = "SELECT name FROM student WHERE s_id =$sid";
-                                $que = mysqli_query($chalo,$damn2);
-                                $ar2 = mysqli_fetch_array($que);
-                            
+                                $test = $aram[4];
+                                
+                            $_SESSION['attempt'] = $test;
+                            //echo($test);
                         
                         ?>
                         
-                        <label>STUDENT ID</label>
+                        <label><strong>STUDENT ID</strong></label>
                         <input class="form-control" type="text" placeholder="<?php echo($sid)?>" readonly>
                         <br>
-                        <label>NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($ar2[0]);?>" readonly>
+                        <label>STUDENT NAME</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[3]);?>" readonly>
                         <br>
-     
                         
+                        <label>CONVENER'S NAME</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[0]);?>" readonly>
+                        <br>
+                        
+                        <label>CONVENER'S ID</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($u_id);?>" readonly>
+                        <br>
+
+                        <label>COMMITTEE MEMBER 1 - ID</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[5]);?>" readonly>
+                        <br>
+                        <label>COMMITTEE MEMBER 1- NAME</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[6]);?>" readonly>
+                        <br>
+                        
+                        <label><strong>COMMITTEE MEMBER 2 - ID</strong></label>
+                        <input type="text" class="form-control" placeholder="<?php echo($aram[7]);?>" readonly>
+                        <br>
+                        <label><strong>COMMITTEE MEMBER 2 - NAME</strong></label>
+                        <input type="text" class="form-control" placeholder="<?php echo($aram[8]);?>" readonly>
+                        <br>
+                        <label><strong>COMMITTEE MEMBER 3 - ID</strong></label>
+                        <input type="text" class="form-control" placeholder="<?php echo($aram[9]);?>" readonly>
+                        <br>
+                        <label><strong>COMMITTEE MEMBER 3 - NAME</strong></label>
+                        <input type="text" class="form-control" placeholder="<?php echo($aram[10]);?>" readonly>
+                        <br>
+                        <label><strong>COMMITTEE MEMBER 4 - ID</strong></label>
+                        <input type="text" class="form-control" placeholder="<?php echo($aram[11]);?>" readonly>
+                        <br>
+                        <label><strong>COMMITTEE MEMBER 4 - NAME</strong></label>
+                        <input type="text" class="form-control" placeholder="<?php echo($aram[12]);?>" readonly>
+                        <br>
                         <label>GRADE</label>
                         <form action="grade.php" method="post" role="form">
-                            <input type="number" name="grade" value="Enter Grade" placeholder="<?php echo($aram[1]); ?>">
+                            <input type="text" placeholder="<?php echo($aram[2]); ?>" readonly>
+                            <select name="grade" id="grade">
+                                <option value="sat">SATISFACTORY</option>
+                                <option value="un">UNSATISFACTORY</option>
+                                <option value="in">INCOMPLETE</option>
+                            </select>
                             <input type="submit" name="g-s" value="Submit Grade">
                         </form>
                         
                         <br>
-                        <label>STUDENT REPORT</label>
                         
-                        <?php
-                        if($aram[0]=="NA"){
-                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
-                            echo("NO FILE UPLOADED");
-                            echo("\" readonly>");
-                        }
-                        else{
-                            echo("<br><a href=\"../student uploads/");
-                            echo($sid);
-                            echo("\"target=\"_blank\">View File</a><br>");
-                        }
-                        ?>
-                        
-                        <br>
                         <label>COMMITTEE REPORT</label>
                         <?php
-                            if($aram[2]=="NA"){
+                            if($aram[1]=="NA"){
                                 ?>
                             <form action="upload_f.php" method="post" enctype="multipart/form-data">
                             <input type="file" name="file" />
@@ -250,9 +273,7 @@
                             }
                         ?>
                         
-                        <br>
-                        <label>PASS/FAIL</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($aram[5]);;?>" readonly>
+                        
                         <?php
                             }
                         }

@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -123,7 +124,7 @@
                 <p>Your Uploads</p><label><a href="select.php">Upload new files</a></label>
                 <br>
                 <?php
-                $tuf = mysqli_connect('localhost', 'root', '', 'portal');
+                $tuf = connection();
                 $sisi = $_SESSION['macho'];
                 $am = "SELECT fac_report FROM phd_comp WHERE stud_id=$sisi";
                 $take = mysqli_query($tuf, $am);

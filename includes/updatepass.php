@@ -8,6 +8,7 @@
 
 //echo("Hello");
 require_once('initialize.php');
+include_once('config.php');
 
 if (! $session->is_logged_in() ){
         session_start();
@@ -16,7 +17,7 @@ if (! $session->is_logged_in() ){
         header("location:../login.php");
     }
 
-$kis = mysqli_connect('localhost', 'root', '', 'portal');
+$kis = connection();
 
 $user = $_SESSION['user_id'];
 //echo($user);

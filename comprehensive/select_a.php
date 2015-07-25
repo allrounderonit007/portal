@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -135,15 +136,13 @@
                                 
                                 $_SESSION['macho'] = $sid;
                                 //echo($sid);
-                                $damn = "SELECT fac_report,f_type,f_size,pass,convener_name, comm1_name, comm2_name, comm3_name, comm4_name FROM phd_comp WHERE stud_id = $sid";
+                                $damn = "SELECT stud_name, fac_report,pass, convenor_id, convener_name, comm1, comm1_name, comm2, comm2_name, comm3,comm3_name, comm4, comm4_name FROM phd_comp WHERE stud_id = $sid";
                             
-                                $chalo = mysqli_connect('localhost', 'root', '', 'portal');
+                                $chalo = connection();
                                 $que = mysqli_query($chalo, $damn);
                                 $ar = mysqli_fetch_array($que);
                                 
-                                $damn2 = "SELECT name FROM student WHERE s_id =$sid";
-                                $que = mysqli_query($chalo,$damn2);
-                                $ar2 = mysqli_fetch_array($que);
+                                
                             
                         
                         
@@ -153,11 +152,11 @@
                         <input class="form-control" type="text" placeholder="<?php echo($sid)?>" readonly>
                         <br>
                         <label>STUDENT NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($ar2[0]);?>" readonly>
+                        <input class="form-control" type="text" placeholder="<?php echo($ar[0]);?>" readonly>
                         <br>
                         <form role="form" method="post" action="set_fclty.php">
-                        <label>ALLOT FACULTY SUPERVISOR</label>
-                        <input type="text" class="form-control" placeholder="<?php echo($ar[4]); ?>" readonly>
+                        <label>ALLOT FACULTY CONVENER</label>
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[4]); echo('-');echo($ar[3])?>" readonly>
                         <?php 
                             $damn3 = "SELECT faculty_id,name FROM faculty";
                             $que2 = mysqli_query($chalo, $damn3);
@@ -191,14 +190,14 @@
                             <option value="<?php echo($storeArray2[$x2]);?>"> <?php echo($storeArray3[$x2]);?>  <?php echo($storeArray2[$x2]);?> </option>
                             <?php
                             }
-                        }
+                        
                             ?>
                             <br>
                         </select>
                         <br>
                         <label>COMMITTEE MEMBER 1</label>
-                        <input type="text" class="form-control" placeholder="<?php echo($ar[5]); ?>" readonly>
-                        <select class="form-control" name="fid">
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[5]); echo('-'); echo($ar[6]); ?>" readonly>
+                        <select class="form-control" name="fid1">
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -213,8 +212,8 @@
                         
                         <br>
                         <label>COMMITTEE MEMBER 2</label>
-                        <input type="text" class="form-control" placeholder="<?php echo($ar[6]); ?>" readonly>
-                        <select class="form-control" name="fid">
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[7]); echo('-'); echo($ar[8]); ?>" readonly>
+                        <select class="form-control" name="fid2">
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -228,8 +227,8 @@
                         </select>
                         <br>
                         <label>COMMITTEE MEMBER 3</label>
-                        <input type="text" class="form-control" placeholder="<?php echo($ar[7]); ?>" readonly>
-                        <select class="form-control" name="fid">
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[9]);echo('-'); echo($ar[10]); ?>" readonly>
+                        <select class="form-control" name="fid3">
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -243,8 +242,8 @@
                         </select>
                         <br>
                         <label>COMMITTEE MEMBER 4</label>
-                        <input type="text" class="form-control" placeholder="<?php echo($ar[8]); ?>" readonly>
-                        <select class="form-control" name="fid">
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[11]); echo('-'); echo($ar[12]); ?>" readonly>
+                        <select class="form-control" name="fid4">
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -260,6 +259,7 @@
                         <input type="submit" name="f_sub" value="SUBMIT">
                         <?php
                         }
+                        }
                         else{
                             ?>
                         
@@ -274,6 +274,19 @@
                         
                         ?>
                         </form>
+                        <br>
+                        <p>Uploads</p>
+                
+                <?php
+                
+                $am = "SELECT fac_report FROM phd_comp WHERE stud_id=$u_id";
+                $take = mysqli_query($chalo, $am);
+                $take2 = mysqli_fetch_array($take);
+                echo("<a href=\"../student uploads/$u_id/\""); 
+                echo ($take2[0]);
+                echo("\"target=\"_blank\">View file</a>");
+                ?>
+                       
                     </div>
                 </div>
             </div>

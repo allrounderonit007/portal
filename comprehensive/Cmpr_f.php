@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -126,19 +127,21 @@
                         <br>
                         
                         <?php
-                        $tamp = mysqli_connect('localhost', 'root', '', 'portal');
+                        $tamp = connection();
                         
-                        $query = "SELECT stud_id,stud_name, attempt FROM phd_comp WHERE convenor_id = $u_id";
+                        $query = "SELECT p.stud_id,p.stud_name, MAX(attempt) FROM phd_comp p, student s WHERE convenor_id = $u_id AND p.stud_id=s.s_id AND status=1 GROUP BY stud_id";
                         $solution = mysqli_query($tamp, $query);
                         //$array = mysqli_fetch_array($solution);
                         //echo($array[1]);
                         $storeArray = Array();
                         $storeArray1 = Array();
                         $namearray = Array();
+                        
                         while($array = mysqli_fetch_assoc($solution)){
                             $storeArray[]= $array['stud_id'];
                             $namearray[] = $array['stud_name'];
-                            $storeArray1[] = $array['attempt'];
+                            $storeArray1[] = $array['MAX(attempt)'];
+                            
                         }
                         
                         
@@ -158,6 +161,7 @@
                                    <caption>As a Convener</caption>
                                 <tbody>
                                     <tr>
+                                        <td><strong>Select</strong></td>
                                         <td><strong>ID</strong></td>
                                         <td><strong>Name</strong></td>
                                         <td><strong>Attempts</strong></td>
@@ -174,7 +178,8 @@
                             for($x=0;$x<$size;$x++){
                                 ?>
                             <tr>
-                                <td><input type="radio" name="sid" value="<?php echo($storeArray[$x]);?>"><?php echo($storeArray[$x]); ?></td>
+                                <td><input type="radio" name="sid" value="<?php echo($storeArray[$x]);?>"></td>
+                                <td><?php echo($storeArray[$x]); ?></td>
                                 <td><?php echo($namearray[$x]); ?></td>
                                 <td><?php echo($storeArray1[$x]+1);?></td>
                             </tr>
@@ -188,6 +193,7 @@
                                 <td><input type="submit" name="rad-sub" value="Submit"></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                         </table>
@@ -197,7 +203,7 @@
                         <?php
                         }
                         
-                        $query = "SELECT stud_id, stud_name, attempt FROM phd_comp WHERE comm1 = $u_id OR comm2=$u_id OR comm3=$u_id OR comm4=$u_id";
+                        $query = "SELECT p.stud_id,p.stud_name, MAX(attempt) FROM phd_comp p, student s WHERE convenor_id = $u_id AND (comm1 = $u_id OR comm2=$u_id OR comm3=$u_id OR comm4=$u_id) AND p.stud_id=s.s_id AND status=1 GROUP BY stud_id" ;
                         $solution = mysqli_query($tamp, $query);
                         //$array = mysqli_fetch_array($solution);
                         //echo($array[1]);
@@ -207,7 +213,7 @@
                         while($array1 = mysqli_fetch_assoc($solution)){
                             $storeArr[]= $array1['stud_id'];
                             $namearr[] = $array1['stud_name'];
-                            $storeArr1[] = $array1['attempt'];
+                            $storeArr1[] = $array1['MAX(attempt)'];
                         }
                         
                         
@@ -227,6 +233,7 @@
                                    <caption>As a Committee Member</caption>
                                 <tbody>
                                     <tr>
+                                        <td><strong>Select</strong></td>
                                         <td><strong>ID</strong></td>
                                         <td><strong>Name</strong></td>
                                         <td><strong>Attempts</strong></td>
@@ -243,7 +250,8 @@
                             for($x=0;$x<$size1;$x++){
                                 ?>
                             <tr>
-                                <td><input type="radio" name="sid2" value="<?php echo($storeArr[$x]);?>"><?php echo($storeArr[$x]); ?></td>
+                                <td><input type="radio" name="sid2" value="<?php echo($storeArr[$x]);?>"></td>
+                                <td><?php echo($storeArr[$x]); ?></td>
                                 <td><?php echo($namearr[$x]); ?></td>
                                 <td><?php echo($storeArr1[$x]+1);?></td>
                             </tr>
@@ -255,6 +263,8 @@
                         ?>
                             <tr>
                                 <td><input type="submit" name="rad-sub2" value="Submit"></td>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                             </tr>
                         </tbody>

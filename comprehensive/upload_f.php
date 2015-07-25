@@ -1,9 +1,10 @@
 <?php
 include_once('../includes/initialize.php');
+include_once('../includes/config.php');
 $u_id = $_SESSION['user_id'];
 $sidi = $_SESSION['macho'];
 //echo($u_id);
-$fuf = mysqli_connect('localhost', 'root', '', 'portal');
+$fuf = connection();
 if(isset($_POST['btn-upload']))
 {    
      

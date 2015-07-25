@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -126,9 +127,9 @@
                         <br>
                         <?php
                         
-                        $tamp = mysqli_connect('localhost', 'root', '', 'portal');
+                        $tamp = connection();
                         
-                        $query = "SELECT stud_id,convener_name, stud_name, attempt FROM phd_comp";
+                        $query = "SELECT p.stud_id,p.stud_name, MAX(attempt) FROM phd_comp p, student s WHERE p.stud_id=s.s_id AND status=1 GROUP BY stud_id";
                         $solution = mysqli_query($tamp, $query);
                         //$array = mysqli_fetch_array($solution);
                         //echo($array[1]);
@@ -140,7 +141,7 @@
                             $storeArray[]= $array['stud_id'];
                             $starr[] = $array['convener_name'];
                             $starr2[] = $array['stud_name'];
-                            $starr3[] = $array['attempt'];
+                            $starr3[] = $array['MAX(attempt)'];
                         }
                         
                         

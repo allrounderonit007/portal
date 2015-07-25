@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+include_once('config.php');
 if(isset($_POST['register'])){
 
 /*if($connection->connect_errno > 0){
@@ -21,7 +21,7 @@ $pass = $_POST['password'];
 $name = $_POST['name'];
 $cat = $_POST['category'];
 
-$connection = mysqli_connect('localhost', 'root', '', 'portal');
+$connection = connection();
 
 $sql = "INSERT INTO user values('$id','$uname','$pass','$name','$cat')";
 
@@ -32,7 +32,7 @@ if($result){
     //$loc = "C:\wamp\www\portal\thanks.php";
     //echo "<script> $().alert('Successful Signup');</script>";
     if($cat=="student"){
-        $sql2 = "INSERT INTO student values('$id','0','$name','NA','0')";
+        $sql2 = "INSERT INTO student values('$id','0','$name','NA','0','-1')";
         
         $result2 = mysqli_query($connection, $sql2);
         $sql2 = "INSERT INTO phd_comp values('0','NA',$id','$name','NA','0','0','NA','','NA','','NA','','NA','','NA','0')";
