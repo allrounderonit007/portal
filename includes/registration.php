@@ -32,10 +32,10 @@ if($result){
     //$loc = "C:\wamp\www\portal\thanks.php";
     //echo "<script> $().alert('Successful Signup');</script>";
     if($cat=="student"){
-        $sql2 = "INSERT INTO student values('$id','0','$name')";
+        $sql2 = "INSERT INTO student values('$id','0','$name','NA','0')";
         
         $result2 = mysqli_query($connection, $sql2);
-        $sql2 = "INSERT INTO phd_comp values('0','NA',$id','$name','NA','0','0','NA','','','','','0')";
+        $sql2 = "INSERT INTO phd_comp values('0','NA',$id','$name','NA','0','0','NA','','NA','','NA','','NA','','NA','0')";
         $result2 = mysqli_query($connection, $sql2);
     }
     else

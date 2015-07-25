@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
+    
+    <?php
        require_once('../includes/initialize.php');
     if (! $session->is_logged_in() ){
         session_start();
@@ -8,10 +9,11 @@
     if( ! isset($_SESSION['user_id']) ){
         header("location:../login.php");
     }
-    $u_id = $_SESSION['user_id']
+    $u_id = $_SESSION['user_id'];
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
+
 <head>
 
     <meta charset="utf-8">
@@ -60,29 +62,29 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="../homepage/homepage_a.php">USPMES - PhD</a>
+                <a class="navbar-brand" href="../homepage/homepage_f.php">USPMES - PhD</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="../homepage/homepage_a.php">Home</a>
+                        <a href="../homepage/homepage_f.php">Home</a>
                     </li>
                     <li>
-                        <a href="Cmpr_a.php">PhD Comprehensive</a>
+                        <a href="../comprehensive/cmpr_f.php">PhD Comprehensive</a>
                     </li>
                     <li>
-                        <a href="../rps/rps_a.php">RPS</a>
+                        <a href="rps_f.php">RPS</a>
                     </li>
                     <li>
-                        <a href="../phd_synopsis/synopsis_a.php">PhD Synopsis</a>
+                        <a href="../phd_synopsis/synopsis_f.php">PhD Synopsis</a>
                     </li>
                     <li>
-                        <a href="../guidelines/Guidelines_a.php">Guidelines</a>
+                        <a href="../guidelines/Guidelines_f.php">Guidelines</a>
                     </li>
                     <li>
-                        <a href="../Schedule/Schedule_a.php">Schedule</a>
+                        <a href="../Schedule/Schedule_f.php">Schedule</a>
                     </li>
                     <li class="profile-info dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -115,103 +117,30 @@
         
         <!-- /.container -->
     </nav>
-
-
-        <div class="container">
+    <div class="container">
 
             <div class="box">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        <label>List of students</label>
-                        <br>
-                        <?php
-                        
-                        $tamp = mysqli_connect('localhost', 'root', '', 'portal');
-                        
-                        $query = "SELECT stud_id,convener_name, stud_name, attempt FROM phd_comp";
-                        $solution = mysqli_query($tamp, $query);
-                        //$array = mysqli_fetch_array($solution);
-                        //echo($array[1]);
-                        $storeArray = Array();
-                        $starr = Array();
-                        $starr2 = Array();
-                        $starr3 = Array();
-                        while($array = mysqli_fetch_assoc($solution)){
-                            $storeArray[]= $array['stud_id'];
-                            $starr[] = $array['convener_name'];
-                            $starr2[] = $array['stud_name'];
-                            $starr3[] = $array['attempt'];
-                        }
-                        
-                        
-                        $size = count($storeArray);
-                        //echo($size);
-                        
-                        if($size==0){
-                            ?> 
-                        -->
-                        <label>No student currently</label>
-                        <?php
-                        }
-                        else{
-                            
-                            ?>
-                        <form method="post" action="select_a.php" role="form">
-                            <table border="1" cellspacing="1" width="30%" style="text-align: center">
-                                <tbody>
-                                    <tr>
-                                        <td><strong>Student Id</strong></td>
-                                        <td><strong>Student Name</strong></td>
-                                        <td><strong>Convener Name</strong></td>
-                                        <td><strong>Attempt</strong></td>
-                                    </tr>
-                            <?php
-                            
-                            
-                            
-                            //$x = 0;
-                            //$size = count($storeArray);
-                            //echo($size);
-                            //echo($array[0]);
-                            //echo($array[1]);
-                            for($x=0;$x<$size;$x++){
-                                ?>
-                                    <tr>
-                            <td><input type="radio" name="sid" value="<?php echo($storeArray[$x]);?>"><?php echo($storeArray[$x]); ?>
-                            </td>
-                            <td><?php echo($starr2[$x]); ?></td>
-                            <td><?php echo($starr[$x]); ?></td>
-                            <td><?php echo($starr3[$x]+1); ?></td>
-                                    </tr>
-                            <?php
-                                
-                                
-                            
-                            }
-                        }
-                        ?>
-                                    <tr>
-                                        <td><input type="submit" name="rad-sub" value="Submit"></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        
-                            </tr>
-                            </tbody>
-                            </table>
-                        </form>
-                        <br><br>
-                        <form action="printcomp.php" method="post">
-                            <button>Print PhD Comprehensive Page</button>
-                        </form>
-                         
-                    </div>
-                </div>
+                <p>Your Uploads</p>
+                <br>
+                <?php
+                $tuffey = mysqli_connect('localhost', 'root', '', 'portal');
+                $si2 = $_SESSION['sem'];
+                $si3 = $_SESSION['student'];
+                $am = "SELECT f_report FROM rps WHERE s_rps_id=$si3 AND supervisor=$u_id AND rps_semester=$si2";
+                $taked = mysqli_query($tuffey, $am);
+                $take2 = mysqli_fetch_array($taked);
+                echo("<a href=\"../faculty uploads/$u_id/\""); 
+                echo ($take2[0]);
+                echo("\"target=\"_blank\">View file</a>");
+                ?>
             </div>
         
 
     </div>
+
     
+    <!-- /.container -->
+
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">
         <div class="container">
             <div class="row">
@@ -233,3 +162,4 @@
 </body>
 
 </html>
+

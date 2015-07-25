@@ -71,13 +71,13 @@
                         <a href="../homepage/homepage_f.php">Home</a>
                     </li>
                     <li>
-                        <a href="Cmpr_f.php">PhD Comprehensive</a>
+                        <a href="../comprehensive/Cmpr_f.php">PhD Comprehensive</a>
                     </li>
                     <li>
                         <a href="../rps/rps_f.php">RPS</a>
                     </li>
                     <li>
-                        <a href="../phd_synopsis/synopsis_f.php">PhD Synopsis</a>
+                        <a href="synopsis_f.php">PhD Synopsis</a>
                     </li>
                     <li>
                         <a href="../guidelines/Guidelines_f.php">Guidelines</a>
@@ -85,6 +85,7 @@
                     <li>
                         <a href="../Schedule/Schedule_f.php">Schedule</a>
                     </li>
+                    
                     <li class="profile-info dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <?php
@@ -96,7 +97,7 @@
                             
                             <li>
                                 
-                                <a href="../profile/editprofile_f.php">
+                                <a href="../profile/editprofile.php">
                                     <i class="entypo-lock"></i>
                                     Edit Password
                                 </a>
@@ -117,7 +118,7 @@
         <!-- /.container -->
     </nav>
 
-    <div class="container">
+        <div class="container">
 
             <div class="box">
                 <div class="col-lg-12">
@@ -125,40 +126,48 @@
                         
                         <?php
                         
-                        if(isset($_POST['rad-sub'])){
+                        if(isset($_POST['con-id'])){
                             
-                            if(isset($_POST['sid'])){
+                            if(isset($_POST['con_id'])){
                                 
-                                $sid = $_POST['sid'];
+                                $id = $_POST['con_id'];
                                 
                                 //echo($sid);
                                 
-                                $_SESSION['macho'] = $sid;
+                                $_SESSION['stud_id'] = $id;
                                 
-                                $damn = "SELECT stud_report, comp_grade,fac_report,f_type,f_size,pass FROM phd_comp WHERE stud_id = $sid";
+                                $damn = "SELECT syn_stud_name, syn_con_name, comm1, comm2, comm3, comm4, grade, stud_report, fac_report FROM synopsis WHERE syn_stud_id=$id AND syn_convenor_id = $u_id";
                             
                                 $chalo = mysqli_connect('localhost', 'root', '', 'portal');
                                 $queq = mysqli_query($chalo, $damn);
                                 $aram = mysqli_fetch_array($queq);
                                 
-                                $damn2 = "SELECT name FROM student WHERE s_id =$sid";
-                                $que = mysqli_query($chalo,$damn2);
-                                $ar2 = mysqli_fetch_array($que);
+                                
                             
                         
                         ?>
                         
-                        <label>STUDENT ID</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($sid)?>" readonly>
-                        <br>
-                        <label>NAME</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($ar2[0]);?>" readonly>
-                        <br>
+                        <label>Student name</label><br>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[0]); ?>" readonly>
+                        <label>Student Id</label><br>
+                        <input class="form-control" type="text" placeholder="<?php echo($id); ?>" readonly>
+                        <label>Committee Convener ID</label><br>
+                        <input class="form-control" type="text" placeholder="<?php echo($u_id); ?>" readonly>
+                        <label>Committee Convener Name</label><br>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[1]); ?>" readonly>
+                        <label>Committee Member 1</label><br>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[2]); ?>" readonly>
+                        <label>Committee Member 2</label><br>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[3]); ?>"readonly>
+                        <label>Committee Member 3</label><br>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[4]); ?>" readonly>
+                        <label>Committee Member 4</label><br>
+                        <input class="form-control" type="text" placeholder="<?php echo($aram[5]); ?>" readonly>
      
                         
                         <label>GRADE</label>
                         <form action="grade.php" method="post" role="form">
-                            <input type="number" name="grade" value="Enter Grade" placeholder="<?php echo($aram[1]); ?>">
+                            <input type="number" name="grade" value="Enter Grade" placeholder="<?php echo($aram[6]); ?>">
                             <input type="submit" name="g-s" value="Submit Grade">
                         </form>
                         
@@ -166,7 +175,7 @@
                         <label>STUDENT REPORT</label>
                         
                         <?php
-                        if($aram[0]=="NA"){
+                        if($aram[7]=="NA"){
                             echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
                             echo("NO FILE UPLOADED");
                             echo("\" readonly>");
@@ -181,7 +190,7 @@
                         <br>
                         <label>COMMITTEE REPORT</label>
                         <?php
-                            if($aram[2]=="NA"){
+                            if($aram[8]=="NA"){
                                 ?>
                             <form action="upload_f.php" method="post" enctype="multipart/form-data">
                             <input type="file" name="file" />
@@ -251,8 +260,7 @@
                         ?>
                         
                         <br>
-                        <label>PASS/FAIL</label>
-                        <input class="form-control" type="text" placeholder="<?php echo($aram[5]);;?>" readonly>
+                        
                         <?php
                             }
                         }
@@ -276,7 +284,6 @@
             </div>
         </div>
     </footer>
-
     <!-- jQuery -->
     <script src="../js/jquery.js"></script>
 
@@ -286,5 +293,3 @@
 </body>
 
 </html>
-
-

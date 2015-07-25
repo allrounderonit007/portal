@@ -118,34 +118,42 @@
     </nav>
 <?php
 $main = $_SESSION['user_id'];
+
+$g = mysqli_connect('localhost', 'root', '', 'portal');
+$f = "SELECT syn_convenor_id, syn_stud_name, syn_con_name, comm1, comm2, comm3, comm4, grade, stud_report, fac_report FROM synopsis WHERE syn_std_id=$main";
+$h = mysqli_query($g,$f);
+
+$i = mysqli_fetch_array($h);
 ?>
     <div class="container">
         <div class="box">
         <div class="col-lg-12">
             <div class="form-group">
             <label>Student name</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[1]); ?>" readonly>
             <label>Student Id</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
-            <label>Committee Convener</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($main); ?>" readonly>
+            <label>Committee Convener ID</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($i[0]); ?>" readonly>
+            <label>Committee Convener Name</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($i[2]); ?>" readonly>
             <label>Committee Member 1</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[3]); ?>" readonly>
             <label>Committee Member 2</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[4]); ?>"readonly>
             <label>Committee Member 3</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[5]); ?>" readonly>
             <label>Committee Member 4</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[6]); ?>" readonly>
             
             <label>Faculty Report</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[9]); ?>" readonly>
             <label>Student Report</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[8]); ?>" readonly>
             
             
             <label>Grade</label><br>
-            <input class="form-control" type="text" placeholder="NA" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[7]); ?>" readonly>
             </div>
         </div>
         </div>

@@ -119,6 +119,25 @@
         
         <!-- /.container -->
     </nav>
+    <?php
+        $non = mysqli_connect('localhost', 'root', '', 'portal');
+        $swap = "SELECT status FROM student WHERE s_id=$u";
+        $list = mysqli_query($non, $swap);
+        $amt = mysqli_fetch_array($list);
+        
+        if($amt[0]==0||$amt==1){
+            
+            ?>
+    <div class="container">
+        <div class="box">
+            <p><strong>You need to first complete PhD Comprehensive.</strong></p>
+    </div>
+    </div>
+        <?php
+        }
+    else
+    {
+    ?>
 
     <div class="container">
         <div class="box">
@@ -161,7 +180,9 @@
                 </table>
             </form>
             
-            
+            <?php
+    }
+    ?>
             <!--<label>Student Name</label><br>
             <label>Student ID</label><br>
             <label>Supervisor ID</label><br>

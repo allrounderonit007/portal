@@ -119,18 +119,132 @@
 
         <div class="container">
         <div class="box">
-            <label>Student name</label>
-            <label>Student Id</label>
-            <label>Committee Convener</label>
-            <label>Committee Member 1</label>
-            <label>Committee Member 2</label>
-            <label>Committee Member 3</label>
-            <label>Committee Member 4</label>
             
-            <label>Faculty Report</label>
-            <label>Student Report</label>
-            <label>Grade</label>
+            <?php
+            $link1 = mysqli_connect('localhost', 'root', '', 'portal');
+            $baat = "SELECT syn_stud_id, syn_stud_name FROM synopsis WHERE syn_convenor_id=$u_id";
+            $res = mysqli_query($link1, $baat);
             
+            $syn_id = Array();
+            $names = Array();
+            
+            
+            
+            while($fetched = mysqli_fetch_array($res)){
+                
+                $syn_id[] = $fet['syn_stud_id'];
+                $names[] = $fet['syn_stud_name'];
+                
+            }
+            
+            $length = count($syn_id);
+            
+            if($length==0){
+                ?>
+            <label>Convener for no student</label>
+            <?php
+            }
+            else{
+            ?>
+            <form method="post" action="convener.php">
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                    <caption>Convener for students</caption>
+                    <tbody>
+                        <tr>
+                            <td><strong>Student ID</strong></td>
+                            <td><strong>Student Name</strong></td>
+                            
+                            
+                        </tr>
+                        <?php
+                        for($y=0;$y<$length;$y++){
+                            ?>
+                        <tr>
+                            <td><input type="radio" name="con_id" value="<?php echo($syn_id[$y]); ?>"> <?php echo($syn_id[$y]); ?></td>
+                            <td><?php echo($names[$y]); ?></td>
+                            
+                        </tr>
+                        
+                        <?php
+                        }
+                        ?>
+                        <tr>
+                            <td><input type="submit" name="con-id" value="Submit"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <?php
+            }
+                        ?>
+                        
+                    </tbody>
+                </table>
+            </form>
+            
+            <!-- AS A PART OF COMMITTEE -->
+            <?php
+            $baat ="SELECT syn_stud_id, syn_stud_name FROM synopsis WHERE comm1 =$u_id OR comm2 = $u_id OR comm3 = $u_id OR comm4 = $u_id";
+            $res1 = mysqli_query($link1, $baat);
+           
+            
+            $syn_id1 = Array();
+            $names1 = Array();
+            
+            
+            
+                
+                while($fet2 = mysqli_fetch_array($res1)){
+                    
+                    $syn_id1[] = $fet2['syn_stud_id'];
+                    $names1[] = $fet2['syn_stud_name'];
+                    
+                }
+                
+                    $length1 = count($syn_id1);
+                
+                if($length==0){
+                    ?>
+            <label>Not a part of any committee.</label>
+            <?php
+                }
+                else{
+                ?>
+            <form method="post" action="committee.php">
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                    <caption>As a committee member for students</caption>
+                    <tbody>
+                        <tr>
+                            <td><strong>Student ID</strong></td>
+                            <td><strong>Student Name</strong></td>
+                            
+                            
+                        </tr>
+                        <?php
+                        for($y=0;$y<$length1;$y++){
+                            ?>
+                        <tr>
+                            <td><input type="radio" name="comm_id" value="<?php echo($syn_id1[$y]); ?>"></td>
+                            <td><?php echo($names1[$y]); ?></td>
+                            
+                        </tr>
+                        
+                        <?php
+                        }
+            
+                        ?>
+                        <tr>
+                            <td><input type="submit" name="comm-id" value="Submit"> </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <?php
+                        
+                }
+                ?>
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
     <!-- /.container -->

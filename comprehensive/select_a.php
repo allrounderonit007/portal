@@ -134,8 +134,8 @@
                                 //echo($sid);
                                 
                                 $_SESSION['macho'] = $sid;
-                                
-                                $damn = "SELECT stud_report, comp_grade,fac_report,f_type,f_size,pass FROM phd_comp WHERE stud_id = $sid";
+                                //echo($sid);
+                                $damn = "SELECT fac_report,f_type,f_size,pass,convener_name, comm1_name, comm2_name, comm3_name, comm4_name FROM phd_comp WHERE stud_id = $sid";
                             
                                 $chalo = mysqli_connect('localhost', 'root', '', 'portal');
                                 $que = mysqli_query($chalo, $damn);
@@ -152,11 +152,12 @@
                         <label>STUDENT ID</label>
                         <input class="form-control" type="text" placeholder="<?php echo($sid)?>" readonly>
                         <br>
-                        <label>NAME</label>
+                        <label>STUDENT NAME</label>
                         <input class="form-control" type="text" placeholder="<?php echo($ar2[0]);?>" readonly>
                         <br>
                         <form role="form" method="post" action="set_fclty.php">
-                        <label>ALLOT FACULTY SUPERVISOR ID</label>
+                        <label>ALLOT FACULTY SUPERVISOR</label>
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[4]); ?>" readonly>
                         <?php 
                             $damn3 = "SELECT faculty_id,name FROM faculty";
                             $que2 = mysqli_query($chalo, $damn3);
@@ -187,7 +188,7 @@
                             
                             for($x2=0;$x2<$size2;$x2++){
                                 ?>
-                            <option value="<?php echo($storeArray2[$x2]);?>"> <?php echo($storeArray2[$x2]);?>  <?php echo($storeArray3[$x2]);?> </option>
+                            <option value="<?php echo($storeArray2[$x2]);?>"> <?php echo($storeArray3[$x2]);?>  <?php echo($storeArray2[$x2]);?> </option>
                             <?php
                             }
                         }
@@ -195,13 +196,82 @@
                             <br>
                         </select>
                         <br>
-                        <label>OTHER COMMITTEE MEMBERS</label>
-                        <input type="text" name="comm" placeholder="NAMES" value="">
+                        <label>COMMITTEE MEMBER 1</label>
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[5]); ?>" readonly>
+                        <select class="form-control" name="fid">
+                            <?php
+                            
+                            for($x2=0;$x2<$size2;$x2++){
+                                ?>
+                            <option value="<?php echo($storeArray2[$x2]);?>"> <?php echo($storeArray3[$x2]);?>  <?php echo($storeArray2[$x2]);?> </option>
+                            <?php
+                            }
+                        
+                            ?>
+                            <br>
+                        </select>
+                        
+                        <br>
+                        <label>COMMITTEE MEMBER 2</label>
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[6]); ?>" readonly>
+                        <select class="form-control" name="fid">
+                            <?php
+                            
+                            for($x2=0;$x2<$size2;$x2++){
+                                ?>
+                            <option value="<?php echo($storeArray2[$x2]);?>"> <?php echo($storeArray3[$x2]);?>  <?php echo($storeArray2[$x2]);?> </option>
+                            <?php
+                            }
+                        
+                            ?>
+                            <br>
+                        </select>
+                        <br>
+                        <label>COMMITTEE MEMBER 3</label>
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[7]); ?>" readonly>
+                        <select class="form-control" name="fid">
+                            <?php
+                            
+                            for($x2=0;$x2<$size2;$x2++){
+                                ?>
+                            <option value="<?php echo($storeArray2[$x2]);?>"> <?php echo($storeArray3[$x2]);?>  <?php echo($storeArray2[$x2]);?> </option>
+                            <?php
+                            }
+                        
+                            ?>
+                            <br>
+                        </select>
+                        <br>
+                        <label>COMMITTEE MEMBER 4</label>
+                        <input type="text" class="form-control" placeholder="<?php echo($ar[8]); ?>" readonly>
+                        <select class="form-control" name="fid">
+                            <?php
+                            
+                            for($x2=0;$x2<$size2;$x2++){
+                                ?>
+                            <option value="<?php echo($storeArray2[$x2]);?>"> <?php echo($storeArray3[$x2]);?>  <?php echo($storeArray2[$x2]);?> </option>
+                            <?php
+                            }
+                        
+                            ?>
+                            <br>
+                        </select>
                         <br>
                         <input type="submit" name="f_sub" value="SUBMIT">
                         <?php
                         }
+                        else{
+                            ?>
+                        
+                        <label>Go back and click</label>
+                        <?php
+                        
+                            
                         }
+                        
+                        
+                        }
+                        
                         ?>
                         </form>
                     </div>
