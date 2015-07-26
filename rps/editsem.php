@@ -3,6 +3,7 @@
     
     <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -121,23 +122,23 @@
     </nav>
 
     <?php
-    $sem = $_POST['editsem'];
     
-    $din = mysqli_connect('localhost', 'root', '', 'portal');
-    $q = "SELECT supervisor, super_name f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade FROM rps WHERE s_rps_id=$u AND rps_semester=$sem";
+    if(isset($_POST['editsem'])){
+    $sem = $_POST['editsem'];
+    echo($sem);
+    $din = connection();
+    $q = "SELECT supervisor, super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade, stud_name, stud_report FROM rps WHERE s_rps_id=$u AND rps_semester=$sem";
     $ex = mysqli_query($din, $q);
     
     $l = mysqli_fetch_array($ex);
     
-    $q = "SELECT name FROM student WHERE s_id = $u";
-    $ex = mysqli_query($din, $q);
-    $nam = mysqli_fetch_array($ex);
+    $_SESSION['editsem'] = $sem;
     ?>
     <div class="container">
         <div class="box">
                        
             <label>Student Name</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($nam[0]);?>" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($l[12]);?>" readonly>
             <label>Student ID</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($u);?>" readonly>
             <label>Supervisor ID</label><br>
@@ -145,17 +146,17 @@
             <label>Supervisor Name</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($l[1]);?>" readonly>
             <label>Committee Member 1</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($l[2]);?>" readonly>
-            <label>Committee Member 2</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($l[3]);?>" readonly>
-            <label>Committee Member 3</label><br>
+            <label>Committee Member 2</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($l[4]);?>" readonly>
-            <label>Committee Member 4</label><br>
+            <label>Committee Member 3</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($l[5]);?>" readonly>
-            
-            <form post="coursechange.php" method="post">
-            <label>Select Course 1</label><br>
+            <label>Committee Member 4</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($l[6]);?>" readonly>
+            
+            <form action="coursechange.php" method="post">
+            <label>Select Course 1</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[7]);?>" readonly>
             <?php 
             $q = "SELECT course_id, course_name FROM course";
             $ex = mysqli_query($din, $q);
@@ -183,7 +184,7 @@
                 ?>
             </select>
             <label>Select Course 2</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($l[7]);?>" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($l[8]);?>" readonly>
             <select class="form-control" name="c2">
                 <?php
                             
@@ -196,7 +197,7 @@
                 ?>
             </select>
             <label>Select Course 3</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($l[8]);?>" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($l[9]);?>" readonly>
             <select class="form-control" name="c3">
                 <?php
                             
@@ -209,7 +210,7 @@
                 ?>
             </select>
             <label>Select Course 4</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($l[9]);?>" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($l[10]);?>" readonly>
             <select class="form-control" name="c4">
                 <?php
                             
@@ -221,12 +222,113 @@
                         
                 ?>
             </select>
+            <br>
+            <input type="submit" placeholder="Submit Courses" name="press">
+            
             </form>
             <label>Grade</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($l[10]);?>" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($l[11]);?>" readonly>
+            <br>
+            
+            <label>Upload Student Report</label>
+            
+                        <?php
+                            if($l[13]=="NA"){
+                                ?>
+                            <form action="upload_st.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" />
+                            <button type="submit" name="btn-upload">upload</button>
+                            </form>
+                        <?php
+                            if(isset($_GET['success']))
+                        {
+                         ?>
+                        <label>File Uploaded Successfully.<a href="view_s.php">click here to view file.</a></label>
+                               <?php
+                        }
+                        else if(isset($_GET['fail']))
+                        {
+                         ?>
+                               <label>Problem While File Uploading !</label>
+                               <?php
+                        }
+                        else if(isset($_GET['exists'])){
+                            ?>
+                               <label>Filename exists. Upload new file.</label>
+                               <?php
+                        }
+                        else
+                        {
+                         ?>
+                               <label>The File should be in PDF format with filename as "Student-ID_Faculty_ID_phd_comp"</label>
+                               <?php
+                        }
+                        ?>
+                        <?php
+                            }
+                            else{
+                                ?>
+                               
+                               <form action="upload_st.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" />
+                            <button type="submit" name="btn-upload">upload</button>
+                            </form>
+                        <?php
+                            if(isset($_GET['success']))
+                        {
+                         ?>
+                        <label>File Uploaded Successfully.<a href="view_s.php">click here to view file.</a></label>
+                               <?php
+                        }
+                        else if(isset($_GET['fail']))
+                        {
+                         ?>
+                        <label>Problem While File Uploading !<a href="view_s.php">View Previous file.</a></label>
+                               <?php
+                        }
+                        else if(isset($_GET['exists'])){
+                            ?>
+                        <label>Filename exists. Upload new file.<a href="view_s.php">View Previous File.</a></label>
+                               <?php
+                        }
+                        else
+                        {
+                         ?>
+                            <label><a href="view_s.php">Click here to view uploaded File. You can upload a new file.</a></label>
+                               <?php
+                        }
+                        ?>
+                                <?php
+                            }
+                        ?>
+                        
+                        
+                        <br>
+                        <label>View Faculty Report</label>
+                        <?php
+                        if($l[2]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../faculty uploads/$u/");
+                            echo($l[2]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
             
         </div>
     </div>
+    <?php
+    }
+    else
+    {
+        ?>
+    <label>Go back to RPS page</label>
+    <?php
+    }
+    ?>
     <!-- /.container -->
 
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">

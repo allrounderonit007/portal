@@ -3,6 +3,7 @@
     
     <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -128,23 +129,45 @@
             //echo($u_id);
             $_SESSION['student'] = $student;
             
-            $tec = mysqli_connect('localhost', 'root', '', 'portal');
-            $ques = "SELECT rps_semester FROM rps WHERE s_rps_id=$student AND supervisor=$u_id ORDER BY rps_semester";
+            $tec = connection();
+            $ques = "SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$student AND supervisor=$u_id";
             $answer = mysqli_query($tec, $ques);
             
-            $fetching = Array();
-            while($dress=  mysqli_fetch_array($answer)){
+            //$fetching = Array();
+            //while($dress=  mysqli_fetch_array($answer)){
                 
-                $fetching[] = $dress['rps_semester'];
-            }
+              //  $fetching[] = $dress['rps_semester'];
+            //}
             
-            $boom = count($fetching);
+            //$boom = count($fetching);
             //echo($boom);
+            $print = mysqli_fetch_array($answer);
             ?>
     <div class="container">
         <div class="box">
             <form action="editsuper.php" method="post">
-            <select class="form-control" name="sup">
+                <label>Current RPS</label><br>
+                <input type="number" name="cursem" value="<?php echo($print[0]); ?>"placeholder="<?php echo($print[0]); ?>" readonly>
+                <input type="submit" name="edit_cur" id="edit_cur"placeholder="Edit">
+                </form>
+            <br>
+            <form>
+                <label>Archives</label>
+            
+                <?php
+                $ques = "SELECT rps_semester FROM rps WHERE s_rps_id =$student AND supervisor=$u_id AND rps_semester<(SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$student AND supervisor=$u_id)";
+                $answer = mysqli_query($tec, $ques);
+                $fetching = Array();
+                while($dress=  mysqli_fetch_array($answer)){
+                
+                    $fetching[] = $dress['rps_semester'];
+                }
+            
+                $boom = count($fetching);
+                        ?>
+                <select class="form-control" name="sup">
+                
+                
                 <?php
                             
                 for($w=0;$w<$boom;$w++){
@@ -164,51 +187,7 @@
     }
     ?>
     
-    <div class="container">
-        <div class="box">
-            
-            <label><strong>STUDENT NAME</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>STUDENT ID</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>SUPERVISOR ID</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>SUPERVISOR NAME</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COMMITTEE MEMBER 1</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COMMITTEE MEMBER 2</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COMMITTEE MEMBER 3</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COMMITTEE MEMBER 4</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COURSE 1</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COURSE 2</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COURSE 3</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COURSE 4</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>GRADE</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            
-        </div>
-    </div>
+    
 
     
     <!-- /.container -->

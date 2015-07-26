@@ -82,3 +82,4 @@ $con = connection();
         header("location:forget-password.php");
     }
 
+    disconnect();

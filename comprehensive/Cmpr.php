@@ -294,8 +294,8 @@
                         ?>
                         
                         
-                        <br>
-                        <label>COMMITTEE REPORT</label>-->
+                        <br>-->
+                        <label>COMMITTEE REPORT</label>
                         <?php
                         if($s_row[1]=="NA"){
                             echo("<input class=\"form-control\" type=\"text\" placeholder=\"");

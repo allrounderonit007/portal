@@ -129,7 +129,7 @@
                         
                         $tamp = connection();
                         
-                        $query = "SELECT p.stud_id,p.stud_name, MAX(attempt) FROM phd_comp p, student s WHERE p.stud_id=s.s_id AND status=1 GROUP BY stud_id";
+                        $query = "SELECT p.stud_id,p.stud_name, convener_name, MAX(attempt) FROM phd_comp p, student s WHERE p.stud_id=s.s_id AND status=1 GROUP BY stud_id";
                         $solution = mysqli_query($tamp, $query);
                         //$array = mysqli_fetch_array($solution);
                         //echo($array[1]);

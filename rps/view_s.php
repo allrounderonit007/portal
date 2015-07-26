@@ -120,91 +120,26 @@
         
         <!-- /.container -->
     </nav>
-    <?php
-        $non = connection();
-        $swap = "SELECT status FROM student WHERE s_id=$u";
-        $list = mysqli_query($non, $swap);
-        $amt = mysqli_fetch_array($list);
-        
-        if($amt[0]==0||$amt[0]==1){
-            
-            ?>
-    <div class="container">
-        <div class="box">
-            <p><strong>You need to first complete PhD Comprehensive.</strong></p>
-    </div>
-    </div>
-        <?php
-        }
-    else
-    {
-    ?>
 
     <div class="container">
-        <div class="box">
-            
-            <form name="semlist" action="editsem.php" method="post">
-                
-                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
-                    <caption><strong>Choose a Semester</strong></caption>
-                    <tbody>
-                        <tr>
-                    
-                            <td><strong>RPS Semester</strong></td>
-                            <td><strong>Action</strong></td>
-                    
-                        </tr
-                        <?php
-                        
-                        $swap = "SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$u ORDER BY rps_semester";
-                        $list = mysqli_query($non, $swap);
-                        $arr = mysqli_fetch_array($list);
-                        
-                        /*$storeArray4 = Array();
-                        
-                        while($arr = mysqli_fetch_array($list)){
-                            $storeArray4[]= $arr['rps_semester'];
-                        }
-                        $len = count($storeArray4);
-                        for($k =0;$k<$len;$k++){
-                            ?>
-                        <tr>
-                            <td><?php echo($storeArray4[$k]); ?></td>
-                            <td>
-                                <button type="submit" name= "editsem" id ="editsem" value="<?php echo($storeArray4[$k]) ?>" placeholder="Edit" >Edit</button>
-                            </td>
-                        </tr>
-                        <?php
-                        }*/
-                        
-                        
-                        ?>
-                        <tr>
-                            <td><?php echo($arr[0]) ?></td>
-                            <td><button type="submit" name= "editsem" id ="editsem" value="<?php echo($arr[0]) ?>" placeholder="Edit" >Edit</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            
-            <?php
-    }
-    ?>
-            <!--<label>Student Name</label><br>
-            <label>Student ID</label><br>
-            <label>Supervisor ID</label><br>
-            <label>Supervisor Name</label><br>
-            <label>Committee Member 1</label><br>
-            <label>Committee Member 2</label><br>
-            <label>Committee Member 3</label><br>
-            <label>Committee Member 4</label><br>
-            <label>Select Course 1</label><br>
-            <label>Select Course 2</label><br>
-            <label>Select Course 3</label><br>
-            <label>Select Course 4</label><br>
-            <label>Grade</label><br>-->
-            
-        </div>
+
+            <div class="box">
+                <p>Your Uploads</p>
+                <br>
+                <?php
+                $tuffey = connection();
+                $si2 = $_SESSION['editsem'];
+                $si3 = $_SESSION['user_id'];
+                $am = "SELECT stud_report FROM rps WHERE s_rps_id=$si3 AND rps_semester=$si2";
+                $taked = mysqli_query($tuffey, $am);
+                $take2 = mysqli_fetch_array($taked);
+                echo("<a href=\"../faculty uploads/$u_id/\""); 
+                echo ($take2[0]);
+                echo("\"target=\"_blank\">View file</a>");
+                ?>
+            </div>
+        
+
     </div>
     <!-- /.container -->
 
@@ -229,3 +164,5 @@
 </body>
 
 </html>
+
+

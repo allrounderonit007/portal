@@ -3,6 +3,7 @@
     
     <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -123,7 +124,7 @@
                 <p>Your Uploads</p>
                 <br>
                 <?php
-                $tuffey = mysqli_connect('localhost', 'root', '', 'portal');
+                $tuffey = connection();
                 $si2 = $_SESSION['sem'];
                 $si3 = $_SESSION['student'];
                 $am = "SELECT f_report FROM rps WHERE s_rps_id=$si3 AND supervisor=$u_id AND rps_semester=$si2";

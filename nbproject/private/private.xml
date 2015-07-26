@@ -3,24 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/portal/rps/upload.php</file>
-            <file>file:/C:/wamp/www/portal/comprehensive/select_a.php</file>
-            <file>file:/C:/wamp/www/portal/comprehensive/Cmpr_a.php</file>
-            <file>file:/C:/wamp/www/portal/rps/editsuper.php</file>
-            <file>file:/C:/wamp/www/portal/phd_synopsis/synopsis.php</file>
-            <file>file:/C:/wamp/www/portal/homepage/homepage.php</file>
-            <file>file:/C:/wamp/www/portal/rps/super2.php</file>
-            <file>file:/C:/wamp/www/portal/phd_synopsis/synopsis_f.php</file>
-            <file>file:/C:/wamp/www/portal/rps/rps_f.php</file>
-            <file>file:/C:/wamp/www/portal/phd_synopsis/view_f.php</file>
-            <file>file:/C:/wamp/www/portal/homepage/homepage_a.php</file>
-            <file>file:/C:/wamp/www/portal/rps/editsem.php</file>
+            <file>file:/C:/wamp/www/portal/includes/initialize.php</file>
             <file>file:/C:/wamp/www/portal/rps/super.php</file>
-            <file>file:/C:/wamp/www/portal/rps/editsuper2.php</file>
-            <file>file:/C:/wamp/www/portal/rps/rps.php</file>
+            <file>file:/C:/wamp/www/portal/rps/editsuper.php</file>
+            <file>file:/C:/wamp/www/portal/homepage/homepage.php</file>
             <file>file:/C:/wamp/www/portal/rps/view.php</file>
-            <file>file:/C:/wamp/www/portal/phd_synopsis/convener.php</file>
-            <file>file:/C:/wamp/www/portal/rps/rps_a.php</file>
+            <file>file:/C:/wamp/www/portal/rps/rps_f.php</file>
         </group>
     </open-files>
 </project-private>

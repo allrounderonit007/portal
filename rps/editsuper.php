@@ -3,6 +3,7 @@
     
     <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -119,16 +120,17 @@
     </nav>
     <?php
     
-    if(isset($_POST['edit_sup'])){
+    if(isset($_POST['edit_cur'])){
         
-        if(isset($_POST['sup'])){
+        if(isset($_POST['cursem'])){
             
-            $semester = $_POST['sup'];
+            $semester = $_POST['cursem'];
             
-            $tan = mysqli_connect('localhost', 'root', '', 'portal');
+            $tan = connection();
             $student1 = $_SESSION['student'];
             $_SESSION['sem'] = $semester;
-            $cut = "SELECT stud_name, super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade FROM rps WHERE rps_semester =$semester AND supervisor=$u_id AND s_rps_id=$student1";
+            
+            $cut = "SELECT stud_name, super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade, stud_report, comm1_name, comm2_name, comm3_name, comm4_name FROM rps WHERE rps_semester =$semester AND supervisor=$u_id AND s_rps_id=$student1";
             
             $take = mysqli_query($tan, $cut);
             
@@ -152,16 +154,16 @@
             <input type="text" class="form-control" placeholder="<?php echo($amp[1]); ?>" readonly>
             <br>
             <label><strong>COMMITTEE MEMBER 1</strong></label>
-            <input type="text" class="form-control" placeholder="<?php echo($amp[3]) ?>" readonly>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[3]); echo(' '); echo($amp[13]); ?>" readonly>
             <br>
             <label><strong>COMMITTEE MEMBER 2</strong></label>
-            <input type="text" class="form-control" placeholder="<?php echo($amp[4]) ?>" readonly>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[4]); echo(' '); echo($amp[14]); ?>" readonly>
             <br>
             <label><strong>COMMITTEE MEMBER 3</strong></label>
-            <input type="text" class="form-control" placeholder="<?php echo($amp[5]) ?>" readonly>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[5]); echo(' '); echo($amp[15]); ?>" readonly>
             <br>
             <label><strong>COMMITTEE MEMBER 4</strong></label>
-            <input type="text" class="form-control" placeholder="<?php echo($amp[6]) ?>" readonly>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[6]); echo(' '); echo($amp[16]); ?>" readonly>
             <br>
             <label><strong>COURSE 1</strong></label>
             <input type="text" class="form-control" placeholder="<?php echo($amp[7]) ?>" readonly>
@@ -181,11 +183,12 @@
                 <select name="g" class="form-control">
                     <option value="satis">SATISFACTORY</option>
                     <option value="unsat">UNSATISFACTORY</option>
+                    <option value="unsat">INCOMPLETE</option>
                 </select>
             <input type="submit" name="grade" value="Submit Grade">
             </form>
             <br>
-            <label>Upload Report</label>
+            <label>Upload Committee Report</label>
             <?php
                             if($amp[2]=="NA"){
                                 ?>
@@ -252,8 +255,23 @@
                                <?php
                         }
                         ?>
+                            
                                 <?php
                             }
+                        ?>
+                            <br>
+                            <label>View Student Report</label>
+                            <?php
+                        if($amp[12]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../faculty uploads/$u_id/");
+                            echo($amp[12]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
                         ?>
         </div>
     </div>

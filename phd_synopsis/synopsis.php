@@ -2,12 +2,15 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
     if( ! isset($_SESSION['user_id']) ){
         header("location:../login.php");
     }
+    
+    $u_id=$_SESSION['user_id'];
     
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
@@ -119,11 +122,27 @@
 <?php
 $main = $_SESSION['user_id'];
 
-$g = mysqli_connect('localhost', 'root', '', 'portal');
+$g = connection();
+$f="SELECT status FROM student WHERE s_id=$u_id";
+$h=  mysqli_query($g, $f);
+$i1=  mysqli_fetch_array($h);
+//echo($i1[0]);
+if($i1[0]<3){
+    ?>
+    <div class="container">
+        <div class="box">
+    
+    <label><strong>Please complete RPS first.</strong></label>
+    </div>
+    </div>
+        <?php
+}
+else{
 $f = "SELECT syn_convenor_id, syn_stud_name, syn_con_name, comm1, comm2, comm3, comm4, grade, stud_report, fac_report FROM synopsis WHERE syn_std_id=$main";
 $h = mysqli_query($g,$f);
 
 $i = mysqli_fetch_array($h);
+
 ?>
     <div class="container">
         <div class="box">
@@ -158,6 +177,9 @@ $i = mysqli_fetch_array($h);
         </div>
         </div>
     </div>
+    <?php
+}
+    ?>
     <!-- /.container -->
 
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">

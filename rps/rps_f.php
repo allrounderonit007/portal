@@ -3,6 +3,7 @@
     
     <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -123,8 +124,8 @@
         <div class="box">
             
             <?php
-            $link = mysqli_connect('localhost', 'root', '', 'portal');
-            $query1 = "SELECT s_rps_id, stud_name, rps_semester FROM rps WHERE supervisor=$u_id";
+            $link = connection();
+            $query1 = "SELECT s_rps_id, stud_name, MAX(rps_semester) FROM rps WHERE supervisor=$u_id GROUP BY s_rps_id";
             $res = mysqli_query($link, $query1);
             
             $s_rps_id = Array();
@@ -136,7 +137,7 @@
                 
                 $s_rps_id[] = $fet['s_rps_id'];
                 $name_s[] = $fet['stud_name'];
-                $rps_semester[] = $fet['rps_semester'];
+                $rps_semester[] = $fet['MAX(rps_semester)'];
             }
             
             $sizear = count($s_rps_id);
@@ -153,6 +154,7 @@
                     <caption>Supervisor for students</caption>
                     <tbody>
                         <tr>
+                            <td><strong>Select</strong></td>
                             <td><strong>Student ID</strong></td>
                             <td><strong>Student Name</strong></td>
                             <td><strong>RPS SEMESTER NUMBER</strong></td>
@@ -162,7 +164,8 @@
                         for($y=0;$y<$sizear;$y++){
                             ?>
                         <tr>
-                            <td><input type="radio" name="super_id" value="<?php echo($s_rps_id[$y]); ?>"> <?php echo($s_rps_id[$y]); ?></td>
+                            <td><input type="radio" name="super_id" value="<?php echo($s_rps_id[$y]); ?>"></td>
+                            <td> <?php echo($s_rps_id[$y]); ?></td>
                             <td><?php echo($name_s[$y]); ?></td>
                             <td><?php echo($rps_semester[$y]); ?></td>
                         </tr>
@@ -172,6 +175,7 @@
                         ?>
                         <tr>
                             <td><input type="submit" name="super-id" value="Submit"></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                         </tr>

@@ -3,6 +3,7 @@
     
     <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -120,55 +121,92 @@
 
     <div class="container">
 
-        <div class="row">
-            <div class="box">
+        <div class="box">
                 <div class="col-lg-12">
-                    <hr>
-                    <h2 class="intro-text text-center">Company
-                        <strong>blog</strong>
-                    </h2>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="img/slide-1.jpg" alt="">
-                    <h2>Post Title
+                    <div class="form-group">
+                        <label>List of students Currently in RPS</label>
                         <br>
-                        <small>October 13, 2013</small>
-                    </h2>
-                    <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    <a href="#" class="btn btn-default btn-lg">Read More</a>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="../img/slide-2.jpg" alt="">
-                    <h2>Post Title
-                        <br>
-                        <small>October 13, 2013</small>
-                    </h2>
-                    <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    <a href="#" class="btn btn-default btn-lg">Read More</a>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <img class="img-responsive img-border img-full" src="../img/slide-3.jpg" alt="">
-                    <h2>Post Title
-                        <br>
-                        <small>October 13, 2013</small>
-                    </h2>
-                    <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                    <a href="#" class="btn btn-default btn-lg">Read More</a>
-                    <hr>
-                </div>
-                <div class="col-lg-12 text-center">
-                    <ul class="pager">
-                        <li class="previous"><a href="#">&larr; Older</a>
-                        </li>
-                        <li class="next"><a href="#">Newer &rarr;</a>
-                        </li>
-                    </ul>
+                        <?php
+                        
+                        $tamp = connection();
+                        
+                        $query = "SELECT s_rps_id,super_name, stud_name, MAX(rps_semester) FROM rps GROUP BY s_rps_id";
+                        $solution = mysqli_query($tamp, $query);
+                        //$array = mysqli_fetch_array($solution);
+                        //echo($array[1]);
+                        $storeArray = Array();
+                        $starr = Array();
+                        $starr2 = Array();
+                        $starr3 = Array();
+                        while($array = mysqli_fetch_assoc($solution)){
+                            $storeArray[]= $array['s_rps_id'];
+                            $starr[] = $array['super_name'];
+                            $starr2[] = $array['stud_name'];
+                            $starr3[] = $array['MAX(rps_semester)'];
+                        }
+                        
+                        
+                        $size = count($storeArray);
+                        //echo($size);
+                        
+                        if($size==0){
+                            ?> 
+                        -->
+                        <label>No student currently</label>
+                        <?php
+                        }
+                        else{
+                            
+                            ?>
+                        <form method="post" action="select_a.php" role="form">
+                            <table border="1" cellspacing="1" width="30%" style="text-align: center">
+                                <tbody>
+                                    <tr>
+                                        <td>    </td>
+                                        <td><strong>Student Id</strong></td>
+                                        <td><strong>Student Name</strong></td>
+                                        <td><strong>Supervisor Name</strong></td>
+                                        <td><strong>RPS</strong></td>
+                                    </tr>
+                            <?php
+                            
+                            
+                            
+                            //$x = 0;
+                            //$size = count($storeArray);
+                            //echo($size);
+                            //echo($array[0]);
+                            //echo($array[1]);
+                            for($x=0;$x<$size;$x++){
+                                ?>
+                                    <tr>
+                            <td><input type="radio" name="sid" value="<?php echo($storeArray[$x]);?>"></td>
+                            <td><?php echo($storeArray[$x]); ?></td>
+                            <td><?php echo($starr2[$x]); ?></td>
+                            <td><?php echo($starr[$x]); ?></td>
+                            <td><?php echo($starr3[$x]); ?></td>
+                                    </tr>
+                            <?php
+                                
+                                
+                            
+                            }
+                        }
+                        ?>
+                                    
+                            </tbody>
+                            </table>
+                            <br>
+                            <input type="submit" name="rad-sub" value="Submit">
+                        </form>
+                        <br><br>
+                        <form action="printcomp.php" method="post">
+                            <button>Print PhD Comprehensive Page</button>
+                        </form>
+                         
+                    </div>
                 </div>
             </div>
-        </div>
 
     </div>
     <!-- /.container -->
