@@ -141,12 +141,18 @@
     <?php
         }
         else
-            if($e[0]==0&&$e[1]>-1){
+            if($e[0]==0&&$e[1]>-1&&$e[1]<7){
                 ?>
     
     <div class="container">
         <div class="box">
-            <label>You cannot register for PhD comprehensive.</label>
+            <label>You do not have a threshold grade to enter Comprehensive.</label><br>
+            <form action="studreg.php" method="post">
+                    
+                    <label><strong>Enter your CPI</strong></label>
+                    <input type="text" class="form-control" name="cpi" id="cpi">
+                    <button type="submit" name="studreg" id="studreg">Register</button>
+                </form>
         </div>
     </div>
     ?>
@@ -168,7 +174,7 @@
                         <br>
                         <?php
                         
-                            $comp = "SELECT convenor_id,fac_report,f_type,f_size,pass,comm1, comm2, comm3, comm4, attempt FROM phd_comp WHERE stud_id = $u_id";
+                            $comp = "SELECT convenor_id,fac_report,f_type,f_size,pass,comm1, comm2, comm3, comm4, attempt FROM phd_comp WHERE stud_id = $u_id AND attempt = (SELECT MAX(attempt) FROM phd_comp WHERE stud_id = $u_id)";
                             
                             $store = mysqli_query($hsh, $comp);
                             $s_row = mysqli_fetch_array($store);
@@ -303,7 +309,7 @@
                             echo("\" readonly>");
                         }
                         else{
-                            echo("<br><a href=\"../faculty uploads/$u_id/");
+                            echo("<br><a href=\"../comp_uploads/faculty/$u_id/");
                             echo($s_row[1]);
                             echo("\"target=\"_blank\">View File</a><br>");
                         }
@@ -317,6 +323,55 @@
         
 
     </div>
+    
+    <?php
+    $comp1 = "SELECT stud_name,convenor_id,convener_name,fac_report,pass FROM phd_comp WHERE stud_id = $u_id AND attempt < (SELECT MAX(attempt) FROM phd_comp WHERE stud_id = $u_id)";
+                            
+    $store1 = mysqli_query($hsh, $comp1);
+    $s_row1 = mysqli_fetch_array($store1);
+    
+    $num = count($s_row1);
+    
+    if($num>0){
+        ?>
+    <div class="container">
+        <div class="box">
+            <label>Student Id</label><br>
+            <input type="number" placeholder="<?php echo($u_id);  ?>" readonly>
+            <br>
+            <label>Student Name</label><br>
+            <input type="text" placeholder="<?php echo($s_row1[0]);  ?>" readonly>
+            <br>
+            <label>Convener Id</label><br>
+            <input type="number" placeholder="<?php echo($s_row1[1]);  ?>" readonly>
+            <br>
+            <label>Convener Name</label><br>
+            <input type="text" placeholder="<?php echo($s_row1[2]); ?>" readonly>
+            <br>
+            <label>Grade</label><br>
+            <input type="number" placeholder="<?php echo($s_row1[4]); ?>" readonly>
+            <br>
+            <label>Committee Report</label>
+            <?php
+                        if($s_row1[3]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../comp_uploads/faculty/$u_id/");
+                            echo($s_row1[3]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+            ?>
+            
+        </div>
+    </div>
+    
+    <?php
+    }
+    
+    ?>
     <?php
         }
     ?>

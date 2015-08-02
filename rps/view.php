@@ -130,7 +130,7 @@
                 $am = "SELECT f_report FROM rps WHERE s_rps_id=$si3 AND supervisor=$u_id AND rps_semester=$si2";
                 $taked = mysqli_query($tuffey, $am);
                 $take2 = mysqli_fetch_array($taked);
-                echo("<a href=\"../faculty uploads/$u_id/\""); 
+                echo("<a href=\"../rps_uploads/faculty/$si3/\""); 
                 echo ($take2[0]);
                 echo("\"target=\"_blank\">View file</a>");
                 ?>

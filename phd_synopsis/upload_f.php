@@ -1,9 +1,10 @@
 <?php
 include_once('../includes/initialize.php');
+include_once('../includes/config.php');
 $u_id = $_SESSION['user_id'];
 $sidi = $_SESSION['stud_id'];
 //echo($u_id);
-$fuf = mysqli_connect('localhost', 'root', '', 'portal');
+$fuf = connection();
 if(isset($_POST['btn-upload']))
 {    
      
@@ -11,13 +12,13 @@ if(isset($_POST['btn-upload']))
     $file_loc = $_FILES['file']['tmp_name'];
  $file_size = $_FILES['file']['size'];
  $file_type = $_FILES['file']['type'];
- $folder="../faculty uploads/";
+ $folder="../synopsis/faculty/";
  if(!is_dir($folder.$u_id)){
-     $folder = "../faculty uploads/$sidi/";
+     $folder = "../synopsis/faculty/$sidi/";
      mkdir($folder);
  }
  else {
-     $folder = "../faculty uploads/$sidi/";
+     $folder = "../synopsis/faculty/$sidi/";
  }
  
  $uploadok = 1;

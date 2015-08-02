@@ -1,8 +1,9 @@
 <?php
 include_once('../includes/initialize.php');
+include_once('../includes/config.php');
 $u_id = $_SESSION['user_id'];
 //echo($u_id);
-$fuf = mysqli_connect('localhost', 'root', '', 'portal');
+$fuf = connection();
 if(isset($_POST['btn-upload']))
 {    
      
@@ -10,7 +11,7 @@ if(isset($_POST['btn-upload']))
     $file_loc = $_FILES['file']['tmp_name'];
  $file_size = $_FILES['file']['size'];
  $file_type = $_FILES['file']['type'];
- $folder="../admin upload/";
+ $folder="../presentation/";
 
  
  $uploadok = 1;

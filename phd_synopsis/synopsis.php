@@ -73,7 +73,7 @@
                         <a href="../homepage/homepage.php">Home</a>
                     </li>
                     <li>
-                        <a href="../comprehensive/cmpr.php">PhD Comprehensive</a>
+                        <a href="../comprehensive/Cmpr.php">PhD Comprehensive</a>
                     </li>
                     <li>
                         <a href="../rps/rps.php">RPS</a>
@@ -120,7 +120,7 @@
         <!-- /.container -->
     </nav>
 <?php
-$main = $_SESSION['user_id'];
+//$main = $_SESSION['user_id'];
 
 $g = connection();
 $f="SELECT status FROM student WHERE s_id=$u_id";
@@ -137,8 +137,20 @@ if($i1[0]<3){
     </div>
         <?php
 }
-else{
-$f = "SELECT syn_convenor_id, syn_stud_name, syn_con_name, comm1, comm2, comm3, comm4, grade, stud_report, fac_report FROM synopsis WHERE syn_std_id=$main";
+else
+    if($i1[0]==5){
+        ?>
+    <div class="container">
+        <div class="box">
+    
+    <label><strong>You are out of the PHD Program.</strong></label>
+    </div>
+    </div>
+    <?php
+    }
+    else
+    if($i1[0]>2&&$i1[0]<5){
+$f = "SELECT syn_convenor_id, syn_stud_name, syn_con_name, comm_1, comm_2, comm_3, comm_4, grade, stud_report, fac_report, comm1_name, comm2_name, comm3_name, comm4_name FROM synopsis WHERE syn_std_id=$u_id";
 $h = mysqli_query($g,$f);
 
 $i = mysqli_fetch_array($h);
@@ -151,25 +163,105 @@ $i = mysqli_fetch_array($h);
             <label>Student name</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($i[1]); ?>" readonly>
             <label>Student Id</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($main); ?>" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($u_id); ?>" readonly>
             <label>Committee Convener ID</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($i[0]); ?>" readonly>
             <label>Committee Convener Name</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($i[2]); ?>" readonly>
             <label>Committee Member 1</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($i[3]); ?>" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[3]); echo(' '); echo($i[10]); ?>" readonly>
             <label>Committee Member 2</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($i[4]); ?>"readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[4]); echo(' '); echo($i[11]); ?>"readonly>
             <label>Committee Member 3</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($i[5]); ?>" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[5]); echo(' '); echo($i[12]); ?>" readonly>
             <label>Committee Member 4</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($i[6]); ?>" readonly>
+            <input class="form-control" type="text" placeholder="<?php echo($i[6]); echo(' '); echo($i[13]); ?>" readonly>
             
             <label>Faculty Report</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($i[9]); ?>" readonly>
-            <label>Student Report</label><br>
-            <input class="form-control" type="text" placeholder="<?php echo($i[8]); ?>" readonly>
+            <?php
+                        if($i[9]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../synopsis/faculty/$u_id/");
+                            echo($i[9]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+            <label>Upload Student Report</label><br>
             
+            <?php
+                if($i[8]=="NA"){
+                    ?>
+                            <form action="upload_st.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" />
+                            <button type="submit" name="btn-upload">upload</button>
+                            </form>
+                        <?php
+                            if(isset($_GET['success']))
+                        {
+                         ?>
+                        <label>File Uploaded Successfully.<a href="view_s.php">click here to view file.</a></label>
+                               <?php
+                        }
+                        else if(isset($_GET['fail']))
+                        {
+                         ?>
+                               <label>Problem While File Uploading !</label>
+                               <?php
+                        }
+                        else if(isset($_GET['exists'])){
+                            ?>
+                               <label>Filename exists. Upload new file.</label>
+                               <?php
+                        }
+                        else
+                        {
+                         ?>
+                               <label>The File should be in PDF format with filename as "Student-ID_Faculty_ID_phd_comp"</label>
+                               <?php
+                        }
+                        ?>
+                        <?php
+                            }
+                            else{
+                                ?>
+                               
+                               <form action="upload_st.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" />
+                            <button type="submit" name="btn-upload">upload</button>
+                            </form>
+                        <?php
+                            if(isset($_GET['success']))
+                        {
+                         ?>
+                        <label>File Uploaded Successfully.<a href="view_s.php">click here to view file.</a></label>
+                               <?php
+                        }
+                        else if(isset($_GET['fail']))
+                        {
+                         ?>
+                        <label>Problem While File Uploading !<a href="view_s.php">View Previous file.</a></label>
+                               <?php
+                        }
+                        else if(isset($_GET['exists'])){
+                            ?>
+                        <label>Filename exists. Upload new file.<a href="view_s.php">View Previous File.</a></label>
+                               <?php
+                        }
+                        else
+                        {
+                         ?>
+                            <label><a href="view_s.php">Click here to view uploaded File. You can upload a new file.</a></label>
+                               <?php
+                        }
+                        ?>
+                                <?php
+                            }
+                        ?>
+                            <br>
             
             <label>Grade</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($i[7]); ?>" readonly>
@@ -177,6 +269,67 @@ $i = mysqli_fetch_array($h);
         </div>
         </div>
     </div>
+    
+    <?php
+    
+    $f = "SELECT syn_convenor_id, syn_stud_name, syn_con_name, grade, stud_report, fac_report FROM synopsis WHERE syn_std_id=$u_id";
+$h = mysqli_query($g,$f);
+
+$i = mysqli_fetch_array($h);
+
+?>
+    <div class="container">
+        <div class="box">
+        <div class="col-lg-12">
+            <div class="form-group">
+            <label>Student name</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($i[1]); ?>" readonly>
+            <label>Student Id</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($u_id); ?>" readonly>
+            <label>Committee Convener ID</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($i[0]); ?>" readonly>
+            
+            <label>Committee Convener Name</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($i[2]); ?>" readonly>
+            <label>Grade</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($i[3]); ?>" readonly>
+            
+            <label>Faculty Report</label><br>
+            <?php
+                        if($i[5]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../synopsis/faculty/$u_id/");
+                            echo($i[5]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+            <label>Student Report</label><br>
+            <?php
+                        if($i[4]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../synopsis/student/$u_id/");
+                            echo($i[4]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+            
+                            <br>
+            
+            
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    
     <?php
 }
     ?>

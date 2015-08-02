@@ -103,7 +103,13 @@
                                     Edit Password
                                 </a>
                             </li>
-                            
+                            <li>
+                                
+                                <a href="../admin_module/admin_panel.php">
+                                    <i class="entypo-lock"></i>
+                                    Admin Panel
+                                </a>
+                            </li>
                             <li>
                                 <a href="../includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
                             </li>
@@ -119,11 +125,7 @@
         <!-- /.container -->
     </nav>
 
-    <div class="container">
-
-            <div class="box">
-                <div class="col-lg-12">
-                    <div class="form-group">
+    
                         
                         <?php
                         
@@ -137,18 +139,23 @@
                                 
                                 $_SESSION['macho'] = $sid;
                                 //echo($sid);
-                                $damn = "SELECT stud_name,super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade, stud_report, comm1_name, comm2_name, comm3_name, comm4_name, supervisor FROM rps WHERE s_rps_id = $sid AND rps_semester= (SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$sid)";
+                                $damn = "SELECT stud_name,super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade1, stud_report, comm1_name, comm2_name, comm3_name, comm4_name, supervisor, grade2, grade3, grade4, grade5, course5, rps_semester FROM rps WHERE s_rps_id = $sid AND rps_semester= (SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$sid)";
                             
                                 $chalo = connection();
                                 $quer = mysqli_query($chalo, $damn);
                                 $ar = mysqli_fetch_array($quer);
                                 
-                                
+                                $_SESSION['sem'] = $ar[23];
+                                //echo($ar[23]);
                             
                         
                         
                         ?>
-                        
+            <div class="container">
+
+                <div class="box">
+                    <div class="col-lg-12">
+                        <div class="form-group">
                         <label>STUDENT ID</label>
                         <input class="form-control" type="text" placeholder="<?php echo($sid)?>" readonly>
                         <br>
@@ -166,6 +173,24 @@
                         <br>
                         <label>Course 4</label>
                         <input class="form-control" type="text" placeholder="<?php echo($ar[10]); ?>" readonly>
+                        <br>
+                        <label>Course 5</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($ar[22]); ?>" readonly>
+                        <br>
+                        <label>Grade - Course1</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($ar[11]); ?>" readonly>
+                        <br>
+                        <label>Grade - Course2</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($ar[18]); ?>" readonly>
+                        <br>
+                        <label>Grade - Course3</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($ar[19]); ?>" readonly>
+                        <br>
+                        <label>Grade - Course4</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($ar[20]); ?>" readonly>
+                        <br>
+                        <label>Grade - Course5</label>
+                        <input class="form-control" type="text" placeholder="<?php echo($ar[21]); ?>" readonly>
                         <br>
                         
                         <form role="form" method="post" action="set_fculty.php">
@@ -197,7 +222,7 @@
                             
                         ?>
                         <select class="form-control" name="fid">
-                            <option value=""></option>
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -213,7 +238,7 @@
                         <label>COMMITTEE MEMBER 1</label>
                         <input type="text" class="form-control" placeholder="<?php echo($ar[3]); echo(' '); echo($ar[13]); ?>" readonly>
                         <select class="form-control" name="fid1">
-                            <option value=""></option>
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -230,7 +255,7 @@
                         <label>COMMITTEE MEMBER 2</label>
                         <input type="text" class="form-control" placeholder="<?php echo($ar[4]);echo(' '); echo($ar[14]); ?>" readonly>
                         <select class="form-control" name="fid2">
-                            <option value=""></option>
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -247,7 +272,7 @@
                         
                         <input type="text" class="form-control" placeholder="<?php echo($ar[5]); echo(' '); echo($ar[15]); ?>" readonly>
                         <select class="form-control" name="fid3">
-                            <option value=""></option>
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -264,7 +289,7 @@
                         
                         <input type="text" class="form-control" placeholder="<?php echo($ar[6]); echo(' '); echo($ar[16]); ?>" readonly>
                         <select class="form-control" name="fid4">
-                            <option value=""></option>
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -278,7 +303,145 @@
                         </select>
                         <br>
                         <input type="submit" name="f_sub" value="SUBMIT">
+                        <br>
+                        </form>
+                        <br>
+                        <label>Faculty Report</label>
                         <?php
+                        if($ar[2]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../rps_uploads/faculty/$sid/");
+                            echo($ar[2]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+                        <br>
+                        <label>Student Report</label>
+                        <?php
+                        if($ar[12]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../rps_uploads/student/$sid/");
+                            //echo($ar[12]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
+    <?php
+        $damn1 = "SELECT stud_name, f_report, grade1, stud_report, supervisor, grade2, grade3, grade4, grade5,rps_semester FROM rps WHERE s_rps_id = $sid AND rps_semester< (SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$sid)";
+                            
+                
+        $quer1 = mysqli_query($chalo, $damn1);
+        
+        $a1 = Array();
+        $a2 = Array();
+        $a3 = Array();
+        $a4 = Array();
+        $a5 = Array();
+        $a6 = Array();
+        $a7 = Array();
+        $a8 = Array();
+        $a9 = Array();
+        $a10 = Array();
+        
+        while($result = mysqli_fetch_array($quer1)){
+            
+            $a1[] = $result['stud_name'];
+            $a2[] = $result['f_report'];
+            $a3[] = $result['grade1'];
+            $a4[] = $result['stud_report'];
+            $a5[] = $result['supervisor'];
+            $a6[] = $result['grade2'];
+            $a7[] = $result['grade3'];
+            $a8[] = $result['grade4'];
+            $a9[] = $result['grade5'];
+            $a10[] = $result['rps_semester'];
+        }
+        
+            $number = count($a1);
+            
+            if($number==0){
+                ?>
+            <label>No previous RPS semester</label>
+            <?php
+            }
+            else{
+                for($e=0;$e<$number;$e++){
+                    ?>
+            <div class="container">
+                <div class="box">
+                    <label>RPS Semester</label><br>
+                    <input type="test" class="form-control" placeholder="<?php echo($a10[$e]); ?>" readonly>
+                    <label>Student Id</label><br>
+                    <input type="text" class="form-control" placeholder="<?php echo($sid); ?>" readonly>
+                    <br>
+                    <label>Student Name</label><br>
+                    <input type="text" class="form-control" placeholder="<?php echo($a1[$e]); ?>" readonly>
+                    <br>
+                    <label>Grade - Course1</label><br>
+                    <input type="text" class="form-control" placeholder="<?php echo($a3[$e]); ?>" readonly>
+                    <br>
+                    <label>Grade - Course2</label><br>
+                    <input type="text" class="form-control" placeholder="<?php echo($a6[$e]); ?>" readonly>
+                    <br>
+                    <label>Grade - Course3</label><br>
+                    <input type="text" class="form-control" placeholder="<?php echo($a7[$e]); ?>" readonly>
+                    <br>
+                    <label>Grade - Course4</label><br>
+                    <input type="text" class="form-control" placeholder="<?php echo($a8[$e]); ?>" readonly>
+                    <br>
+                    <label>Grade - Course5</label><br>
+                    <input type="text" class="form-control" placeholder="<?php echo($a9[$e]); ?>" readonly>
+                    <br>
+                    <label>Student Report</label>
+                    <?php
+                        if($a2[$e]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../rps_uploads/student/$sid/");
+                            //echo($a2[$e]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+            ?>
+                    <br>
+                    <label>Faculty Report</label>
+                    <?php
+                        if($a8[$e]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../rps_uploads/faculty/$sid/");
+                            echo($a8[$e]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+            ?>
+                    <br>
+                </div>
+            </div>
+            <?php
+                }
+            }
+    ?>
+    
+    <?php
                         }
                         else{
                             ?>
@@ -293,39 +456,6 @@
                         }
                         
                         ?>
-                        </form>
-                        <br>
-                        <label>Faculty Report</label>
-                        <?php
-                        if($ar[2]=="NA"){
-                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
-                            echo("NO FILE UPLOADED");
-                            echo("\" readonly>");
-                        }
-                        else{
-                            echo("<br><a href=\"../faculty uploads/$ar[17]/");
-                            echo($ar[2]);
-                            echo("\"target=\"_blank\">View File</a><br>");
-                        }
-                        ?>
-                        <br>
-                        <label>Student Report</label>
-                        <?php
-                        if($ar[12]=="NA"){
-                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
-                            echo("NO FILE UPLOADED");
-                            echo("\" readonly>");
-                        }
-                        else{
-                            echo("<br><a href=\"../faculty uploads/$sid/");
-                            echo($ar[12]);
-                            echo("\"target=\"_blank\">View File</a><br>");
-                        }
-                        ?>
-                    </div>
-                </div>
-            </div>
-        </div>
     <!-- /.container -->
 
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">

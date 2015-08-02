@@ -136,15 +136,15 @@
                                 
                                 $_SESSION['macho'] = $sid;
                                 
-                                $damn = "SELECT convener_name, fac_report,pass, stud_name, attempt, comm1, comm1_name, comm2, comm2_name, comm3, comm3_name, comm4, comm4_name FROM phd_comp p WHERE stud_id = $sid AND p.attempt>=(SELECT MAX(attempt) FROM phd_comp)";
+                                $damn = "SELECT convener_name, fac_report,pass, stud_name, attempt, comm1, comm1_name, comm2, comm2_name, comm3, comm3_name, comm4, comm4_name FROM phd_comp p WHERE stud_id = $sid AND p.attempt=(SELECT MAX(attempt) FROM phd_comp p1 WHERE p1.stud_id = $sid)";
                                 
                                 $chalo = connection();
                                 $queq = mysqli_query($chalo, $damn);
                                 $aram = mysqli_fetch_array($queq);
                                 
                                 $test = $aram[4];
-                                
-                            $_SESSION['attempt'] = $test;
+                                $_SESSION['stud_name'] = $aram[3];
+                                $_SESSION['attempt'] = $test;
                             //echo($test);
                         
                         ?>

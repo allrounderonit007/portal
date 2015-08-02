@@ -129,7 +129,7 @@
                         <?php
                         $tamp = connection();
                         
-                        $query = "SELECT p.stud_id,p.stud_name, MAX(attempt) FROM phd_comp p, student s WHERE convenor_id = $u_id AND p.stud_id=s.s_id AND status=1 GROUP BY stud_id";
+                        $query = "SELECT stud_id,stud_name, attempt FROM phd_comp p WHERE convenor_id = $u_id AND stud_id=(SELECT s_id FROM student s WHERE s.s_id = p.stud_id AND s.status=1) AND attempt = (SELECT MAX(attempt) FROM phd_comp p1 WHERE p1.stud_id = p.stud_id) GROUP BY stud_id";
                         $solution = mysqli_query($tamp, $query);
                         //$array = mysqli_fetch_array($solution);
                         //echo($array[1]);
@@ -140,7 +140,7 @@
                         while($array = mysqli_fetch_assoc($solution)){
                             $storeArray[]= $array['stud_id'];
                             $namearray[] = $array['stud_name'];
-                            $storeArray1[] = $array['MAX(attempt)'];
+                            $storeArray1[] = $array['attempt'];
                             
                         }
                         
@@ -203,7 +203,7 @@
                         <?php
                         }
                         
-                        $query = "SELECT p.stud_id,p.stud_name, MAX(attempt) FROM phd_comp p, student s WHERE convenor_id = $u_id AND (comm1 = $u_id OR comm2=$u_id OR comm3=$u_id OR comm4=$u_id) AND p.stud_id=s.s_id AND status=1 GROUP BY stud_id" ;
+                        $query = "SELECT stud_id,stud_name, attempt FROM phd_comp p WHERE (comm1 = $u_id OR comm2=$u_id OR comm3=$u_id OR comm4=$u_id) AND stud_id=(SELECT s_id FROM student s WHERE s.s_id = p.stud_id AND status=1) AND attempt = (SELECT MAX(attempt) FROM phd_comp p1 WHERE p1.stud_id = p.stud_id) GROUP BY stud_id" ;
                         $solution = mysqli_query($tamp, $query);
                         //$array = mysqli_fetch_array($solution);
                         //echo($array[1]);
@@ -213,7 +213,7 @@
                         while($array1 = mysqli_fetch_assoc($solution)){
                             $storeArr[]= $array1['stud_id'];
                             $namearr[] = $array1['stud_name'];
-                            $storeArr1[] = $array1['MAX(attempt)'];
+                            $storeArr1[] = $array1['attempt'];
                         }
                         
                         
@@ -257,7 +257,9 @@
                             </tr>
                             <?php
                                 
-                                
+                        
+                        
+                        
                             
                             }
                         ?>
@@ -274,7 +276,68 @@
                         <?php
                         }
                         ?>
+                        <br>
+                        <?php
+                        $query = "(SELECT stud_id,stud_name, attempt FROM phd_comp p WHERE (convenor_id = $u_id OR (comm1 = $u_id OR comm2=$u_id OR comm3=$u_id OR comm4=$u_id)) AND stud_id=(SELECT s_id FROM student s WHERE s.s_id = p.stud_id AND s.status>1) AND attempt = (SELECT MAX(attempt) FROM phd_comp p1 WHERE p1.stud_id = p.stud_id) GROUP BY stud_id) UNION (SELECT stud_id,stud_name, attempt FROM phd_comp p WHERE (convenor_id = $u_id OR (comm1 = $u_id OR comm2=$u_id OR comm3=$u_id OR comm4=$u_id)) AND stud_id=(SELECT s_id FROM student s WHERE s.s_id = p.stud_id AND s.status>1) AND attempt < (SELECT MAX(attempt) FROM phd_comp p1 WHERE p1.stud_id = p.stud_id) GROUP BY stud_id) UNION (SELECT stud_id,stud_name, attempt FROM phd_comp p WHERE (convenor_id = $u_id OR (comm1 = $u_id OR comm2=$u_id OR comm3=$u_id OR comm4=$u_id)) AND stud_id=(SELECT s_id FROM student s WHERE s.s_id = p.stud_id AND s.status=1) AND attempt < (SELECT MAX(attempt) FROM phd_comp p1 WHERE p1.stud_id = p.stud_id) GROUP BY stud_id)" ;
+                        $solution = mysqli_query($tamp, $query);
                         
+                        $tich = Array();
+                        $tich1 = Array();
+                        $tich2 = Array();
+                        
+                        while($fd = mysqli_fetch_array($solution)){
+                            $tich[] = $fd['stud_id'];
+                            $tich1[] = $fd['stud_name'];
+                            $tich2[] = $fd['attempt'];
+                        }
+                        
+                        $size2 = count($tich);
+                        
+                        if($size2==0){
+                            ?>
+                        <label>Earlier Semesters</label>
+                        <br>
+                        <label>No previous Semester People</label>
+                        <?php
+                        }
+                        else{
+                        ?>
+                        <label>Earlier Semesters</label>
+                        <form method="post" action="archives_f.php" role="form">
+                            <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Select</strong></td>
+                                        <td><strong>ID</strong></td>
+                                        <td><strong>Name</strong></td>
+                                        <td><strong>Attempts</strong></td>
+                                    </tr>
+                                    <?php
+                                    for($x=0;$x<$size2;$x++){
+                                        ?>
+                                    <tr>
+                                    <td><input type="radio" name="sid3" value="<?php echo($tich[$x]);?>"></td>
+                                    <td><?php echo($tich[$x]); ?></td>
+                                    <td><?php echo($tich1[$x]); ?></td>
+                                    <td><?php echo($tich2[$x]+1);?></td>
+                                    </tr>
+                                    
+                                    <?php
+                                    
+                                    }
+                                    ?>
+                                    <tr>
+                                    <td><input type="submit" name="rad-sub3" value="Submit"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

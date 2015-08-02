@@ -103,7 +103,13 @@
                                     Edit Password
                                 </a>
                             </li>
-                            
+                            <li>
+                                
+                                <a href="../admin_module/admin_panel.php">
+                                    <i class="entypo-lock"></i>
+                                    Admin Panel
+                                </a>
+                            </li>
                             <li>
                                 <a href="../includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
                             </li>
@@ -130,7 +136,7 @@
                         
                         $tamp = connection();
                         
-                        $query = "SELECT s_rps_id,super_name, stud_name, MAX(rps_semester) FROM rps GROUP BY s_rps_id";
+                        $query = "SELECT s_rps_id,super_name, stud_name, rps_semester FROM rps r WHERE s_rps_id=(SELECT s_id FROM student r1 WHERE r.s_rps_id=r1.s_id AND r1.status = 2) AND rps_semester=(SELECT MAX(rps_semester) FROM rps r2 WHERE r.s_rps_id = r2.s_rps_id) GROUP BY s_rps_id";
                         $solution = mysqli_query($tamp, $query);
                         //$array = mysqli_fetch_array($solution);
                         //echo($array[1]);
@@ -142,7 +148,7 @@
                             $storeArray[]= $array['s_rps_id'];
                             $starr[] = $array['super_name'];
                             $starr2[] = $array['stud_name'];
-                            $starr3[] = $array['MAX(rps_semester)'];
+                            $starr3[] = $array['rps_semester'];
                         }
                         
                         
@@ -151,7 +157,7 @@
                         
                         if($size==0){
                             ?> 
-                        -->
+                        
                         <label>No student currently</label>
                         <?php
                         }
@@ -170,13 +176,6 @@
                                     </tr>
                             <?php
                             
-                            
-                            
-                            //$x = 0;
-                            //$size = count($storeArray);
-                            //echo($size);
-                            //echo($array[0]);
-                            //echo($array[1]);
                             for($x=0;$x<$size;$x++){
                                 ?>
                                     <tr>
@@ -191,7 +190,7 @@
                                 
                             
                             }
-                        }
+                        
                         ?>
                                     
                             </tbody>
@@ -199,10 +198,83 @@
                             <br>
                             <input type="submit" name="rad-sub" value="Submit">
                         </form>
-                        <br><br>
-                        <form action="printcomp.php" method="post">
-                            <button>Print PhD Comprehensive Page</button>
-                        </form>
+                        <br>
+                        <?php
+                        }
+                        ?>
+                        <!-- LIST OF PREVIOUS STUDENTS-->
+                        <br>
+                        <label>List of students having completed RPS</label><br>
+                        <?php
+                        
+                        
+                        
+                        $query1 = "SELECT s_rps_id,super_name, stud_name, MAX(rps_semester) FROM rps r WHERE s_rps_id=(SELECT s_id FROM student r1 WHERE r.s_rps_id=r1.s_id AND r1.status > 2 AND r1.status<>5) GROUP BY s_rps_id";
+                        $solution1 = mysqli_query($tamp, $query1);
+                        //$array = mysqli_fetch_array($solution);
+                        //echo($array[1]);
+                        $storeArray1 = Array();
+                        $starr1 = Array();
+                        $starr21 = Array();
+                        $starr31 = Array();
+                        while($arrayq = mysqli_fetch_assoc($solution1)){
+                            $storeArray1[]= $arrayq['s_rps_id'];
+                            $starr1[] = $arrayq['super_name'];
+                            $starr21[] = $arrayq['stud_name'];
+                            $starr31[] = $arrayq['MAX(rps_semester)'];
+                        }
+                        
+                        
+                        $sizea = count($storeArray1);
+                        //echo($size);
+                        
+                        if($sizea==0){
+                            ?> 
+                        
+                        <label>No student currently</label>
+                        <?php
+                        }
+                        else{
+                            
+                            ?>
+                        <form method="post" action="previous_a.php" role="form">
+                            <table border="1" cellspacing="1" width="30%" style="text-align: center">
+                                <tbody>
+                                    <tr>
+                                        <td>Select</td>
+                                        <td><strong>Student Id</strong></td>
+                                        <td><strong>Student Name</strong></td>
+                                        <td><strong>Supervisor Name</strong></td>
+                                        <td><strong>RPS</strong></td>
+                                    </tr>
+                            <?php
+                            
+                            for($x=0;$x<$sizea;$x++){
+                                ?>
+                                    <tr>
+                            <td><input type="radio" name="sid" value="<?php echo($storeArray1[$x]);?>"></td>
+                            <td><?php echo($storeArray1[$x]); ?></td>
+                            <td><?php echo($starr21[$x]); ?></td>
+                            <td><?php echo($starr1[$x]); ?></td>
+                            <td><?php echo($starr31[$x]); ?></td>
+                                    </tr>
+                            <?php
+                                
+                                
+                            
+                            }
+                            ?>
+                                  </tbody>
+                            </table>
+                            <br>
+                            <input type="submit" name="rad-sub" value="Submit">
+                        </form>  
+                                    
+                                    <?php
+                        }
+                        ?>
+                        
+                        
                          
                     </div>
                 </div>

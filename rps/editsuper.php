@@ -130,12 +130,12 @@
             $student1 = $_SESSION['student'];
             $_SESSION['sem'] = $semester;
             
-            $cut = "SELECT stud_name, super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade, stud_report, comm1_name, comm2_name, comm3_name, comm4_name FROM rps WHERE rps_semester =$semester AND supervisor=$u_id AND s_rps_id=$student1";
+            $cut = "SELECT stud_name, super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade1, stud_report, comm1_name, comm2_name, comm3_name, comm4_name, grade2, grade3, grade4, grade5, course5 FROM rps WHERE rps_semester =$semester AND supervisor=$u_id AND s_rps_id=$student1";
             
             $take = mysqli_query($tan, $cut);
             
             $amp = mysqli_fetch_array($take);
-       
+            $_SESSION['stud_name'] = $amp[0];
             ?>
     
     <div class="container">
@@ -177,15 +177,67 @@
             <label><strong>COURSE 4</strong></label>
             <input type="text" class="form-control" placeholder="<?php echo($amp[9]) ?>" readonly>
             <br>
-            <label><strong>GRADE</strong></label>
+            <label><strong>COURSE 5</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[21]) ?>" readonly>
+            <br>
+            <label><strong>GRADE - COURSE1</strong></label>
             <input type="text" class="form-control" placeholder="<?php echo($amp[11]); ?>" readonly>
             <form action="editgrade.php" method="post" role="form">
                 <select name="g" class="form-control">
-                    <option value="satis">SATISFACTORY</option>
-                    <option value="unsat">UNSATISFACTORY</option>
-                    <option value="unsat">INCOMPLETE</option>
+                    <option value=""></option>
+                    <option value="sat">SATISFACTORY</option>
+                    <option value="un">UNSATISFACTORY</option>
+                    <option value="in">INCOMPLETE</option>
                 </select>
-            <input type="submit" name="grade" value="Submit Grade">
+            <input type="submit" name="grade1" value="Submit Grade">
+            </form>
+            <br>
+            <label><strong>GRADE - COURSE2</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[17]); ?>" readonly>
+            <form action="editgrade.php" method="post" role="form">
+                <select name="g" class="form-control">
+                    <option value=""></option>
+                    <option value="sat">SATISFACTORY</option>
+                    <option value="un">UNSATISFACTORY</option>
+                    <option value="in">INCOMPLETE</option>
+                </select>
+            <input type="submit" name="grade2" value="Submit Grade">
+            </form>
+            <br>
+            <label><strong>GRADE - COURSE3</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[18]); ?>" readonly>
+            <form action="editgrade.php" method="post" role="form">
+                <select name="g" class="form-control">
+                    <option value=""></option>
+                    <option value="sat">SATISFACTORY</option>
+                    <option value="un">UNSATISFACTORY</option>
+                    <option value="in">INCOMPLETE</option>
+                </select>
+            <input type="submit" name="grade3" value="Submit Grade">
+            </form>
+            <br>
+            <label><strong>GRADE - COURSE4</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[19]); ?>" readonly>
+            <form action="editgrade.php" method="post" role="form">
+                <select name="g" class="form-control">
+                    <option value=""></option>
+                    <option value="sat">SATISFACTORY</option>
+                    <option value="un">UNSATISFACTORY</option>
+                    <option value="in">INCOMPLETE</option>
+                </select>
+            <input type="submit" name="grade4" value="Submit Grade">
+            </form>
+            <br>
+            <label><strong>GRADE - COURSE5</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[20]); ?>" readonly>
+            <form action="editgrade.php" method="post" role="form">
+                <select name="g" class="form-control">
+                    <option value=""></option>
+                    <option value="sat">SATISFACTORY</option>
+                    <option value="un">UNSATISFACTORY</option>
+                    <option value="in">INCOMPLETE</option>
+                </select>
+            <input type="submit" name="grade5" value="Submit Grade">
             </form>
             <br>
             <label>Upload Committee Report</label>
@@ -268,11 +320,18 @@
                             echo("\" readonly>");
                         }
                         else{
-                            echo("<br><a href=\"../faculty uploads/$u_id/");
-                            echo($amp[12]);
+                            echo("<br><a href=\"../rps_uploads/student/$student1/");
+                            //echo($amp[12]);
                             echo("\"target=\"_blank\">View File</a><br>");
                         }
                         ?>
+                            
+                            <label>Ready for Synopsis</label>
+                            <form method="post" action="ready.php">
+                                <input type="radio" name="rad" value="yes" placeholder="YES">YES<br>
+                                <input type="radio" name="rad" value="no" placeholder="NO">NO<br>
+                                <input type="submit" name="sub" placeholder="SUBMIT">
+                            </form>
         </div>
     </div>
 <?php

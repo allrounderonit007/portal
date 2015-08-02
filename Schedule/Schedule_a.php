@@ -76,7 +76,7 @@
                         <a href="../rps/rps_a.php">RPS</a>
                     </li>
                     <li>
-                        <a href="../phd_synopsis/synopsis_a.php.php">PhD Synopsis</a>
+                        <a href="../phd_synopsis/synopsis_a.php">PhD Synopsis</a>
                     </li>
                     <li>
                         <a href="../guidelines/Guidelines_a.php">Guidelines</a>
@@ -101,7 +101,13 @@
                                     Edit Password
                                 </a>
                             </li>
-                            
+                            <li>
+                                
+                                <a href="../admin_module/admin_panel.php">
+                                    <i class="entypo-lock"></i>
+                                    Admin Panel
+                                </a>
+                            </li>
                             <li>
                                 <a href="../includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
                             </li>
@@ -125,7 +131,7 @@
                 
                 <?php
                 
-                if (count(glob("../admin upload/*")) === 0 ){
+                if (count(glob("../presentation/*")) === 0 ){
                     ?>
                 <form action="upload.php" method="post" enctype="multipart/form-data">
                             <input type="file" name="file" />

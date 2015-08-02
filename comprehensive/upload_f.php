@@ -3,6 +3,7 @@ include_once('../includes/initialize.php');
 include_once('../includes/config.php');
 $u_id = $_SESSION['user_id'];
 $sidi = $_SESSION['macho'];
+$att = $_SESSION['attempt'];
 //echo($u_id);
 $fuf = connection();
 if(isset($_POST['btn-upload']))
@@ -12,14 +13,16 @@ if(isset($_POST['btn-upload']))
     $file_loc = $_FILES['file']['tmp_name'];
  $file_size = $_FILES['file']['size'];
  $file_type = $_FILES['file']['type'];
- $folder="../faculty uploads/";
- if(!is_dir($folder.$u_id)){
-     $folder = "../faculty uploads/$sidi/";
+ $folder="../comp_uploads/faculty/";
+ if(!is_dir($folder.$sidi)){
+     $folder = "../comp_uploads/faculty/$sidi/";
      mkdir($folder);
  }
  else {
-     $folder = "../faculty uploads/$sidi/";
+     $folder = "../comp_uploads/faculty/$sidi/";
  }
+ 
+ 
  
  $uploadok = 1;
  
@@ -48,20 +51,15 @@ if(isset($_POST['btn-upload']))
  else{
      if(move_uploaded_file($file_loc,$folder.$final_file))
  {
-  $late = "SELECT fac_report FROM phd_comp WHERE stud_id=$sidi";
-  $e = mysqli_query($fuf, $late);
-  $er = mysqli_fetch_array($e);
-  //echo($er);
-  if($er[0]=="NA"){
-      
-  }
-  else{
-      $final_e = $folder.$er[0];
-      unlink($final_e);
-  }
   
-  $late="UPDATE phd_comp SET fac_report = '$final_file',s_type='$file_type',s_size='$new_size' WHERE stud_id=$sidi";
+  //echo($er);
+  
+  
+  $late="UPDATE phd_comp SET fac_report = '$final_file',f_type='$file_type',f_size='$new_size' WHERE stud_id=$sidi AND attempt=$att";
   $e =mysqli_query($fuf,$late);
+  if($e){
+      echo("hello");
+  }
   ?>
   <script>
   alert('successfully uploaded');

@@ -61,29 +61,29 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="../homepage/homepage.php">USPMES - PhD</a>
+                <a class="navbar-brand" href="../homepage/homepage_a.php">USPMES - PhD</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="../homepage/homepage.php">Home</a>
+                        <a href="../homepage/homepage_a.php">Home</a>
                     </li>
                     <li>
-                        <a href="Cmpr.php">PhD Comprehensive</a>
+                        <a href="../comprehensive/Cmpr_a.php">PhD Comprehensive</a>
                     </li>
                     <li>
-                        <a href="../rps/rps.php">RPS</a>
+                        <a href="../rps/rps_a.php">RPS</a>
                     </li>
                     <li>
-                        <a href="../phd_synopsis/synopsis.php">PhD Synopsis</a>
+                        <a href="../phd_synopsis/synopsis_a.php">PhD Synopsis</a>
                     </li>
                     <li>
-                        <a href="../guidelines/Guidelines.php">Guidelines</a>
+                        <a href="../guidelines/Guidelines_a.php">Guidelines</a>
                     </li>
                     <li>
-                        <a href="../Schedule/Schedule.php">Schedule</a>
+                        <a href="../Schedule/Schedule_a.php">Schedule</a>
                     </li>
                     <li class="profile-info dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -96,12 +96,18 @@
                             
                             <li>
                                 
-                                <a href="../profile/editprofile.php">
+                                <a href="../profile/editprofile_a.php">
                                     <i class="entypo-lock"></i>
                                     Edit Password
                                 </a>
                             </li>
-                            
+                            <li>
+                                
+                                <a href="../admin_module/admin_panel.php">
+                                    <i class="entypo-lock"></i>
+                                    Admin Panel
+                                </a>
+                            </li>
                             <li>
                                 <a href="../includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
                             </li>
@@ -124,7 +130,7 @@
                 <br>
                 <?php
                 
-                echo("<a href=\"../admin upload/\""); 
+                echo("<a href=\"../presentation/\""); 
                 //echo ($take2[0]);
                 echo("\"target=\"_blank\">View file</a>");
                 ?>

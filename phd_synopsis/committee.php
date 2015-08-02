@@ -2,13 +2,14 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
     if( ! isset($_SESSION['user_id']) ){
         header("location:../login.php");
     }
-    
+    $u_id = $_SESSION['user_id'];
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
@@ -135,9 +136,9 @@
                                 
                                 $_SESSION['stud_id'] = $id2;
                                 
-                                $damn = "SELECT syn_stud_name, syn_con_name, comm1, comm2, comm3, comm4, grade, stud_report, fac_report FROM synopsis WHERE syn_stud_id=$id2 AND comm1 = $u_id OR comm2=$u_id OR comm3 = $u_id Or comm4 =$u_id";
+                                $damn = "SELECT syn_stud_name, syn_con_name, comm_1, comm_2, comm_3, comm_4, grade, stud_report, fac_report FROM synopsis WHERE syn_std_id=$id2 AND (comm_1 = $u_id OR comm_2=$u_id OR comm_3 = $u_id Or comm_4 =$u_id)";
                             
-                                $chalo = mysqli_connect('localhost', 'root', '', 'portal');
+                                $chalo = connection();
                                 $queq = mysqli_query($chalo, $damn);
                                 $aram = mysqli_fetch_array($queq);
                                 
@@ -164,9 +165,9 @@
                         <input class="form-control" type="text" placeholder="<?php echo($aram[5]); ?>" readonly>
      
                         
-                        <label>GRADE</label>
+                        <label>GRADE</label><br>
                         
-                            <input type="number" name="grade" placeholder="<?php echo($aram[6]); ?>">
+                        <input type="number" name="grade" placeholder="<?php echo($aram[6]); ?>" readonly>
                             
                         
                         
@@ -180,8 +181,8 @@
                             echo("\" readonly>");
                         }
                         else{
-                            echo("<br><a href=\"../student uploads/");
-                            echo($sid);
+                            echo("<br><a href=\"../synopsis/student/$id2/");
+                            //echo($sid);
                             echo("\"target=\"_blank\">View File</a><br>");
                         }
                         ?>
@@ -195,13 +196,81 @@
                             echo("\" readonly>");
                         }
                         else{
-                            echo("<br><a href=\"../faculty uploads/");
-                            echo($sid);
+                            echo("<br><a href=\"../synopsis/faculty/$id2/");
+                            //echo($sid);
                             echo("\"target=\"_blank\">View File</a><br>");
                         }
                         ?>
                         
                         <br>
+                        <br>
+                        <?php
+                        
+                        
+            $baat1 ="SELECT syn_stud_name, syn_convenor_name, attempt, grade, stud_report, fac_report FROM synopsis s WHERE (comm_1 = $u_id OR comm_2=$u_id OR comm_3 = $u_id Or comm_4 =$u_id) AND syn_std_id=$id AND attempt<(SELECT MAX(attempt) FROM synopsis s1 WHERE s1.syn_std_id=$id)";
+            $res2 = mysqli_query($link1, $baat1);
+           
+            
+            
+            
+                
+                $fet3 = mysqli_fetch_array($res2)
+                    
+                    
+                
+                
+                    //$length2 = count($syn_id2);
+                    
+                   
+                        ?>
+   
+            <label>Student Id</label><br>
+            <input type="text" placeholder="<?php echo($id); ?>" readonly>
+            <br>
+            <label>Student Name</label><br>
+            <input type="text" placeholder="<?php echo($fet3[0]); ?>" readonly>
+            <br>
+            
+            <label>Convener Name</label><br>
+            <input type="text" placeholder="<?php echo($fet3[1]); ?>" readonly>
+            <br>
+            <label>Attempt</label><br>
+            <input type="text" placeholder="<?php echo($fet3[2]+1); ?>" readonly>
+            <br>
+            <label>Grade</label><br>
+            <input type="text" placeholder="<?php echo($fet3[3]); ?>" readonly>
+            <br>
+            <label>STUDENT REPORT</label>
+                        
+                        <?php
+                        if($fet3[4]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../synopsis/student/$id");
+                            //echo($sid);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+                        
+                        <br>
+                        <label>Faculty Report</label>
+                        
+                        
+                        <?php
+                        if($fet3[5]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../synopsis/faculty/$id");
+                            //echo($sid);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
                         
                         <?php
                             }

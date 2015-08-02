@@ -3,6 +3,7 @@
     
     <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -125,10 +126,10 @@
             
             $semester1 = $_POST['sup2'];
             
-            $tan = mysqli_connect('localhost', 'root', '', 'portal');
+            $tan = connection();
             $student2 = $_SESSION['student'];
             $_SESSION['sem1'] = $semester1;
-            $cut = "SELECT stud_name, super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade FROM rps WHERE rps_semester =$semester1 AND s_rps_id=$student2 AND (comm1=$u_id OR comm2 =$u_id OR comm3=$u_id OR comm4=$u_id)";
+            $cut = "SELECT stud_name, super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade1, stud_report, grade2, grade3, grade4,grade5, course5 FROM rps WHERE rps_semester =$semester1 AND s_rps_id=$student2 AND (comm1=$u_id OR comm2 =$u_id OR comm3=$u_id OR comm4=$u_id)";
             
             
             $take = mysqli_query($tan, $cut);
@@ -167,31 +168,49 @@
             <label><strong>COURSE 1</strong></label>
             <input type="text" class="form-control" placeholder="<?php echo($amp[7]) ?>" readonly>
             <br>
+            <label><strong>GRADE1</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[11]); ?>" readonly>
+            <br>
             <label><strong>COURSE 2</strong></label>
             <input type="text" class="form-control" placeholder="<?php echo($amp[7]) ?>"readonly>
+            <br>
+            <label><strong>GRADE2</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[13]); ?>" readonly>
             <br>
             <label><strong>COURSE 3</strong></label>
             <input type="text" class="form-control" placeholder="<?php echo($amp[8]) ?>" readonly>
             <br>
-            <label><strong>COURSE 4</strong></label>
-            <input type="text" class="form-control" placeholder="<?php echo($amp[9]) ?>" readonly>
+            <label><strong>GRADE3</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[14]); ?>" readonly>
             <br>
-            <label><strong>GRADE</strong></label>
-            <input type="text" class="form-control" placeholder="<?php echo($amp[11]); ?>" readonly>
             
+            
+            <label><strong>GRADE4</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[15]); ?>" readonly>
             <br>
-            <label>View Report</label>
+            <label><strong>COURSE 5</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[17]) ?>" readonly>
+            <br>
+            <label><strong>GRADE5</strong></label>
+            <input type="text" class="form-control" placeholder="<?php echo($amp[16]); ?>" readonly>
+            <br>
+            <br>
+            <label>View Faculty Report</label>
             <?php
-                $mic = mysqli_connect('localhost', 'root', '', 'portal');
-                $si2 = $_SESSION['sem'];
-                $si3 = $_SESSION['student'];
-                $am = "SELECT f_report FROM rps WHERE s_rps_id=$si3 AND rps_semester=$si2 AND (comm1=$u_id OR comm2 =$u_id OR comm3=$u_id OR comm4=$u_id)";
-                $taked = mysqli_query($mic, $am);
-                $take2 = mysqli_fetch_array($taked);
-                echo("<a href=\"../faculty uploads/$u_id/\""); 
-                echo ($take2[0]);
+                
+                echo("<a href=\"../rps_uploads/faculty/$student2/\""); 
+                echo ($amp[2]);
                 echo("\"target=\"_blank\">View file</a>");
                 ?>
+            <br>
+            <label>View Student Report</label>
+            <?php
+                
+                echo("<a href=\"../rps_uploads/student/$student2/\""); 
+                echo ($amp[12]);
+                echo("\"target=\"_blank\">View file</a>");
+                ?>
+            <br>
         </div>
     </div>
 

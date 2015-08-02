@@ -101,7 +101,13 @@
                                     Edit Password
                                 </a>
                             </li>
-                            
+                            <li>
+                                
+                                <a href="../admin_module/admin_panel.php">
+                                    <i class="entypo-lock"></i>
+                                    Admin Panel
+                                </a>
+                            </li>
                             <li>
                                 <a href="../includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
                             </li>
@@ -136,12 +142,12 @@
                                 
                                 $_SESSION['macho'] = $sid;
                                 //echo($sid);
-                                $damn = "SELECT stud_name, fac_report,pass, convenor_id, convener_name, comm1, comm1_name, comm2, comm2_name, comm3,comm3_name, comm4, comm4_name FROM phd_comp WHERE stud_id = $sid";
-                            
+                                $damn = "SELECT stud_name, fac_report,pass, convenor_id, convener_name, comm1, comm1_name, comm2, comm2_name, comm3,comm3_name, comm4, comm4_name, attempt FROM phd_comp p WHERE stud_id = $sid AND attempt = (SELECT MAX(attempt) FROM phd_comp p1 WHERE p.stud_id = p1.stud_id)";
+                                
                                 $chalo = connection();
                                 $que = mysqli_query($chalo, $damn);
                                 $ar = mysqli_fetch_array($que);
-                                
+                                $_SESSION['attempt'] = $ar[13];
                                 
                             
                         
@@ -183,6 +189,7 @@
                             
                         ?>
                         <select class="form-control" name="fid">
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -198,6 +205,7 @@
                         <label>COMMITTEE MEMBER 1</label>
                         <input type="text" class="form-control" placeholder="<?php echo($ar[5]); echo('-'); echo($ar[6]); ?>" readonly>
                         <select class="form-control" name="fid1">
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -214,6 +222,7 @@
                         <label>COMMITTEE MEMBER 2</label>
                         <input type="text" class="form-control" placeholder="<?php echo($ar[7]); echo('-'); echo($ar[8]); ?>" readonly>
                         <select class="form-control" name="fid2">
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -229,6 +238,7 @@
                         <label>COMMITTEE MEMBER 3</label>
                         <input type="text" class="form-control" placeholder="<?php echo($ar[9]);echo('-'); echo($ar[10]); ?>" readonly>
                         <select class="form-control" name="fid3">
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -244,6 +254,7 @@
                         <label>COMMITTEE MEMBER 4</label>
                         <input type="text" class="form-control" placeholder="<?php echo($ar[11]); echo('-'); echo($ar[12]); ?>" readonly>
                         <select class="form-control" name="fid4">
+                            <option value="0" class="hidden"></option>
                             <?php
                             
                             for($x2=0;$x2<$size2;$x2++){
@@ -259,7 +270,67 @@
                         <input type="submit" name="f_sub" value="SUBMIT">
                         <?php
                         }
+                        ?>
+                        </form>
+                        <br>
+                        <p>Uploads</p>
+                
+                <?php
+                
+                
+                echo("<a href=\"../comp_uploads/faculty/$sid/\""); 
+                echo ($ar[1]);
+                echo("\"target=\"_blank\">View file</a>");
+                ?>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="container">
+        <div class="box">
+            <?php
+            $damn = "SELECT stud_name, fac_report,pass, convenor_id FROM phd_comp p WHERE stud_id = $sid AND attempt < (SELECT MAX(attempt) FROM phd_comp p1 WHERE p.stud_id = p1.stud_id)";
+            
+            $que = mysqli_query($chalo, $damn);
+            $ar = mysqli_fetch_array($que);
+            
+            $c = count($ar);
+            
+            if($c==0){
+                ?>
+            <label>No previous PhD Comprehensive Semester</label>
+            <?php
+            
+            }
+            else{
+                ?>
+            <label>Student ID</label><br>
+            <input type="text" placeholder="<?php echo($sid);  ?>" readonly>
+            <br>
+            <label>Student Name</label><br>
+            <input type="text" placeholder="<?php echo($ar[0]); ?>" readonly>
+            <br>
+            <label>Grade</label><br>
+            <input type="text" placeholder="<?php echo($ar[2]); ?>" readonly>
+            <br>
+            <label>Faculty Report</label><br>
+            <?php
+                        if($ar[1]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
                         }
+                        else{
+                            echo("<br><a href=\"../comp_uploads/faculty/$sid/");
+                            echo($ar[1]);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+            <?php
+            }
+            
+            }
                         else{
                             ?>
                         
@@ -273,24 +344,9 @@
                         }
                         
                         ?>
-                        </form>
-                        <br>
-                        <p>Uploads</p>
-                
-                <?php
-                
-                $am = "SELECT fac_report FROM phd_comp WHERE stud_id=$u_id";
-                $take = mysqli_query($chalo, $am);
-                $take2 = mysqli_fetch_array($take);
-                echo("<a href=\"../student uploads/$u_id/\""); 
-                echo ($take2[0]);
-                echo("\"target=\"_blank\">View file</a>");
-                ?>
-                       
-                    </div>
-                </div>
-            </div>
+            
         </div>
+    </div>
      
     
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">

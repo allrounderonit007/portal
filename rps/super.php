@@ -130,7 +130,7 @@
             $_SESSION['student'] = $student;
             
             $tec = connection();
-            $ques = "SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$student AND supervisor=$u_id";
+            $ques = "SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$student AND supervisor=$u_id AND s_rps_id = (SELECT s_id FROM student s WHERE s_id=s_rps_id AND s.status = 2)";
             $answer = mysqli_query($tec, $ques);
             
             //$fetching = Array();
@@ -142,6 +142,18 @@
             //$boom = count($fetching);
             //echo($boom);
             $print = mysqli_fetch_array($answer);
+            $counting = count($print);
+            
+            if($counting==0){
+                ?>
+    <div class="container">
+    <div class="box">
+        <label>No current rps</label>   
+    </div>
+    </div>
+    <?php
+            }
+            else{
             ?>
     <div class="container">
         <div class="box">
@@ -150,12 +162,15 @@
                 <input type="number" name="cursem" value="<?php echo($print[0]); ?>"placeholder="<?php echo($print[0]); ?>" readonly>
                 <input type="submit" name="edit_cur" id="edit_cur"placeholder="Edit">
                 </form>
+            <?php
+            }
+            ?>
             <br>
-            <form>
+            <form method="post" action="arch.php">
                 <label>Archives</label>
             
                 <?php
-                $ques = "SELECT rps_semester FROM rps WHERE s_rps_id =$student AND supervisor=$u_id AND rps_semester<(SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$student AND supervisor=$u_id)";
+                $ques = "(SELECT rps_semester FROM rps WHERE s_rps_id =$student AND supervisor=$u_id AND s_rps_id = (SELECT s_id FROM student s WHERE s_id=s_rps_id AND s.status = 2) AND rps_semester<(SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$student AND supervisor=$u_id))UNION (SELECT rps_semester FROM rps WHERE s_rps_id =$student AND supervisor=$u_id AND s_rps_id = (SELECT s_id FROM student s WHERE s_id=s_rps_id AND s.status > 2 AND s.status<>5) AND rps_semester<=(SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$student AND supervisor=$u_id))";
                 $answer = mysqli_query($tec, $ques);
                 $fetching = Array();
                 while($dress=  mysqli_fetch_array($answer)){

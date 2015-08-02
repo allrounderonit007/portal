@@ -178,14 +178,14 @@
                         <br>
                         
                         <?php
-                        if($s_row[1]=="NA"){
+                        if($s_row[2]=="NA"){
                             echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
                             echo("NO FILE UPLOADED");
                             echo("\" readonly>");
                         }
                         else{
-                            echo("<br><a href=\"../faculty uploads/$u_id/");
-                            echo($s_row[1]);
+                            echo("<br><a href=\"../comp_uploads/faculty/$sid/");
+                            echo($s_row[2]);
                             echo("\"target=\"_blank\">View File</a><br>");
                         }
                             }

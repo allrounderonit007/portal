@@ -125,9 +125,9 @@
     
     if(isset($_POST['editsem'])){
     $sem = $_POST['editsem'];
-    echo($sem);
+    //echo($sem);
     $din = connection();
-    $q = "SELECT supervisor, super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade, stud_name, stud_report FROM rps WHERE s_rps_id=$u AND rps_semester=$sem";
+    $q = "SELECT supervisor, super_name, f_report, comm1, comm2, comm3, comm4, course1, course2, course3, course4, grade1, stud_name, stud_report, course5, grade2,grade3,grade4,grade5 FROM rps WHERE s_rps_id=$u AND rps_semester=$sem";
     $ex = mysqli_query($din, $q);
     
     $l = mysqli_fetch_array($ex);
@@ -173,6 +173,7 @@
             
             ?>
             <select class="form-control" name="c1">
+                <option value="0" class="hidden"></option>
                 <?php
                             
                 for($x2=0;$x2<$s;$x2++){
@@ -186,6 +187,7 @@
             <label>Select Course 2</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($l[8]);?>" readonly>
             <select class="form-control" name="c2">
+                <option value="0" class="hidden"></option>
                 <?php
                             
                 for($x2=0;$x2<$s;$x2++){
@@ -199,6 +201,7 @@
             <label>Select Course 3</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($l[9]);?>" readonly>
             <select class="form-control" name="c3">
+                <option value="0" class="hidden"></option>
                 <?php
                             
                 for($x2=0;$x2<$s;$x2++){
@@ -212,6 +215,23 @@
             <label>Select Course 4</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($l[10]);?>" readonly>
             <select class="form-control" name="c4">
+                <option value="0" class="hidden"></option>
+                <?php
+                            
+                for($x2=0;$x2<$s;$x2++){
+                ?>
+                <option value="<?php echo($arid[$x2]);?>"> <?php echo($arname[$x2]);?>  <?php echo($arid[$x2]);?> </option>
+                <?php
+                }
+                        
+                ?>
+                
+            </select>
+            <br>
+            <label>Select Course 5</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[14]);?>" readonly>
+            <select class="form-control" name="c5">
+                <option value="0" class="hidden"></option>
                 <?php
                             
                 for($x2=0;$x2<$s;$x2++){
@@ -222,14 +242,24 @@
                         
                 ?>
             </select>
-            <br>
             <input type="submit" placeholder="Submit Courses" name="press">
             
             </form>
-            <label>Grade</label><br>
+            <label>Grade - Course1</label><br>
             <input class="form-control" type="text" placeholder="<?php echo($l[11]);?>" readonly>
             <br>
-            
+            <label>Grade - Course2</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[15]);?>" readonly>
+            <br>
+            <label>Grade - Course3</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[16]);?>" readonly>
+            <br>
+            <label>Grade - Course4</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[17]);?>" readonly>
+            <br>
+            <label>Grade - Course5</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($l[18]);?>" readonly>
+            <br>
             <label>Upload Student Report</label>
             
                         <?php
@@ -312,12 +342,63 @@
                             echo("\" readonly>");
                         }
                         else{
-                            echo("<br><a href=\"../faculty uploads/$u/");
+                            echo("<br><a href=\"../rps_uploads/faculty/$u/");
                             echo($l[2]);
                             echo("\"target=\"_blank\">View File</a><br>");
                         }
                         ?>
             
+        </div>
+    </div>
+    <div class="container">
+        <div class="box">
+            <label>Courses taken in previous RPS semesters</label><br>
+            <?php
+            
+            $wamp = "SELECT course1,course2,course3,course4,course5,rps_semester FROM rps WHERE rps_semester<$sem AND s_rps_id=$u";
+            $qe = mysqli_query($din, $wamp);
+            
+            $course1 = Array();
+            $course2 = Array();
+            $course3 = Array();
+            $course4 = Array();
+            $course5 = Array();
+            $attempt = Array();
+            
+            while($reas = mysqli_fetch_array($qe)){
+                $course1[] = $reas['course1'];
+                $course2[] = $reas['course2'];
+                $course3[] = $reas['course3'];
+                $course4[] = $reas['course4'];
+                $course5[] = $reas['course5'];
+                $attempt[] = $reas['rps_semester'];
+            }
+            
+            $cout = count($course1);
+            
+            for($w=0;$w<$cout;$w++){
+                ?>
+            <label><strong>RPS Semester</strong></label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($attempt[$w]); ?>" readonly>
+            <br>
+            <label>Course 1</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($course1[$w]); ?>" readonly>
+            <br>
+            <label>Course 2</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($course2[$w]); ?>" readonly>
+            <br>
+            <label>Course 3</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($course3[$w]); ?>" readonly>
+            <br>
+            <label>Course 4</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($course4[$w]); ?>" readonly>
+            <br>
+            <label>Course 5</label><br>
+            <input class="form-control" type="text" placeholder="<?php echo($course5[$w]); ?>" readonly>
+            <br>
+            <?php
+            }
+            ?>
         </div>
     </div>
     <?php

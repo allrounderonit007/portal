@@ -10,6 +10,7 @@
         header("location:../login.php");
     }
     
+    $u_id = $_SESSION['user_id'];
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
@@ -86,6 +87,7 @@
                         <a href="../Schedule/Schedule_a.php">Schedule</a>
                     </li>
                     
+                    
                     <!--<li>
                         <a href="includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
                     </li>-->
@@ -108,9 +110,17 @@
                             
                             <li>
                                 
-                                <a href="profile/editprofile.php">
+                                <a href="../profile/editprofile.php">
                                     <i class="entypo-lock"></i>
                                     Edit Password
+                                </a>
+                            </li>
+                            
+                            <li>
+                                
+                                <a href="../admin_module/admin_panel.php">
+                                    <i class="entypo-lock"></i>
+                                    Admin Panel
                                 </a>
                             </li>
                             
@@ -305,6 +315,90 @@
                             <td><?php echo($first3[$j]); ?></td>
                             <td><?php echo($second3[$j]); ?></td>
                             <td><?php echo($third3[$j]); ?></td>
+                        </tr>
+                    <?php
+                }
+                ?>
+                        </tbody>
+                </table>
+                
+                <!--Students Failed in PhD Comprehensive-->
+                
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                                
+                        <?php
+                            $write5 = "SELECT s_id, name, supervisor FROM student WHERE status =5";
+                            $list5 = mysqli_query($connect, $write5);
+                            
+                            $first5 = Array();
+                            $second5 = Array();
+                            $third5 = Array();
+
+                            while($val4 = mysqli_fetch_array($list5)){
+                                $first5[] = $val4['s_id'];
+                                $second5[] = $val4['name'];
+                                $third5[] = $val4['supervisor'];
+                            }
+
+                            $s5 = count($first5);
+                        ?>
+                    <caption><strong>Students Failing in PhD Comprehensive</strong></caption>
+                        <tbody>
+                            <tbody>
+                        <tr>
+                            <td><strong>Student Id</strong></td>
+                            <td><strong>Student name</strong></td>
+                            <td><strong>Supervisor</strong></td>
+                        </tr>
+                <?php
+                for($j=0;$j<$s5;$j++){
+                    ?>
+                        <tr>
+                            <td><?php echo($first5[$j]); ?></td>
+                            <td><?php echo($second5[$j]); ?></td>
+                            <td><?php echo($third5[$j]); ?></td>
+                        </tr>
+                    <?php
+                }
+                ?>
+                        </tbody>
+                </table>
+                
+                <!--Students Failed in PhD Synopsis-->
+                
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                                
+                        <?php
+                            $write6 = "SELECT s_id, name, supervisor FROM student WHERE status =6";
+                            $list6 = mysqli_query($connect, $write6);
+                            
+                            $first6 = Array();
+                            $second6 = Array();
+                            $third6 = Array();
+
+                            while($val5 = mysqli_fetch_array($list6)){
+                                $first6[] = $val5['s_id'];
+                                $second6[] = $val5['name'];
+                                $third6[] = $val5['supervisor'];
+                            }
+
+                            $s6 = count($first6);
+                        ?>
+                    <caption><strong>Students Failing in PhD Synopsis</strong></caption>
+                        <tbody>
+                            <tbody>
+                        <tr>
+                            <td><strong>Student Id</strong></td>
+                            <td><strong>Student name</strong></td>
+                            <td><strong>Supervisor</strong></td>
+                        </tr>
+                <?php
+                for($j=0;$j<$s6;$j++){
+                    ?>
+                        <tr>
+                            <td><?php echo($first6[$j]); ?></td>
+                            <td><?php echo($second6[$j]); ?></td>
+                            <td><?php echo($third6[$j]); ?></td>
                         </tr>
                     <?php
                 }

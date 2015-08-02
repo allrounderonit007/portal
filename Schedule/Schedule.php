@@ -126,7 +126,7 @@
                 <h2>Download from the Directory</h2>
                 <?php
                 
-                echo("<a href=\"../admin upload/\""); 
+                echo("<a href=\"../presentation/\""); 
                 //echo ($take2[0]);
                 echo("\"target=\"_blank\"><h4>View files</h4></a>");
                 ?>

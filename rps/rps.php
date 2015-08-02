@@ -75,7 +75,7 @@
                         <a href="../homepage/homepage.php">Home</a>
                     </li>
                     <li>
-                        <a href="../comprehensive/cmpr.php">PhD Comprehensive</a>
+                        <a href="../comprehensive/Cmpr.php">PhD Comprehensive</a>
                     </li>
                     <li>
                         <a href="rps.php">RPS</a>
@@ -137,6 +137,7 @@
         <?php
         }
     else
+        if($amt[0]==2)
     {
     ?>
 
@@ -146,17 +147,17 @@
             <form name="semlist" action="editsem.php" method="post">
                 
                 <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
-                    <caption><strong>Choose a Semester</strong></caption>
+                    <caption><strong>Current Semester</strong></caption>
                     <tbody>
                         <tr>
                     
                             <td><strong>RPS Semester</strong></td>
                             <td><strong>Action</strong></td>
                     
-                        </tr
+                        </tr>
                         <?php
                         
-                        $swap = "SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$u ORDER BY rps_semester";
+                        $swap = "SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$u  ";
                         $list = mysqli_query($non, $swap);
                         $arr = mysqli_fetch_array($list);
                         
@@ -187,25 +188,93 @@
                 </table>
             </form>
             
+            <!-- FOR EARLIER SEMESTERS -->
+            
+            <form action="archives.php" method="post">
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                    <caption><strong>Previous Semesters</strong></caption>
+                    <tbody>
+                        <tr>
+                    
+                            <td><strong>RPS Semester</strong></td>
+                            <td><strong>Action</strong></td>
+                    
+                        </tr>
+                        <?php
+                            $swap = "SELECT rps_semester FROM rps WHERE s_rps_id=$u AND rps_semester<(SELECT MAX(rps_semester) FROM rps WHERE s_rps_id=$u)";
+                            $list = mysqli_query($non, $swap);
+                            $arr1 = Array();
+                            while($gr = mysqli_fetch_array($list)){
+                                $arr1[] = $gr['rps_semester'];
+                            }
+                            
+                            $counting = count($arr1);
+                            
+                            for($d=0;$d<$counting;$d++){
+                                ?>
+                                <tr>
+                                    <td><?php echo($arr1[$d]) ?></td>
+                                    <td><button type="submit" name= "editsem" id ="editsem" value="<?php echo($arr1[$d]) ?>" placeholder="Edit" >Edit</button></td>
+                                </tr>
+                        <?php
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </form >
+        </div></div>
+            
             <?php
     }
-    ?>
-            <!--<label>Student Name</label><br>
-            <label>Student ID</label><br>
-            <label>Supervisor ID</label><br>
-            <label>Supervisor Name</label><br>
-            <label>Committee Member 1</label><br>
-            <label>Committee Member 2</label><br>
-            <label>Committee Member 3</label><br>
-            <label>Committee Member 4</label><br>
-            <label>Select Course 1</label><br>
-            <label>Select Course 2</label><br>
-            <label>Select Course 3</label><br>
-            <label>Select Course 4</label><br>
-            <label>Grade</label><br>-->
-            
-        </div>
+    else
+    {
+        ?>
+    <div class="container">
+        <div class="box">
+            <form action="archives.php" method="post">
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                    
+                    <caption>Semester List</caption>
+                    <tbody>
+                        <tr>
+                    
+                            <td><strong>RPS Semester</strong></td>
+                            <td><strong>Action</strong></td>
+                    
+                        </tr>
+                        <?php
+                            $swap = "SELECT rps_semester FROM rps WHERE s_rps_id=$u";
+                            $list = mysqli_query($non, $swap);
+                            $arr1 = Array();
+                            while($gr = mysqli_fetch_array($list)){
+                                $arr1[] = $gr['rps_semester'];
+                            }
+                            
+                            $counting = count($arr1);
+                            
+                            for($d=0;$d<$counting;$d++){
+                                ?>
+                                <tr>
+                                    <td><?php echo($arr1[$d]) ?></td>
+                                    <td><button type="submit" name= "editsem" id ="editsem" value="<?php echo($arr1[$d]) ?>" placeholder="Edit" >Edit</button></td>
+                                </tr>
+                        <?php
+                            }
+                        ?>
+                    </tbody>
+                    
+                </table>
+                
+            </form>
+            </div>
     </div>
+            <?php
+        
+    }
+    ?>
+            
+            
+        
     <!-- /.container -->
 
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">

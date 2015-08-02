@@ -131,7 +131,7 @@
                 $am = "SELECT stud_report FROM synopsis WHERE syn_std_id=$si3 AND syn_convenor_id=$u_id";
                 $taked = mysqli_query($tuffey, $am);
                 $take2 = mysqli_fetch_array($taked);
-                echo("<a href=\"../faculty uploads/$u_id/\""); 
+                echo("<a href=\"../synopsis/faculty/$si3/\""); 
                 echo ($take2[0]);
                 echo("\"target=\"_blank\">View file</a>");
                 ?>

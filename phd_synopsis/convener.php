@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -136,14 +137,14 @@
                                 
                                 $_SESSION['stud_id'] = $id;
                                 
-                                $damn = "SELECT syn_stud_name, syn_con_name, comm1, comm2, comm3, comm4, grade, stud_report, fac_report FROM synopsis WHERE syn_stud_id=$id AND syn_convenor_id = $u_id";
+                                $damn = "SELECT syn_stud_name, syn_con_name, comm_1, comm_2, comm_3, comm_4, grade, stud_report, fac_report, MAX(attempt) FROM synopsis WHERE syn_std_id=$id AND syn_convenor_id = $u_id";
                             
-                                $chalo = mysqli_connect('localhost', 'root', '', 'portal');
+                                $chalo = connection();
                                 $queq = mysqli_query($chalo, $damn);
                                 $aram = mysqli_fetch_array($queq);
                                 
-                                
-                            
+                            $_SESSION['stud_name'] = $aram[0];    
+                            $_SESSION['attempt'] = $aram[9];
                         
                         ?>
                         
@@ -167,7 +168,12 @@
                         
                         <label>GRADE</label>
                         <form action="grade.php" method="post" role="form">
-                            <input type="number" name="grade" value="Enter Grade" placeholder="<?php echo($aram[6]); ?>">
+                            <input type="text" placeholder="<?php echo($aram[6]); ?>" readonly><br>
+                            <select name="grade" id="grade">
+                                <option value="sat">MINOR CHANGES</option>
+                                <option value="un">MAJOR CHANGES</option>
+                                <option value="in">INCOMPLETE</option>
+                            </select>
                             <input type="submit" name="g-s" value="Submit Grade">
                         </form>
                         
@@ -181,8 +187,8 @@
                             echo("\" readonly>");
                         }
                         else{
-                            echo("<br><a href=\"../student uploads/");
-                            echo($sid);
+                            echo("<br><a href=\"../synopsis/student/$id");
+                            //echo($sid);
                             echo("\"target=\"_blank\">View File</a><br>");
                         }
                         ?>
@@ -260,6 +266,77 @@
                         ?>
                         
                         <br>
+                        <br>
+                        <?php
+                        
+                        
+            $baat1 ="SELECT syn_stud_name, syn_convenor_name, attempt, grade, stud_report, fac_report FROM synopsis s WHERE syn_convenor_id=$u_id AND syn_std_id=$id AND attempt<(SELECT MAX(attempt) FROM synopsis s1 WHERE s1.syn_std_id=$id)";
+            $res2 = mysqli_query($link1, $baat1);
+           
+            
+            
+            
+                
+                $fet3 = mysqli_fetch_array($res2)
+                    
+                    
+                
+                
+                    //$length2 = count($syn_id2);
+                    
+                   
+                        ?>
+   
+            <label>Student Id</label><br>
+            <input type="text" placeholder="<?php echo($id); ?>" readonly>
+            <br>
+            <label>Student Name</label><br>
+            <input type="text" placeholder="<?php echo($fet3[0]); ?>" readonly>
+            <br>
+            
+            <label>Convener Name</label><br>
+            <input type="text" placeholder="<?php echo($fet3[1]); ?>" readonly>
+            <br>
+            <label>Attempt</label><br>
+            <input type="text" placeholder="<?php echo($fet3[2]+1); ?>" readonly>
+            <br>
+            <label>Grade</label><br>
+            <input type="text" placeholder="<?php echo($fet3[3]); ?>" readonly>
+            <br>
+            <label>STUDENT REPORT</label>
+                        
+                        <?php
+                        if($fet3[4]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../synopsis/student/$id");
+                            //echo($sid);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+                        
+                        <br>
+                        <label>Faculty Report</label>
+                        
+                        
+                        <?php
+                        if($fet3[5]=="NA"){
+                            echo("<input class=\"form-control\" type=\"text\" placeholder=\"");
+                            echo("NO FILE UPLOADED");
+                            echo("\" readonly>");
+                        }
+                        else{
+                            echo("<br><a href=\"../synopsis/faculty/$id");
+                            //echo($sid);
+                            echo("\"target=\"_blank\">View File</a><br>");
+                        }
+                        ?>
+                        
+                        <br>
+        
                         
                         <?php
                             }
@@ -271,6 +348,8 @@
         
 
     </div>
+    
+    
     <!-- /.container -->
 
     <footer style="margin-bottom: 50px;margin-top: 40px; display: block;">

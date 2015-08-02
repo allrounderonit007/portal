@@ -14,13 +14,13 @@ if(isset($_POST['btn-upload']))
     $file_loc = $_FILES['file']['tmp_name'];
  $file_size = $_FILES['file']['size'];
  $file_type = $_FILES['file']['type'];
- $folder="../faculty uploads/";
+ $folder="../rps_uploads/student/";
  if(!is_dir($folder.$u_id)){
-     $folder = "../faculty uploads/$u_id/";
+     $folder = "../rps_uploads/student/$u_id/";
      mkdir($folder);
  }
  else {
-     $folder = "../faculty uploads/$u_id/";
+     $folder = "../rps_uploads/student/$u_id/";
  }
  
  $uploadok = 1;
@@ -50,17 +50,7 @@ if(isset($_POST['btn-upload']))
  else{
      if(move_uploaded_file($file_loc,$folder.$final_file))
  {
-  $late = "SELECT stud_report FROM rps WHERE s_rps_id=$u_id AND rps_semester=$di";
-  $e = mysqli_query($plesis, $late);
-  $err = mysqli_fetch_array($e);
-  //echo($er);
-  if($err[0]=="NA"){
-      
-  }
-  else{
-      $final_e = $folder.$err[0];
-      unlink($final_e);
-  }
+  
   
   $late="UPDATE rps SET stud_report = '$final_file' WHERE s_rps_id=$u_id AND rps_semester=$di";
   $e =mysqli_query($plesis,$late);
@@ -76,7 +66,7 @@ if(isset($_POST['btn-upload']))
   ?>
   <script>
   alert('error while uploading file');
-        window.location.href='Cmpr_f.php?fail';
+        window.location.href='rps.php?fail';
         </script>
   <?php
  }

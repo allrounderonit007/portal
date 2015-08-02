@@ -13,13 +13,13 @@ if(isset($_POST['btn-upload']))
     $file_loc = $_FILES['file']['tmp_name'];
  $file_size = $_FILES['file']['size'];
  $file_type = $_FILES['file']['type'];
- $folder="../faculty uploads/";
- if(!is_dir($folder.$u_id)){
-     $folder = "../faculty uploads/$u_id/";
+ $folder="../rps_uploads/faculty/";
+ if(!is_dir($folder.$si)){
+     $folder = "../rps_uploads/faculty/$si/";
      mkdir($folder);
  }
  else {
-     $folder = "../faculty uploads/$u_id/";
+     $folder = "../rps_uploads/faculty/$si/";
  }
  
  $uploadok = 1;

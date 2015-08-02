@@ -101,7 +101,13 @@
                                     Edit Password
                                 </a>
                             </li>
-                            
+                            <li>
+                                
+                                <a href="../admin_module/admin_panel.php">
+                                    <i class="entypo-lock"></i>
+                                    Admin Panel
+                                </a>
+                            </li>
                             <li>
                                 <a href="../includes/logout.php">Log Out </a> <i class="entypo-logout right"></i>
                             </li>
@@ -123,13 +129,13 @@
             <div class="box">
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <label>List of students</label>
+                        <label>List of Current students</label>
                         <br>
                         <?php
                         
                         $tamp = connection();
                         
-                        $query = "SELECT p.stud_id,p.stud_name, convener_name, MAX(attempt) FROM phd_comp p, student s WHERE p.stud_id=s.s_id AND status=1 GROUP BY stud_id";
+                        $query = "SELECT p.stud_id,p.stud_name, convener_name, attempt FROM phd_comp p, student s WHERE p.stud_id=s.s_id AND status=1 AND attempt=(SELECT MAX(attempt)FROM phd_comp p1 WHERE p.stud_id=p1.stud_id) GROUP BY stud_id";
                         $solution = mysqli_query($tamp, $query);
                         //$array = mysqli_fetch_array($solution);
                         //echo($array[1]);
@@ -141,7 +147,7 @@
                             $storeArray[]= $array['stud_id'];
                             $starr[] = $array['convener_name'];
                             $starr2[] = $array['stud_name'];
-                            $starr3[] = $array['MAX(attempt)'];
+                            $starr3[] = $array['attempt'];
                         }
                         
                         
@@ -150,7 +156,7 @@
                         
                         if($size==0){
                             ?> 
-                        -->
+                        
                         <label>No student currently</label>
                         <?php
                         }
@@ -201,11 +207,71 @@
                             </tbody>
                             </table>
                         </form>
-                        <br><br>
-                        <form action="printcomp.php" method="post">
-                            <button>Print PhD Comprehensive Page</button>
+                        <!-- List of previous students -->
+                        <?php
+                        $query = "SELECT p.stud_id,p.stud_name, convener_name, MAX(attempt) FROM phd_comp p, student s WHERE p.stud_id=s.s_id AND status>1 GROUP BY stud_id";
+                        $solution = mysqli_query($tamp, $query);
+                        //$array = mysqli_fetch_array($solution);
+                        //echo($array[1]);
+                        $storeArray1 = Array();
+                        $starr1 = Array();
+                        $starr21 = Array();
+                        $starr31 = Array();
+                        while($array = mysqli_fetch_assoc($solution)){
+                            $storeArray1[]= $array['stud_id'];
+                            $starr1[] = $array['convener_name'];
+                            $starr21[] = $array['stud_name'];
+                            $starr31[] = $array['MAX(attempt)'];
+                        }
+                        
+                        
+                        $size = count($storeArray1);
+                        if($size==0){
+                            ?>
+                        <label>No previous students</label>
+                        <?php
+                        }
+                        else{
+                        ?>
+                        <form method="post" action="archives_a.php">
+                            <table border="1" cellspacing="1" width="30%" style="text-align: center">
+                                <caption><strong>List of previous students</strong></caption>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Student Id</strong></td>
+                                        <td><strong>Student Name</strong></td>
+                                        <td><strong>Convener Name</strong></td>
+                                        <td><strong>Attempt</strong></td>
+                                    </tr>
+                                    <?php
+                                    
+                                    for($y=0;$y<$size;$y++){
+                                        ?>
+                                    <tr>
+                                    <td><input type="radio" name="sid" value="<?php echo($storeArray1[$y]);?>"><?php echo($storeArray1[$y]); ?>
+                                    </td>
+                                    <td><?php echo($starr21[$y]); ?></td>
+                                    <td><?php echo($starr1[$y]); ?></td>
+                                    <td><?php echo($starr31[$y]+1); ?></td>
+                                    </tr>
+                                    <?php
+                                    }
+                                    
+                                    ?>
+                                    <tr>
+                                        <td><input type="submit" name="rad-sub" value="Submit"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
                         </form>
-                         
+                         <?php
+                        }
+                         ?>
                     </div>
                 </div>
             </div>

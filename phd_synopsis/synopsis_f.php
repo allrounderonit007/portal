@@ -2,13 +2,14 @@
 <html lang="en">
 <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
     if( ! isset($_SESSION['user_id']) ){
         header("location:../login.php");
     }
-    
+    $u_id = $_SESSION['user_id'];
     //echo($_SESSION['password']);
     //$user=Users::find_by_id($_SESSION['u_id']);
 ?>
@@ -121,20 +122,21 @@
         <div class="box">
             
             <?php
-            $link1 = mysqli_connect('localhost', 'root', '', 'portal');
-            $baat = "SELECT syn_stud_id, syn_stud_name FROM synopsis WHERE syn_convenor_id=$u_id";
+            $link1 = connection();
+            $baat = "SELECT syn_std_id, syn_stud_name, attempt FROM synopsis s WHERE syn_convenor_id=$u_id AND attempt = (SELECT MAX(attempt) FROM synopsis s1 WHERE s.syn_std_id = s1.syn_std_id) AND syn_std_id=(SELECT s_id FROM student WHERE s_id = syn_std_id AND status=3)";
             $res = mysqli_query($link1, $baat);
             
             $syn_id = Array();
             $names = Array();
+            $att = Array();
             
             
             
             while($fetched = mysqli_fetch_array($res)){
                 
-                $syn_id[] = $fet['syn_stud_id'];
-                $names[] = $fet['syn_stud_name'];
-                
+                $syn_id[] = $fetched['syn_std_id'];
+                $names[] = $fetched['syn_stud_name'];
+                $att[] = $fetched['attempt'];
             }
             
             $length = count($syn_id);
@@ -153,6 +155,7 @@
                         <tr>
                             <td><strong>Student ID</strong></td>
                             <td><strong>Student Name</strong></td>
+                            <td><strong>Attempt</strong></td>
                             
                             
                         </tr>
@@ -162,6 +165,7 @@
                         <tr>
                             <td><input type="radio" name="con_id" value="<?php echo($syn_id[$y]); ?>"> <?php echo($syn_id[$y]); ?></td>
                             <td><?php echo($names[$y]); ?></td>
+                            <td><?php echo($att[$y]);?></td>
                             
                         </tr>
                         
@@ -181,29 +185,29 @@
                     </tbody>
                 </table>
             </form>
-            
+            <br>
             <!-- AS A PART OF COMMITTEE -->
             <?php
-            $baat ="SELECT syn_stud_id, syn_stud_name FROM synopsis WHERE comm1 =$u_id OR comm2 = $u_id OR comm3 = $u_id OR comm4 = $u_id";
+            $baat ="SELECT syn_std_id, syn_stud_name, attempt FROM synopsis s WHERE (comm_1 =$u_id OR comm_2 = $u_id OR comm_3 = $u_id OR comm_4 = $u_id) AND attempt = (SELECT MAX(attempt) FROM synopsis s1 WHERE s.syn_std_id = s1.syn_std_id) AND syn_std_id=(SELECT s_id FROM student WHERE s_id = syn_std_id AND status=3)";
             $res1 = mysqli_query($link1, $baat);
            
             
             $syn_id1 = Array();
             $names1 = Array();
             
-            
+            $att1 = Array();
             
                 
                 while($fet2 = mysqli_fetch_array($res1)){
                     
-                    $syn_id1[] = $fet2['syn_stud_id'];
+                    $syn_id1[] = $fet2['syn_std_id'];
                     $names1[] = $fet2['syn_stud_name'];
-                    
+                    $arr1[] = $fet2['attempt'];
                 }
                 
                     $length1 = count($syn_id1);
                 
-                if($length==0){
+                if($length1==0){
                     ?>
             <label>Not a part of any committee.</label>
             <?php
@@ -238,13 +242,79 @@
                             <td></td>
                             <td></td>
                         </tr>
-                        <?php
                         
-                }
-                ?>
                     </tbody>
                 </table>
             </form>
+            
+            <?php
+                        
+                }
+                ?>
+            <!-- Previous Synopsis Semesters  -->
+            <?php
+            $baat1 ="SELECT syn_std_id, syn_stud_name, attempt FROM synopsis s WHERE (comm_1 =$u_id OR comm_2 = $u_id OR comm_3 = $u_id OR comm_4 = $u_id OR syn_convenor_id=$u_id) AND attempt = (SELECT MAX(attempt) FROM synopsis s1 WHERE s.syn_std_id = s1.syn_std_id) AND syn_std_id=(SELECT s_id FROM student WHERE s_id = syn_std_id AND (status=3 OR status=5))";
+            $res2 = mysqli_query($link1, $baat1);
+           
+            
+            $syn_id2 = Array();
+            $names2 = Array();
+            
+            $att2 = Array();
+            
+                
+                while($fet3 = mysqli_fetch_array($res2)){
+                    
+                    $syn_id2[] = $fet3['syn_std_id'];
+                    $names2[] = $fet3['syn_stud_name'];
+                    $arr2[] = $fet3['attempt'];
+                }
+                
+                    $length2 = count($syn_id2);
+            
+            if($length2==0){
+                    ?>
+            <br>
+            <label>No Previous Semesters</label>
+            <?php
+                }
+                else{
+                ?>
+            <form method="post" action="prev.php">
+                <table align="center" border="1" cellspacing="1" width="30%" style="text-align: center">
+                    <caption>Previous Students</caption>
+                    <tbody>
+                        <tr>
+                            <td><strong>Student ID</strong></td>
+                            <td><strong>Student Name</strong></td>
+                            
+                            
+                        </tr>
+                        <?php
+                        for($y=0;$y<$length2;$y++){
+                            ?>
+                        <tr>
+                            <td><input type="radio" name="prev_id" value="<?php echo($syn_id2[$y]); ?>"></td>
+                            <td><?php echo($names2[$y]); ?></td>
+                            
+                        </tr>
+                        
+                        <?php
+                        }
+            
+                        ?>
+                        <tr>
+                            <td><input type="submit" name="prev-id" value="Submit"> </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </form>
+            <?php
+                }
+            ?>
         </div>
     </div>
     <!-- /.container -->

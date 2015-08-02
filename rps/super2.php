@@ -3,6 +3,7 @@
     
     <?php
        require_once('../includes/initialize.php');
+       include_once('../includes/config.php');
     if (! $session->is_logged_in() ){
         session_start();
     }
@@ -128,7 +129,7 @@
             //echo($u_id);
             $_SESSION['student'] = $student;
             
-            $teci = mysqli_connect('localhost', 'root', '', 'portal');
+            $teci = connection();
             $quesi = "SELECT rps_semester FROM rps WHERE s_rps_id=$student AND (comm1=$u_id OR comm2 =$u_id OR comm3=$u_id OR comm4=$u_id) ORDER BY rps_semester";
             $answeri = mysqli_query($teci, $quesi);
             
@@ -166,51 +167,7 @@
     }
     ?>
     
-    <div class="container">
-        <div class="box">
-            
-            <label><strong>STUDENT NAME</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>STUDENT ID</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>SUPERVISOR ID</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>SUPERVISOR NAME</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COMMITTEE MEMBER 1</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COMMITTEE MEMBER 2</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COMMITTEE MEMBER 3</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COMMITTEE MEMBER 4</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COURSE 1</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COURSE 2</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COURSE 3</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>COURSE 4</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            <label><strong>GRADE</strong></label>
-            <input type="text" class="form-control" readonly>
-            <br>
-            
-        </div>
-    </div>
+    
 
     
     <!-- /.container -->

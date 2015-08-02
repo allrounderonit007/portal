@@ -129,8 +129,8 @@
                 $am = "SELECT fac_report FROM phd_comp WHERE stud_id=$sisi";
                 $take = mysqli_query($tuf, $am);
                 $take2 = mysqli_fetch_array($take);
-                echo("<a href=\"../faculty uploads/$sisi/\""); 
-                echo ($take2[0]);
+                echo("<a href=\"../comp_uploads/faculty/$sisi/\""); 
+                //echo ($take2[0]);
                 echo("\"target=\"_blank\">View file</a>");
                 ?>
             </div>
